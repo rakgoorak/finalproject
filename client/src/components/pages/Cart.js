@@ -45,43 +45,45 @@ const Cart = () => {
     };
 
     return (
-        <div className='container-fluid'>
-            <div className='row'>
+        <>
+            <div className='container-fluid'>
+                <div className='row'>
 
-                <div className='col-md-8'>
-                    <h4> Cart / {cart.length} product</h4>
-                    {!cart.length
-                        ? <p>No Product in Cart</p>
-                        : showCartItem()
-                    }
-                </div>
-                <div className='col-md-4'>
-                    <h4>Summary</h4>
-                    <hr />
-                    {cart.map((item, index) => (
-                        <p key={index}>
-                            {item.name} x {item.count} = {item.price * item.count}
-                        </p>
-                    ))}
-                    <hr />
-                    <h4>Total: <b>{getTotal()}</b></h4>
-                    <hr />
-                    {user.value != 0
-                        ? <button className='btn btn-success'
-                            onClick={handleSaveOrder}
-                            disabled={!cart.length}
-                        >Check Out</button>
-                        : <button className='btn btn-danger'>
-                            <Link to="/login"
-                                state="cart"
-                            >
-                                Login to CheckOut
-                            </Link>
-                        </button>
-                    }
+                    <div className='col-md-8' style={{ marginTop: '50px' }}>
+                        <h4> Cart / {cart.length} product</h4>
+                        {!cart.length
+                            ? <p>No Product in Cart</p>
+                            : showCartItem()
+                        }
+                    </div>
+                    <div className='col-md-4' style={{ marginTop: '50px' }}>
+                        <h4>Summary</h4>
+                        <hr />
+                        {cart.map((item, index) => (
+                            <p key={index}>
+                                {item.name} x {item.count} = {item.price * item.count}
+                            </p>
+                        ))}
+                        <hr />
+                        <h4>Total: <b>{getTotal()}</b></h4>
+                        <hr />
+                        {user.value != 0
+                            ? <button className='btn btn-success'
+                                onClick={handleSaveOrder}
+                                disabled={!cart.length}
+                            >Check Out</button>
+                            : <button className='btn btn-danger'>
+                                <Link to="/login"
+                                    state="cart"
+                                >
+                                    Login to CheckOut
+                                </Link>
+                            </button>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

@@ -1,39 +1,353 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: 'Noto Sans Thai', sans-serif;
+}
+
+body {
+  background: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+
+/*Home*/
+
+.homepage {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  background-position: center;
+  background-size: cover;
+  background-position-x: center;
+  background-repeat: no-repeat;
+}
+
+.homepage .content {
+  display: flex;
+  height: 85%;
+  z-index: 3;
+  justify-content: center;
+  flex-direction: column;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.homepage .content .text {
+  color: #fff;
+  font-size: 20px;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.homepage .content .text h1 {
+  font-size: clamp(16px, 7vw, 150px);
+  margin-bottom: 30px;
+  font-family: 'Roboto', sans-serif;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.homepage .content .text2 h1 {
+  font-size: clamp(16px, 6vw, 150px);
+  margin-bottom: 10px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.homepage .content .text3 p {
+  margin-top: 10px;
+  font-size: clamp(16px, 4vw, 150px);
+}
+
+/* Review */
+section .cards {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  /* Center the cards horizontally */
+  max-width: 100%;
+  /* Adjusted for better responsiveness */
+  margin-top: 50px;
+  padding: 0 10px;
+}
+
+section .cards .card {
+  background: #fff;
+  padding: 20px 15px 15px;
+  list-style: none;
+  border-radius: 15px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.04);
+  margin: 0 6px 10px;
+  /* Adjusted margin for better spacing */
+  width: calc(100% / 4 - 15px);
+  /* Adjusted width for better spacing */
+  text-align: center;
+  height: 390px;
+}
+
+.card img {
+  cursor: zoom-in;
+}
+
+.cards .card img {
+  width: 100%;
+  height: 100%;
+  /* Maintain aspect ratio */
+}
+
+.button {
+  background-color: #f8a0a0;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 20px 20px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #eb6060;
   color: white;
 }
 
-.App-link {
-  color: #61b0fb;
+@media screen and (max-width: 1280px) {
+  section .cards .card {
+    width: calc(100% / 2 - 15px);
+    margin-bottom: 10px;
+    height: 450px;
+  }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@media screen and (max-width: 880px) {
+  section .cards .card {
+    width: calc(100% / 2 - 15px);
+    margin-bottom: 10px;
+    height: 400px;
+  }
+}
+
+@media screen and (max-width: 670px) {
+  section .cards .card {
+    width: calc(100% / 2 - 15px);
+    margin-bottom: 10px;
+    height: 350px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  section .cards .card {
+    width: calc(100% / 2 - 15px);
+    margin-bottom: 10px;
+    height: 250px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  section .cards .card {
+    width: calc(100% / 2 - 15px);
+    margin-bottom: 10px;
+    height: 200px;
+  }
+}
+
+/* Aboutus */
+.about-us {
+  display: flex;
+  flex-wrap: wrap;
+  /* Allow items to wrap to the next line on smaller screens */
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.image-container1 {
+  flex-basis: 40%;
+  padding-top: 8rem;
+  padding-left: 5rem;
+}
+
+.content1 {
+  flex-basis: 60%;
+  padding: 0 5rem;
+  /* Adjusted padding for better responsiveness */
+}
+
+.content1 p {
+  font-size: 16px;
+}
+
+.content1 h2 {
+  margin-top: 15px;
+}
+
+.image-container1 img {
+  max-width: 100%;
+  height: auto;
+  cursor: zoom-in;
+}
+
+@media (max-width: 1205px) {
+  .about-us {
+    flex-direction: column;
+    margin-bottom: 5rem;
+    margin-top: 5rem;
   }
 
-  to {
-    transform: rotate(360deg);
+  .image-container1,
+  .content1 {
+    flex-basis: 100%;
+    margin-bottom: 2rem;
+    padding: 0;
+    margin: 0;
+    margin-top: 2rem;
+
   }
+
+  .image-container1 {
+    max-width: 50%;
+    padding: 0;
+    margin: 0;
+    height: auto;
+  }
+}
+
+/* Adjustments for even smaller screens, such as mobile devices */
+@media (max-width: 767px) {
+
+  .image-container1,
+  .content1 {
+    max-width: 100%;
+    /* Full width for smaller screens */
+  }
+
+  .content1 {
+    padding: 0 2rem;
+    /* Adjusted padding for better responsiveness */
+  }
+}
+
+/* Contact */
+.contact {
+  padding: 50px;
+  text-align: center;
+  background-color: #f8f8f8;
+  /* Set your desired background color */
+}
+
+/* Heading styles */
+.contact h2 {
+  color: #333;
+  /* Set your desired text color */
+  margin-bottom: 20px;
+  font-size: 28px;
+  /* Set your desired font size */
+}
+
+/* Contact details styles */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.information {
+  flex: 1;
+  max-width: 600px;
+  /* Set your desired maximum width */
+  background-color: #fff;
+  /* Set your desired background color */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  /* Add subtle box shadow */
+  border-radius: 10px;
+  /* Add rounded corners */
+  padding: 20px;
+}
+
+.map {
+  width: 100%;
+  height: 300px;
+  /* Set your desired height */
+  margin-bottom: 20px;
+  border-radius: 10px;
+  /* Add rounded corners to the map */
+  overflow: hidden;
+  /* Hide overflowing content */
+}
+
+.icon-contact i {
+  font-size: 24px;
+  color: #007bff;
+  /* Set your desired icon color */
+  margin-right: 10px;
+}
+
+.text-contact {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.text-contact p {
+  margin: 0;
+  line-height: 1.6;
+  color: #555;
+  /* Set your desired text color */
+}
+
+/* Line image styles */
+.lineimage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.lineimage img {
+  width: 100px;
+  /* Set your desired width */
+  height: 100px;
+  /* Set your desired height */
+  object-fit: cover;
+  /* Maintain aspect ratio */
+  /* Add rounded corners */
+  margin: 0 10px;
+  transition: transform 0.3s ease;
+  /* Add smooth transition to image scaling */
+}
+
+.lineimage img:hover {
+  transform: scale(1.1);
+  /* Add scaling effect on hover */
+}
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 768px) {
+  .information {
+    margin-bottom: 20px;
+  }
+}
+
+
+/* Footer */
+footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: #534a4a;
+  padding: 15px 0;
+  margin-top: 30px;
+}
+
+footer div {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+footer span {
+  color: #fff;
+  font-size: 16px;
 }

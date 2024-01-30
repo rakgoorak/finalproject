@@ -21,15 +21,41 @@ import LoginIcon from "@mui/icons-material/Login";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
-import { Badge } from "antd"
 import { StarOutlined } from '@ant-design/icons'
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Search from "../card/Search";
-const shopPage = {
-    title: "ผลิตภัตฑ์",
-    icon: <ShoppingOutlined />,
-    to: "/shop",
-};
+import { Badge } from "antd";
+
+const product = [
+    {
+        title: "ผลิตภัณฑ์",
+        icon: "",
+        to: "/shop",
+    },
+];
+const review = [
+    {
+        title: "ผลงานการทำงาน",
+        icon: "",
+        to: "/review",
+    },
+];
+const aboutus = [
+    {
+        title: "เกี่ยวกับเรา",
+        icon: "",
+        to: "/aboutus",
+    },
+];
+const contact = [
+    {
+        title: "ติดต่อเรา",
+        icon: "",
+        to: "/contact",
+    },
+];
+
+
 const cartPage = {
     title: "Cart",
     icon: <ShoppingCartIcon />,
@@ -40,14 +66,6 @@ const WishlistPage = {
     icon: <StarOutlined />,
     to: "/user/wishlist", // Update with the correct path for your shop
 };
-const pages = [
-    {
-        title: "ติดต่อเรา",
-        icon: "",
-        to: "/contract",
-    },
-];
-
 const authen = [
     {
         title: "สมัครสมาชิก",
@@ -124,7 +142,7 @@ function ResponsiveAppBar() {
 
 
     return (
-        <AppBar position="static" style={{ backgroundColor: "#f9a0a1" }}>
+        <AppBar position="static" style={{ backgroundColor: "#f9a0a1", height: '100%' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/* LOGO */}
@@ -144,10 +162,12 @@ function ResponsiveAppBar() {
                         }}
                     >
                         <IconButton>
-                            <Avatar
-                                alt="Remy Sharp"
-                                src={`/assets/user.jpg`}
-                            />
+                            <Link to="/">
+                                <Avatar style={{ width: '150px', height: '150px' }}
+                                    alt="Remy Sharp"
+                                    src={`/assets/logo.png`}
+                                />
+                            </Link>
                         </IconButton>
                     </Typography>
                     {/* /LOGO */}
@@ -183,7 +203,28 @@ function ResponsiveAppBar() {
                                 display: { xs: "block", md: "none" },
                             }}
                         >
-                            {pages.map((page, index) => (
+                            {product.map((page, index) => (
+                                <MenuItem key={index} onClick={handleCloseNavMenu}>
+                                    <Link to={page.to} style={{ textDecoration: "none" }}>
+                                        <Typography textAlign="center">{page.title}</Typography>
+                                    </Link>
+                                </MenuItem>
+                            ))}
+                            {review.map((page, index) => (
+                                <MenuItem key={index} onClick={handleCloseNavMenu}>
+                                    <Link to={page.to} style={{ textDecoration: "none" }}>
+                                        <Typography textAlign="center">{page.title}</Typography>
+                                    </Link>
+                                </MenuItem>
+                            ))}
+                            {aboutus.map((page, index) => (
+                                <MenuItem key={index} onClick={handleCloseNavMenu}>
+                                    <Link to={page.to} style={{ textDecoration: "none" }}>
+                                        <Typography textAlign="center">{page.title}</Typography>
+                                    </Link>
+                                </MenuItem>
+                            ))}
+                            {contact.map((page, index) => (
                                 <MenuItem key={index} onClick={handleCloseNavMenu}>
                                     <Link to={page.to} style={{ textDecoration: "none" }}>
                                         <Typography textAlign="center">{page.title}</Typography>
@@ -203,50 +244,6 @@ function ResponsiveAppBar() {
                     </Box>
                     {/* /Minimize Menu */}
                     {/* Add the "Shop" menu item */}
-                    <Link to={shopPage.to}>
-                        <Button
-                            onClick={handleCloseNavMenu}
-                            sx={{
-                                my: 2,
-                                color: "white",
-                                mr: 2,
-                            }}
-                            startIcon={shopPage.icon}
-                        >
-                            {shopPage.title}
-                        </Button>
-                    </Link>
-                    {
-                        user.user.length !== 0 && (
-                            <Link to={WishlistPage.to}>
-                                <Button
-                                    onClick={handleCloseNavMenu}
-                                    sx={{
-                                        my: 2,
-                                        color: "white",
-                                        mr: 2,
-                                    }}
-                                    startIcon={WishlistPage.icon}
-                                >
-                                    {WishlistPage.title}
-                                </Button>
-                            </Link>
-                        )}
-                    <Link to={cartPage.to}>
-                        <Button
-                            onClick={handleCloseNavMenu}
-                            sx={{
-                                my: 2,
-                                color: "white",
-                                mr: 2,
-                            }}
-                            startIcon={cartPage.icon}
-                        >
-                            <Badge count={cart.length} offset={[9, 0]}>
-                                {cartPage.title}
-                            </Badge>
-                        </Button>
-                    </Link>
                     {/* /Menu Right Full */}
 
                     {/* LOGO Minimize */}
@@ -267,18 +264,45 @@ function ResponsiveAppBar() {
                             textDecoration: "none",
                         }}
                     >
-                        <IconButton>
-                            <Avatar
-                                alt="Remy Sharp"
-                                src="https://i.pinimg.com/736x/d3/d6/88/d3d688089e9dcb43cf0e5a3e3989ef0f.jpg"
-                            />
-                        </IconButton>
                     </Typography>
                     {/* /LOGO Minimize */}
 
                     {/* Menu Left Full */}
                     <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                        {pages.map((page, index) => (
+                        {product.map((page, index) => (
+                            <Link to={page.to}>
+                                <Button
+                                    key={index}
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: "white", mr: 5 }}
+                                >
+                                    {page.title}
+                                </Button>
+                            </Link>
+                        ))}
+                        {review.map((page, index) => (
+                            <Link to={page.to}>
+                                <Button
+                                    key={index}
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: "white", mr: 5 }}
+                                >
+                                    {page.title}
+                                </Button>
+                            </Link>
+                        ))}
+                        {aboutus.map((page, index) => (
+                            <Link to={page.to}>
+                                <Button
+                                    key={index}
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: "white", mr: 5 }}
+                                >
+                                    {page.title}
+                                </Button>
+                            </Link>
+                        ))}
+                        {contact.map((page, index) => (
                             <Link to={page.to}>
                                 <Button
                                     key={index}
@@ -313,7 +337,39 @@ function ResponsiveAppBar() {
                             ))}
                     </Box>
                     {/* /Menu Right Full */}
-
+                    {
+                        user.user.length !== 0 && (
+                            <Link to={WishlistPage.to}>
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{
+                                        my: 2,
+                                        color: "white",
+                                        mr: 2,
+                                    }}
+                                    startIcon={WishlistPage.icon}
+                                >
+                                    {WishlistPage.title}
+                                </Button>
+                            </Link>
+                        )}
+                    <Link to={cartPage.to}>
+                        <Button
+                            onClick={handleCloseNavMenu}
+                            sx={{
+                                my: 2,
+                                color: "white",
+                                mr: 2,
+                            }}
+                            startIcon={cartPage.icon}
+                        >
+                            <Badge count={cart.length} offset={[9, 0]}>
+                                <a style={{ color: 'white' }}>
+                                    {cartPage.title}
+                                </a>
+                            </Badge>
+                        </Button>
+                    </Link>
                     <Box sx={{ flexGrow: 0.2, display: { xs: "flex", md: "flex" }, float: "right" }}>
                         <Search />
                     </Box>
@@ -326,7 +382,7 @@ function ResponsiveAppBar() {
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                         <Avatar
                                             alt="Remy Sharp"
-                                            src="https://1.bp.blogspot.com/-gBFaZsSyZko/WbETftGiwKI/AAAAAAAAI9I/dEH4ueuWHAwDb-O4bbw3xCLJTzpAYqk9gCLcBGAs/s1600/11.jpg"
+                                            src="#"
                                         />
                                     </IconButton>
                                 </Tooltip>

@@ -39,6 +39,13 @@ import AdminRoute from "./components/routes/AdminRoute";
 import UserRoute from "./components/routes/UserRoute";
 import Cart from "./components/pages/Cart";
 
+// pagehome
+import Review from "./components/pagehome/Review"
+import Aboutus from "./components/pagehome/Aboutus"
+import Contact from "./components/pagehome/Contact"
+import Reviewproductpage from "./components/pagehome/Reviewproductpage";
+import Reviewserviewpage from "./components/pagehome/Reviewservicepage";
+
 function App() {
     const dispatch = useDispatch();
     const idToken = localStorage.getItem("token");
@@ -69,8 +76,13 @@ function App() {
                 <Route path="/product/:id" element={<Product />} />
                 <Route path="/shop" element={<><ResponsiveAppBar /><Shop /></>} />
                 <Route path="/cart" element={<><ResponsiveAppBar /><Cart /></>} />
+                <Route path="/review" element={<><ResponsiveAppBar /><Review /></>} />
+                <Route path="/aboutus" element={<><ResponsiveAppBar /><Aboutus /></>} />
+                <Route path="/contact" element={<><ResponsiveAppBar /><Contact /></>} />
+                <Route path="/review/การทำงาน" element={<><ResponsiveAppBar /><Reviewproductpage /></>} />
+                <Route path="/review/การให้บริการ" element={<><ResponsiveAppBar /><Reviewserviewpage /></>} />
 
-                {/* User */}
+                    {/* User */}
                 <Route path="/user/index" element={<UserRoute><HomePagesUser /></UserRoute>} />
                 <Route path="/checkout" element={<UserRoute><CheckOut /></UserRoute>} />
                 <Route path="/user/wishlist" element={<UserRoute><Wishlist /></UserRoute>} />

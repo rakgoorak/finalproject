@@ -5,6 +5,8 @@ import { Slider, Checkbox } from 'antd';
 import { listProduct, searchFilters } from '../functions/product'
 import NewProductCard from '../card/NewProductCard'
 import { listCategory } from '../functions/Category';
+import Footer from '../pagehome/Footer'
+
 const Shop = () => {
     const [product, setProduct] = useState([])
     const [loading, setLoading] = useState(false)
@@ -81,7 +83,7 @@ const Shop = () => {
     return (
         <>
             <div className='container-fluid'>
-                <div className='row'>
+                <div className='row' style={{ margin: '50px' }}>
                     <div className='col-md-3'>
                         Filter / Search
                         <hr />
@@ -104,7 +106,7 @@ const Shop = () => {
                     <div className='col-md-9'>
                         {loading
                             ? <h4 className='text-danger'>Loading....</h4>
-                            : <h4 className='text-info'>Product</h4>
+                            : <h4 >Product</h4>
                         }
 
                         {product.length < 1 && <p>No Product found</p>}
@@ -119,6 +121,7 @@ const Shop = () => {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

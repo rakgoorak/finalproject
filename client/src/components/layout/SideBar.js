@@ -39,7 +39,7 @@ const SideBar = () => {
                 toggled={toggled}
                 onBackdropClick={() => setToggled(false)}
                 onBreakPoint={setBroken}
-                image="/assets/sui.jpg"
+                image="/assets/logo.png"
                 breakPoint="md"
                 style={{ height: "100%" }}
 

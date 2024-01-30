@@ -1,28 +1,41 @@
-import React, { useState, useEffect } from 'react'
-import ResponsiveAppBar from '../../layout/ResponsiveAppBar'
-import { useDispatch, useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
-import { getWishList, removeWishList } from "../../functions/user"
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { getWishList, removeWishList } from "../../functions/user";
+import { Link } from 'react-router-dom';
+
 const Wishlist = () => {
-    const [wishlist, setWishList] = useState([])
-    const { user } = useSelector((state) => ({ ...state }))
+    const [wishlist, setWishList] = useState([]);
+    const { user } = useSelector((state) => ({ ...state }));
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        loadData()
-    }, [])
+        loadData();
+    }, []);
+
     const loadData = () => {
         getWishList(user.user.token)
             .then((res) => {
-                setWishList(res.data.wishlist)
+                setWishList(res.data.wishlist);
             })
-    }
+            .catch((error) => {
+                console.error('Error loading wishlist:', error);
+
+                if (error.response && error.response.status === 401) {
+                    toast.error('Unauthorized access. Please log in.');
+                } else {
+                    toast.error('Failed to load wishlist');
+                }
+            });
+    };
+
     const handleRemove = (productId) => {
         removeWishList(user.user.token, productId)
             .then((res) => {
                 console.log(res.data);
                 toast.success('Item removed from wishlist successfully');
-                loadData()
+                loadData();
             })
             .catch((error) => {
                 console.error('Error removing item from wishlist:', error);
@@ -35,24 +48,25 @@ const Wishlist = () => {
             });
     };
 
-
     return (
         <div className='col'>
-            <div className='row'>
-                <h1>Wishlist </h1>
-                {wishlist.map((item, index) =>
+            <div className='row' style={{ margin: '50px' }}>
+                <h1>Wishlist</h1>
+                {wishlist.map((item, index) => (
                     <div key={index} className='alert alert-secondary'>
-                        <Link to={"/product/" + item._id}>
+                        <Link to={"/product/" + item._id} style={{ marginLeft: '30px' }}>
                             {item.name}
                         </Link>
                         <span
                             onClick={() => handleRemove(item._id)}
-                            style={{ float: 'right' }}>ลบ</span>
+                            style={{ margin: '0 50px', float: 'right', cursor: 'pointer' }}>
+                            ลบ
+                        </span>
                     </div>
-                )}
+                ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Wishlist
+export default Wishlist;
