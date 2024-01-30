@@ -19,24 +19,6 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Copyright(props) {
-    return (
-        <Typography
-            variant="body2"
-            color="text.secondary"
-            align="center"
-            {...props}
-        >
-            {"Copyright © "}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{" "}
-            {new Date().getFullYear()}
-            {"."}
-        </Typography>
-    );
-}
-
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
@@ -74,7 +56,7 @@ export default function Register() {
                     md={7}
                     sx={{
                         // backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-                        backgroundImage: "url(/assets/17361.jpg)",
+                        backgroundImage: "url(/assets/logo.png)",
                         backgroundRepeat: "no-repeat",
                         backgroundColor: (t) =>
                             t.palette.mode === "light"
@@ -94,9 +76,6 @@ export default function Register() {
                             alignItems: "center",
                         }}
                     >
-                        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                            <LockOutlinedIcon />
-                        </Avatar>
                         <Typography component="h1" variant="h5">
                             Register
                         </Typography>
@@ -127,7 +106,7 @@ export default function Register() {
                             />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
+                                label="จดจำในระบบ"
                             />
                             <Button
                                 type="submit"
@@ -135,13 +114,21 @@ export default function Register() {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                register
+                                สมัครสมาชิก
                             </Button>
-                            <Copyright sx={{ mt: 5 }} />
+                            <Grid container>
+                                <Grid item>
+                                    <p>หากคุณยังไม่ได้เป็นสมาชิก
+                                        <Link href="/login" variant="body2">
+                                            {"เข้าสู่ระบบ"}
+                                        </Link>
+                                    </p>
+                                </Grid>
+                            </Grid>
                         </Box>
                     </Box>
                 </Grid>
             </Grid>
-        </ThemeProvider>
+        </ThemeProvider >
     );
 }

@@ -25,17 +25,10 @@ import { Badge } from "antd"
 import { StarOutlined } from '@ant-design/icons'
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Search from "../card/Search";
-const pages = [
-    {
-        title: "Contract",
-        icon: "",
-        to: "/contract",
-    },
-];
 const shopPage = {
-    title: "Shop",
+    title: "ผลิตภัตฑ์",
     icon: <ShoppingOutlined />,
-    to: "/shop", // Update with the correct path for your shop
+    to: "/shop",
 };
 const cartPage = {
     title: "Cart",
@@ -47,22 +40,29 @@ const WishlistPage = {
     icon: <StarOutlined />,
     to: "/user/wishlist", // Update with the correct path for your shop
 };
+const pages = [
+    {
+        title: "ติดต่อเรา",
+        icon: "",
+        to: "/contract",
+    },
+];
 
 const authen = [
     {
-        title: "Register",
+        title: "สมัครสมาชิก",
         icon: <PeopleAltOutlinedIcon />,
         to: "/register",
     },
     {
-        title: "Login",
+        title: "เข้าสู่ระบบ",
         icon: <LoginIcon />,
         to: "/login",
     },
 ];
 const settings = [
     {
-        title: "Profile",
+        title: "โปรไฟล์",
         icon: "",
         to: "/profile",
     },
@@ -72,7 +72,7 @@ const settings = [
         to: "/user/history",
     },
     {
-        title: "Logout",
+        title: "ออกจากระบบ",
         icon: "",
         to: "#",
     },
@@ -202,69 +202,51 @@ function ResponsiveAppBar() {
                         </Menu>
                     </Box>
                     {/* /Minimize Menu */}
-
-                    {/* Menu Right Full */}
-                    <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-                        {user.user.length === 0 &&
-                            authen.map((page, index) => (
-                                <Link to={page.to}>
-                                    <Button
-                                        key={index}
-                                        onClick={handleCloseNavMenu}
-                                        sx={{
-                                            my: 2,
-                                            color: "white",
-                                            mr: 2,
-                                        }}
-                                        startIcon={page.icon}
-                                    >
-                                        {page.title}
-                                    </Button>
-                                </Link>
-                            ))}
-                        {/* Add the "Shop" menu item */}
-                        <Link to={shopPage.to}>
-                            <Button
-                                onClick={handleCloseNavMenu}
-                                sx={{
-                                    my: 2,
-                                    color: "white",
-                                    mr: 2,
-                                }}
-                                startIcon={shopPage.icon}
-                            >
-                                {shopPage.title}
-                            </Button>
-                        </Link>
-                        <Link to={WishlistPage.to}>
-                            <Button
-                                onClick={handleCloseNavMenu}
-                                sx={{
-                                    my: 2,
-                                    color: "white",
-                                    mr: 2,
-                                }}
-                                startIcon={WishlistPage.icon}
-                            >
-                                {WishlistPage.title}
-                            </Button>
-                        </Link>
-                        <Link to={cartPage.to}>
-                            <Button
-                                onClick={handleCloseNavMenu}
-                                sx={{
-                                    my: 2,
-                                    color: "white",
-                                    mr: 2,
-                                }}
-                                startIcon={cartPage.icon}
-                            >
-                                <Badge count={cart.length} offset={[9, 0]}>
-                                    {cartPage.title}
-                                </Badge>
-                            </Button>
-                        </Link>
-                    </Box>
+                    {/* Add the "Shop" menu item */}
+                    <Link to={shopPage.to}>
+                        <Button
+                            onClick={handleCloseNavMenu}
+                            sx={{
+                                my: 2,
+                                color: "white",
+                                mr: 2,
+                            }}
+                            startIcon={shopPage.icon}
+                        >
+                            {shopPage.title}
+                        </Button>
+                    </Link>
+                    {
+                        user.user.length !== 0 && (
+                            <Link to={WishlistPage.to}>
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{
+                                        my: 2,
+                                        color: "white",
+                                        mr: 2,
+                                    }}
+                                    startIcon={WishlistPage.icon}
+                                >
+                                    {WishlistPage.title}
+                                </Button>
+                            </Link>
+                        )}
+                    <Link to={cartPage.to}>
+                        <Button
+                            onClick={handleCloseNavMenu}
+                            sx={{
+                                my: 2,
+                                color: "white",
+                                mr: 2,
+                            }}
+                            startIcon={cartPage.icon}
+                        >
+                            <Badge count={cart.length} offset={[9, 0]}>
+                                {cartPage.title}
+                            </Badge>
+                        </Button>
+                    </Link>
                     {/* /Menu Right Full */}
 
                     {/* LOGO Minimize */}
@@ -338,7 +320,7 @@ function ResponsiveAppBar() {
 
                     {/* User Menu */}
                     {
-                        user.user.length != 0 && (
+                        user.user.length !== 0 && (
                             <Box sx={{ flexGrow: 0 }}>
                                 <Tooltip title="Open settings">
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -368,7 +350,7 @@ function ResponsiveAppBar() {
                                         <MenuItem
                                             key={index}
                                             onClick={
-                                                setting.title == "Logout"
+                                                setting.title === "ออกจากระบบ"
                                                     ? handleLogout
                                                     : handleCloseUserMenu
                                             }

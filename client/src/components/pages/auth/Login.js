@@ -19,23 +19,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login as loginRedux } from "../../store/userSlice";
 import { toast } from 'react-toastify';
-function Copyright(props) {
-    return (
-        <Typography
-            variant="body2"
-            color="text.secondary"
-            align="center"
-            {...props}
-        >
-            {"Copyright © "}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{" "}
-            {new Date().getFullYear()}
-            {"."}
-        </Typography>
-    );
-}
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -93,7 +76,7 @@ export default function Login() {
                     md={7}
                     sx={{
                         // backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-                        backgroundImage: "url(/assets/17361.jpg)",
+                        backgroundImage: "url(assets/logo.png)",
                         backgroundRepeat: "no-repeat",
                         backgroundColor: (t) =>
                             t.palette.mode === "light"
@@ -113,11 +96,8 @@ export default function Login() {
                             alignItems: "center",
                         }}
                     >
-                        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                            <LockOutlinedIcon />
-                        </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            เข้าสู่ระบบ
                         </Typography>
                         <Box
                             component="form"
@@ -146,7 +126,7 @@ export default function Login() {
                             />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
+                                label="จดจำในระบบ"
                             />
                             <Button
                                 type="submit"
@@ -154,21 +134,22 @@ export default function Login() {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                Sign In
+                                เข้าสู่ระบบ
                             </Button>
                             <Grid container>
                                 <Grid item xs>
                                     <Link href="#" variant="body2">
-                                        Forgot password?
+                                        ลืมรหัสผ่าน
                                     </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="/register" variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
+                                    <p>หากคุณยังไม่ได้เป็นสมาชิก
+                                        <Link href="/register" variant="body2">
+                                            {"สมัครสมาชิก"}
+                                        </Link>
+                                        ได้ที่นี้</p>
                                 </Grid>
                             </Grid>
-                            <Copyright sx={{ mt: 5 }} />
                         </Box>
                     </Box>
                 </Grid>
