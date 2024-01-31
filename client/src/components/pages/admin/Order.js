@@ -33,30 +33,30 @@ const Order = () => {
     return (
         <div className='col text-center'>
             <div className='row'>
-                <h1>Order </h1>
+                <h1>ข้อมูลการสั่งซื้อสอนค้า</h1>
                 {orders.length === 0 ? (
-                    <p>No orders found</p>
+                    <p>ไม่มีสินค้า</p>
                 ) : (
                     orders.map((order, index) => (
                         <div key={index} className='cart m-3'>
-                            <p>Order by <b>{order.orderBy.username}</b>
+                            <p>สั่งซื้อโดย <b>{order.orderBy.username}</b>
                                 <br />
-                                Status: {order.orderstatus}</p>
+                                สถานะ: {order.orderstatus}</p>
                             <select
                                 value={order.orderstatus}
                                 onChange={(e) => handleChangeStatus(order._id, e.target.value)}
                                 className='form form-control'>
-                                <option value="Not Process">Not Process</option>
-                                <option value="Processing">Processing</option>
-                                <option value="Cancelled">Cancelled</option>
-                                <option value="Completed">Completed</option>
+                                <option value="Not Process">ไม่ผ่านการดำเนินงาน</option>
+                                <option value="Processing">กำลังดำเนินงาน</option>
+                                <option value="Cancelled">ยกเลิกสินค้า</option>
+                                <option value="Completed">สั่งซื้อสำเร็จ</option>
                             </select>
                             <table className='table table-bordered'>
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                        <th>Count</th>
+                                        <th>ชื่อ</th>
+                                        <th>ราคา</th>
+                                        <th>ชิ้น</th>
                                     </tr>
                                 </thead>
                                 <tbody>

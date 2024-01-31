@@ -159,19 +159,19 @@ const ManageAdmin = () => {
                                     </td>
                                     <td>
                                         <DeleteOutlined onClick={() => handleRemove(item._id)} />
-                                        <EditOutlined onClick={() => showModal(item._id)} />
+                                        <EditOutlined onClick={() => showModal(item._id)} style={{ marginLeft: '25px' }} />
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                     <Modal
-                        title="Basic Modal"
+                        title="เปลี่ยนรหัสผ่าน"
                         visible={isModalVisible}
                         onOk={handleOk}
                         onCancel={handleCancel}
                     >
-                        <p>New Password :</p>
+                        <p>รหัสผ่านใหม่ :</p>
                         <input
                             onChange={handleChangePassword}
                             type="text"

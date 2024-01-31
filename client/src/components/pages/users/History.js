@@ -20,20 +20,20 @@ export const History = () => {
 
     return (
         <div className='col text-center'>
-            <div className='row'>
-                <h1>Order History</h1>
+            <div className='row' style={{marginTop:'30px'}}>
+                <h1>ประวัติการสั่งซื้อ</h1>
                 {orders.length === 0 ? (
-                    <p>No orders found</p>
+                    <p>ไม่มีสินค้า</p>
                 ) : (
                     orders.map((order, index) => (
                         <div key={index} className='cart m-3'>
-                            <p>Order Status: {order.orderstatus}</p>
+                            <p>สถานะสินค้า: {order.orderstatus}</p>
                             <table className='table table-bordered'>
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                        <th>Count</th>
+                                        <th>ชื่อ</th>
+                                        <th>ราคา</th>
+                                        <th>ชิ้น</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -305,9 +305,9 @@ section .cards .card {
 }
 
 .lineimage img {
-  width: 100px;
+  width: 150px;
   /* Set your desired width */
-  height: 100px;
+  height: 150px;
   /* Set your desired height */
   object-fit: cover;
   /* Maintain aspect ratio */
@@ -315,6 +315,12 @@ section .cards .card {
   margin: 0 10px;
   transition: transform 0.3s ease;
   /* Add smooth transition to image scaling */
+}
+
+.lineimage p {
+  padding: 15px;
+  text-align: center;
+  font-size: 18px;
 }
 
 .lineimage img:hover {
@@ -327,6 +333,19 @@ section .cards .card {
   .information {
     margin-bottom: 20px;
   }
+}
+
+/* Map */
+.container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Then style the iframe to fit in the container div with full height and width */
+.responsive-iframe {
+  width: 100%;
+  height: 100%;
 }
 
 

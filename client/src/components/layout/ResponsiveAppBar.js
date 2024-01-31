@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { ShoppingOutlined } from '@ant-design/icons'
+import { ShoppingOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
@@ -21,7 +21,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
-import { StarOutlined } from '@ant-design/icons'
+import { StarOutlined } from '@ant-design/icons';
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Search from "../card/Search";
 import { Badge } from "antd";
@@ -55,14 +55,13 @@ const contact = [
     },
 ];
 
-
 const cartPage = {
-    title: "Cart",
+    title: "ตะกร้า",
     icon: <ShoppingCartIcon />,
     to: "/cart", // Update with the correct path for your shop
 };
 const WishlistPage = {
-    title: "Wishlist",
+    title: "สินค้าที่ชอบ",
     icon: <StarOutlined />,
     to: "/user/wishlist", // Update with the correct path for your shop
 };
@@ -143,7 +142,7 @@ function ResponsiveAppBar() {
 
     return (
         <AppBar position="static" style={{ backgroundColor: "#f9a0a1", height: '100%' }}>
-            <Container maxWidth="xl">
+            <Container maxWidth="xxl">
                 <Toolbar disableGutters>
                     {/* LOGO */}
                     {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
@@ -173,7 +172,7 @@ function ResponsiveAppBar() {
                     {/* /LOGO */}
 
                     {/* Minimize Menu */}
-                    <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: "flex", lg: "none" } }}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -200,7 +199,7 @@ function ResponsiveAppBar() {
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
                             sx={{
-                                display: { xs: "block", md: "none" },
+                                display: { xs: "block", lg: "none" },
                             }}
                         >
                             {product.map((page, index) => (
@@ -255,7 +254,7 @@ function ResponsiveAppBar() {
                         href=""
                         sx={{
                             mr: 2,
-                            display: { xs: "flex", md: "none" },
+                            display: { xs: "flex", lg: "none" },
                             flexGrow: 1,
                             fontFamily: "monospace",
                             fontWeight: 700,
@@ -268,7 +267,7 @@ function ResponsiveAppBar() {
                     {/* /LOGO Minimize */}
 
                     {/* Menu Left Full */}
-                    <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: "none", lg: "flex" } }}>
                         {product.map((page, index) => (
                             <Link to={page.to}>
                                 <Button
@@ -317,7 +316,7 @@ function ResponsiveAppBar() {
                     {/* /Menu Left Full */}
 
                     {/* Menu Right Full */}
-                    <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+                    <Box sx={{ flexGrow: 0, display: { xs: "none", lg: "flex" } }}>
                         {user.user.length === 0 &&
                             authen.map((page, index) => (
                                 <Link to={page.to}>
@@ -353,24 +352,27 @@ function ResponsiveAppBar() {
                                 </Button>
                             </Link>
                         )}
-                    <Link to={cartPage.to}>
-                        <Button
-                            onClick={handleCloseNavMenu}
-                            sx={{
-                                my: 2,
-                                color: "white",
-                                mr: 2,
-                            }}
-                            startIcon={cartPage.icon}
-                        >
-                            <Badge count={cart.length} offset={[9, 0]}>
-                                <a style={{ color: 'white' }}>
-                                    {cartPage.title}
-                                </a>
-                            </Badge>
-                        </Button>
-                    </Link>
-                    <Box sx={{ flexGrow: 0.2, display: { xs: "flex", md: "flex" }, float: "right" }}>
+                    {
+                        user.user.length !== 0 && (
+                            <Link to={cartPage.to}>
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{
+                                        my: 2,
+                                        color: "white",
+                                        mr: 2,
+                                    }}
+                                    startIcon={cartPage.icon}
+                                >
+                                    <Badge count={cart.length} offset={[9, 0]}>
+                                        <a style={{ color: 'white' }}>
+                                            {cartPage.title}
+                                        </a>
+                                    </Badge>
+                                </Button>
+                            </Link>
+                        )}
+                    <Box sx={{ flexGrow: 0.2, display: { sx: "flex", lg: "flex" }, float: "right" }}>
                         <Search />
                     </Box>
 
@@ -429,4 +431,5 @@ function ResponsiveAppBar() {
         </AppBar >
     );
 }
+
 export default ResponsiveAppBar;

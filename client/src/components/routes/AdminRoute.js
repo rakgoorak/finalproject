@@ -25,16 +25,18 @@ const AdminRoute = ({ children }) => {
     }, [user]);
 
     return pass ? (
-        <div className="app">
-            <SideBar />
-            <main className="content">
-                <HeaderBar />
-                <div className="content_body">
-                    <Box m="20px">
-                        {children}
-                    </Box>
-                </div>
-            </main>
+        <div className="Admincentercontent">
+            <div className="Adminapp">
+                <SideBar />
+                <main className="Admincontent">
+                    <HeaderBar />
+                    <div className="Admincontent_body">
+                        <Box m="20px">
+                            {children}
+                        </Box>
+                    </div>
+                </main>
+            </div>
         </div>
     ) : <NotFound404 />
 };

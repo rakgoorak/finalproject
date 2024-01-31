@@ -28,11 +28,11 @@ const Cart = () => {
             <table className='table table-bordered'>
                 <thead className='thead-light'>
                     <tr>
-                        <td>Image</td>
-                        <td>Name</td>
-                        <td>Price</td>
-                        <td>Count</td>
-                        <td>Remove</td>
+                        <td>รูปภาพ</td>
+                        <td>ชื่อสินค้า</td>
+                        <td>ราคา</td>
+                        <td>ชิ้น</td>
+                        <td>ลบสินค้า</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,14 +50,14 @@ const Cart = () => {
                 <div className='row'>
 
                     <div className='col-md-8' style={{ marginTop: '50px' }}>
-                        <h4> Cart / {cart.length} product</h4>
+                        <h4> ตะกร้ามีสินค้า {cart.length} ชิ้น</h4>
                         {!cart.length
-                            ? <p>No Product in Cart</p>
+                            ? <p>ไม่มีสินค้าในตะกร้า</p>
                             : showCartItem()
                         }
                     </div>
                     <div className='col-md-4' style={{ marginTop: '50px' }}>
-                        <h4>Summary</h4>
+                        <h4>ข้อมูลสินค้า</h4>
                         <hr />
                         {cart.map((item, index) => (
                             <p key={index}>
@@ -65,13 +65,13 @@ const Cart = () => {
                             </p>
                         ))}
                         <hr />
-                        <h4>Total: <b>{getTotal()}</b></h4>
+                        <h4>ราคาสุทธิ: <b>{getTotal()}</b></h4>
                         <hr />
                         {user.value != 0
                             ? <button className='btn btn-success'
                                 onClick={handleSaveOrder}
                                 disabled={!cart.length}
-                            >Check Out</button>
+                            >สั่งซื้อสิค้า</button>
                             : <button className='btn btn-danger'>
                                 <Link to="/login"
                                     state="cart"

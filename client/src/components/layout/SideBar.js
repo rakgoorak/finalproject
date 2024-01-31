@@ -47,7 +47,7 @@ const SideBar = () => {
                 <div
                     style={{ display: "flex", flexDirection: "column", height: "100%" }}
                 >
-                    <div style={{ flex: 1, marginBottom: "32px" }}>
+                    <div style={{ flex: 1, marginTop: "32px" }}>
                         <Menu iconShape="square">
                             {/* LOGO */}
                             <MenuItem
@@ -62,9 +62,8 @@ const SideBar = () => {
                                         display="flex"
                                         justifyContent="space-between"
                                         alignItems="center"
-                                        ml="15px"
+                                        ml="85px"
                                     >
-                                        <Typography>J.S POWER ELECTRIC LIMITED PARTNERSHIP</Typography>
                                         <IconButton onClick={() => setisCollapsed(!isCollapsed)}>
                                             <MenuOutlinedIcon />
                                         </IconButton>
@@ -93,28 +92,28 @@ const SideBar = () => {
                                 </Box>
                             )}
 
-                            <Link className="menu-bars" to={"/admin/index"}>
+                            <Link className="Adminmenu-bars" to={"/admin/index"}>
                                 <MenuItem icon={<HomeOutlinedIcon />}>Dashboard</MenuItem>
                             </Link>
 
                             <SubMenu icon={<MapOutlinedIcon />} label="Data">
 
-                                <Link to={"/admin/viewtable"} className="menu-bars"></Link>+
+                                <Link to={"/admin/viewtable"} className="Adminmenu-bars"></Link>
 
-                                <Link to={"/admin/create-product"} className="menu-bars">
+                                <Link to={"/admin/create-product"} className="Adminmenu-bars">
 
                                     <MenuItem icon={<StoreIcon />}>
                                         {" "}
                                         Store
                                     </MenuItem>
                                 </Link>
-                                <Link to={"/admin/product"} className="menu-bars">
+                                <Link to={"/admin/product"} className="Adminmenu-bars">
                                     <MenuItem icon={<InventoryIcon />}>
                                         {" "}
                                         product
                                     </MenuItem>
                                 </Link>
-                                <Link to={"/admin/create-category"} className="menu-bars">
+                                <Link to={"/admin/create-category"} className="Adminmenu-bars">
                                     <MenuItem icon={<CategoryIcon />}>
                                         {" "}
                                         Category
@@ -122,15 +121,12 @@ const SideBar = () => {
                                 </Link>
                             </SubMenu>
 
-                            <SubMenu label="Manage" icon={<PeopleOutlinedIcon />}>
-                                <Link to={"/admin/manage"} className="menu-bars">
-                                    <MenuItem icon={<AccountCircleIcon />}>User</MenuItem>
-                                </Link>
-                                <MenuItem icon={<AdminPanelSettingsIcon />}> Admin</MenuItem>
-                            </SubMenu>
+                            <Link to={"/admin/manage"} className="Adminmenu-bars">
+                                <MenuItem icon={<AccountCircleIcon />}>Manage</MenuItem>
+                            </Link>
                         </Menu>
                         <Menu>
-                            <Link to={"/admin/orders"} className="menu-bars">
+                            <Link to={"/admin/orders"} className="Adminmenu-bars">
                                 <MenuItem icon={<ShoppingCartIcon />}>Orders</MenuItem>
                             </Link>
                         </Menu>

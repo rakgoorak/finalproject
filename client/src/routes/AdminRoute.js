@@ -25,11 +25,11 @@ const AdminRoute = ({ children }) => {
     }, [user]);
 
     return pass ? (
-        <div className="app">
+        <div className="Admin-app">
             <SideBar />
-            <main className="content">
+            <main className="Admin-content">
                 <HeaderBar />
-                <div className="content_body">
+                <div className="Admin-content_body">
                     <Box m="20px">
                         {children}
                     </Box>
