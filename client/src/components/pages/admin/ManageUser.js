@@ -94,7 +94,7 @@ const ManageAdmin = () => {
             });
     };
     const handleRemove = (id) => {
-        if (window.confirm("Are You Sure Delete!!")) {
+        if (window.confirm("คุณแน่ใจหรือว่าลบบัญชีนี้!!")) {
             removeUser(user.user.token, id)
                 .then((res) => {
                     console.log(res);
@@ -111,16 +111,16 @@ const ManageAdmin = () => {
             <div className="row">
 
                 <div className="col">
-                    <h1>ManageAdmin Page</h1>
+                    <h1>จัดการผู้ใช้งานระบบ</h1>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">username</th>
-                                <th scope="col">role</th>
-                                <th scope="col">status</th>
-                                <th scope="col">created</th>
-                                <th scope="col">updated</th>
-                                <th scope="col">actions</th>
+                                <th scope="col">ชื่อผู้ใช้</th>
+                                <th scope="col">ยศ</th>
+                                <th scope="col">สถานะ</th>
+                                <th scope="col">สร้างเมื่อ</th>
+                                <th scope="col">ปรับปรุงเมื่อ</th>
+                                <th scope="col">แก้ไข</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -158,8 +158,8 @@ const ManageAdmin = () => {
                                             .fromNow()}
                                     </td>
                                     <td>
-                                        <DeleteOutlined onClick={() => handleRemove(item._id)} />
-                                        <EditOutlined onClick={() => showModal(item._id)} style={{ marginLeft: '25px' }} />
+                                        <EditOutlined onClick={() => showModal(item._id)} />
+                                        <DeleteOutlined onClick={() => handleRemove(item._id)} style={{ marginLeft: '15px' }} />
                                     </td>
                                 </tr>
                             ))}

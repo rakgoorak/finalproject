@@ -23,16 +23,16 @@ const UpdateCategory = () => {
         editCategory(user.user.token, param.id, { name })
             .then((res) => {
                 navigate("/admin/create-category")
-                toast.success("Update " + res.data.name + " Success")
+                toast.success("อัพเดท " + res.data.name + " สำเร็จ")
             })
             .catch(err => console.log(err))
     }
     return (
         <div className='col'>
-            <h1>UpdateCategory</h1>
+            <h1>อัปเดตหมวดหมู่</h1>
             <form onSubmit={handleSubmit}>
                 <div className='form-group'>
-                    <label>UpdateCategory</label>
+                    <label>อัปเดตหมวดหมู่</label>
                     <input
                         className='form-control'
                         value={name}
@@ -40,7 +40,7 @@ const UpdateCategory = () => {
                         required
                         onChange={(e) => setName(e.target.value)}
                     />
-                    <button className='btn btn-outline-primary'>Submit</button>
+                    <button className='btn btn-outline-primary'>ส่ง</button>
                 </div>
             </form>
         </div>

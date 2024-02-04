@@ -2,7 +2,7 @@ import React from 'react'
 import Resize from 'react-image-file-resizer'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
-import { Avatar, Badge, Space } from 'antd';
+import { Avatar, Badge } from 'antd';
 
 const FileUpload = ({ values, setValues, loading, setLoading }) => {
     const { user } = useSelector((state) => ({ ...state }))
@@ -79,8 +79,7 @@ const FileUpload = ({ values, setValues, loading, setLoading }) => {
             )}
             <div className='form-group'>
                 <label>
-                    Choose File.....
-
+                    ใส่รูปสินค้า
                     <input
                         onChange={handleChangeFile}
                         className='form-control'

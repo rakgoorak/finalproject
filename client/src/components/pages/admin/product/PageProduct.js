@@ -27,23 +27,23 @@ const PageProduct = () => {
     };
 
     const handleRemove = (id) => {
-        if (window.confirm('Are you sure you want to delete this product?')) {
+        if (window.confirm('คุณแน่ใจหรือไม่ว่าต้องการลบสินค้านี้?')) {
             removeProduct(user.user.token, id)
                 .then(res => {
                     loadData(100);
                     console.log(res);
-                    toast.success("Product deleted successfully");
+                    toast.success("ลบสินค้าเรียบร้อยแล้ว");
                 })
                 .catch(err => {
                     console.log(err);
-                    toast.error("Error deleting product");
+                    toast.error("เกิดข้อผิดพลาดในการลบสินค้า");
                 });
         }
     };
 
     return (
         <div className='col'>
-            {loading ? <h1>Loading....</h1> : <h1>Product</h1>}
+            {loading ? <h1>Loading....</h1> : <h1>สินค้า</h1>}
             <div className='row'>
                 {product.map((item) => (
                     <div className='col-md-3 pb-3' key={item._id}>

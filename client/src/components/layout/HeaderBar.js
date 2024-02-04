@@ -42,7 +42,7 @@ const HeaderBar = () => {
                 </IconButton>
                 <IconButton>
                     <PersonOutlinedIcon onClick={handleMenu} />
-                    <Menu
+                    <Menu style={{ marginTop: '30px' }}
                         id="menu-appbar"
                         anchorEl={anchorEl}
                         anchorOrigin={{
@@ -57,11 +57,11 @@ const HeaderBar = () => {
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
-                        <Link to="#" className="Adminmenu-bars">
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
+                        <Link to="#" className="Adminmenu-bars" >
+                            <MenuItem onClick={handleClose}>โปรไฟล์</MenuItem>
                         </Link>
 
-                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                        <MenuItem onClick={handleLogout}>ออกจากระบบ</MenuItem>
 
                     </Menu>
                 </IconButton>

@@ -35,6 +35,10 @@
     color: #000;
 }
 
+.btn {
+    margin-top: 10px;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
 }

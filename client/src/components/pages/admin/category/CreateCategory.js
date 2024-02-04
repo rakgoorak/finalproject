@@ -25,17 +25,17 @@ const CreateCategory = () => {
     };
 
     const handleRemove = (id) => {
-        const confirmDelete = window.confirm('Are you sure you want to delete this category?');
+        const confirmDelete = window.confirm('คุณแน่ใจหรือไม่ว่าต้องการลบหมวดหมู่นี้?');
         if (confirmDelete) {
             deleteCategory(user.user.token, id)
                 .then((res) => {
                     console.log(res);
                     loadData(user.user.token);
-                    toast.success('Category deleted successfully');
+                    toast.success('ลบหมวดหมู่เรียบร้อยแล้ว');
                 })
                 .catch((err) => {
                     console.log(err);
-                    toast.error('Error deleting category');
+                    toast.error('เกิดข้อผิดพลาดในการลบหมวดหมู่');
                 });
         }
     };
@@ -49,17 +49,17 @@ const CreateCategory = () => {
         createCategory(user.user.token, values)
             .then((res) => {
                 loadData(user.user.token);
-                toast.success('Category created successfully');
+                toast.success('สร้างหมวดหมู่เรียบร้อยแล้ว');
             })
             .catch((err) => {
                 console.log(err);
-                toast.error('Error creating category');
+                toast.error('เกิดข้อผิดพลาดในการสร้างหมวดหมู่');
             });
     };
 
     return (
         <div className="col">
-            <h1>CreateCategory</h1>
+            <h1>สร้างหมวดหมู่</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>เพิ่มหมวดหมู่สินค้า</label>
@@ -80,13 +80,13 @@ const CreateCategory = () => {
                         {item.name}
                         <span
                             style={{ float: 'right' }}
-                            className="badge bg-primary rounded-pill"
+                            className="btn btn-outline-primary"
                             onClick={() => handleRemove(item._id)}
                         >
                             X
                         </span>
-                        <span style={{ float: 'right' }} className="badge bg-primary rounded-pill">
-                            <Link to={`/admin/update-category/${item._id}`}>Edit</Link>
+                        <span style={{ float: 'right' }} className="btn btn-outline-primary">
+                            <Link to={`/admin/update-category/${item._id}`}>แก้ไข</Link>
                         </span>
                     </li>
                 ))}

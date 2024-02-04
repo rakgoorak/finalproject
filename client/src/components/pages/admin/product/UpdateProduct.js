@@ -57,13 +57,13 @@ const UpdateProduct = () => {
         updateProduct(user.user.token, values._id, values)
             .then((res) => {
                 console.log(res);
-                toast.success("Product updated successfully");
+                toast.success("อัปเดตสินค้าเรียบร้อยแล้ว");
                 setLoading(false)
                 navigate("/admin/product");
             })
             .catch((err) => {
                 console.error("Update failed:", err);
-                toast.error("Failed to update product");
+                toast.error("ไม่สามารถอัปเดตสินค้าได้");
                 setLoading(false)
             });
     };
@@ -74,11 +74,11 @@ const UpdateProduct = () => {
         <div className='col'>
             {loading
                 ? <h1>Loading....</h1>
-                : <h1>Update Product</h1>
+                : <h1>อัพเดทสินค้า</h1>
             }
             <form onSubmit={handleSubmit}>
                 <div className='form-group'>
-                    <lable>ID PRODUCT</lable>
+                    <lable>ID สินค้า</lable>
                     <input
                         className='form-control'
                         type='text'
@@ -88,7 +88,7 @@ const UpdateProduct = () => {
                     />
                 </div>
                 <div className='form-group'>
-                    <lable>NAME PRODUCT</lable>
+                    <lable>ชื่อสินค้า</lable>
                     <input
                         className='form-control'
                         type='text'
@@ -98,7 +98,7 @@ const UpdateProduct = () => {
                     />
                 </div>
                 <div className='form-group'>
-                    <lable>PRODUCT DETAIL</lable>
+                    <lable>รายละเอียดสินค้า</lable>
                     <input
                         className='form-control'
                         type='text'
@@ -108,7 +108,7 @@ const UpdateProduct = () => {
                     />
                 </div>
                 <div className='form-group'>
-                    <lable>Category</lable>
+                    <lable>หมวดหมู่</lable>
                     <select
                         className='form-control'
                         name='category'
@@ -116,7 +116,7 @@ const UpdateProduct = () => {
                         value={values.category._id}
                         required
                     >
-                        <option>Please Select</option>
+                        <option>โปรดเลือก</option>
                         {category.length > 0 &&
                             category.map((item) => (
                                 <option key={item._id} value={item._id}>
@@ -128,7 +128,7 @@ const UpdateProduct = () => {
                     </select>
                 </div>
                 <div className='form-group'>
-                    <lable>PRICE PRODUCT</lable>
+                    <lable>ราคาสินค้า</lable>
                     <input
                         className='form-control'
                         type='number'
@@ -138,7 +138,7 @@ const UpdateProduct = () => {
                     />
                 </div>
                 <FileUpload values={values} setValues={setValues} loading={loading} setLoading={setLoading} />
-                <button className="btn btn-outline-primary">Submit</button>
+                <button className="btn btn-outline-primary">ส่ง</button>
             </form>
         </div>
     )

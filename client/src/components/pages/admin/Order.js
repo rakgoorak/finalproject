@@ -17,7 +17,7 @@ const Order = () => {
                 setOrders(res.data);
             })
             .catch((error) => {
-                console.error('Error loading orders:', error);
+                console.error('เกิดข้อผิดพลาดในการโหลดคำสั่งซื้อ:', error);
             });
     };
 
@@ -25,7 +25,7 @@ const Order = () => {
         updateStatusOrder(user.user.token, orderId, orderstatus)
             .then(res => {
                 console.log(res.data)
-                toast.info('Updated ' + res.data.orderstatus + ' Success')
+                toast.info('อัพเดท ' + res.data.orderstatus + ' สำเร็จ')
                 loadData()
             })
     };

@@ -30,7 +30,7 @@ const CreateProduct = () => {
                 setValues({ ...values, categories: res.data })
             }).catch((err) => {
                 console.log(err);
-                toast.error('Error creating category');
+                toast.error('เกิดข้อผิดพลาดในการสร้างหมวดหมู่');
             });
     }
     const handleChange = (e) => {
@@ -40,11 +40,11 @@ const CreateProduct = () => {
         e.preventDefault()
         createProduct(user.user.token, values)
             .then(res => {
-                toast.success("Product create successfully");
+                toast.success("สร้างสินค้าสำเร็จ");
                 navigate("/admin/product");
             }).catch((err) => {
                 console.log(err);
-                toast.error('Error creating category');
+                toast.error('เกิดข้อผิดพลาดในการสร้างหมวดหมู่');
             });
     }
 
@@ -52,11 +52,11 @@ const CreateProduct = () => {
         <div>
             {loading
                 ? <h1>Loading...<Spin /></h1>
-                : <h1>Create Product</h1>
+                : <h1>สร้างสินค้า</h1>
             }
             <form onSubmit={handleSubmit}>
                 <div className='form-group'>
-                    <lable>ID PRODUCT</lable>
+                    <lable>ID สินค้า</lable>
                     <input
                         className='form-control'
                         type='text'
@@ -66,7 +66,7 @@ const CreateProduct = () => {
                     />
                 </div>
                 <div className='form-group'>
-                    <lable>NAME PRODUCT</lable>
+                    <lable>ชื่อสินค้า</lable>
                     <input
                         className='form-control'
                         type='text'
@@ -76,7 +76,7 @@ const CreateProduct = () => {
                     />
                 </div>
                 <div className='form-group'>
-                    <lable>PRODUCT DETAIL</lable>
+                    <lable>รายละเอียดสินค้า</lable>
                     <input
                         className='form-control'
                         type='text'
@@ -86,7 +86,7 @@ const CreateProduct = () => {
                     />
                 </div>
                 <div className='form-group'>
-                    <lable>Category</lable>
+                    <lable>หมวดหมู่</lable>
                     <select
                         className='form-control'
                         name='category'
@@ -103,7 +103,7 @@ const CreateProduct = () => {
                     </select>
                 </div>
                 <div className='form-group'>
-                    <lable>PRICE PRODUCT</lable>
+                    <lable>ราคาสินค้า</lable>
                     <input
                         className='form-control'
                         type='number'
@@ -113,7 +113,7 @@ const CreateProduct = () => {
                     />
                 </div>
                 <FileUpload values={values} setValues={setValues} loading={loading} setLoading={setLoading} />
-                <button className="btn btn-outline-primary">Submit</button>
+                <button className="btn btn-outline-primary">ส่ง</button>
             </form>
         </div>
     )

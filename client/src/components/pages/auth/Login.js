@@ -96,7 +96,7 @@ export default function Login() {
                             alignItems: "center",
                         }}
                     >
-                        <Typography component="h1" variant="h5">
+                        <Typography component="h1" variant="h5" style={{ marginTop: '200px' }}>
                             เข้าสู่ระบบ
                         </Typography>
                         <Box
@@ -110,7 +110,7 @@ export default function Login() {
                                 required
                                 fullWidth
                                 id="username"
-                                label="UserName"
+                                label="ชื่อผู้ใช้"
                                 name="username"
                                 autoFocus
                             />
@@ -119,7 +119,7 @@ export default function Login() {
                                 required
                                 fullWidth
                                 name="password"
-                                label="Password"
+                                label="รหัสผ่าน"
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
@@ -138,14 +138,14 @@ export default function Login() {
                             </Button>
                             <Grid container>
                                 <Grid item xs>
-                                    <Link href="#" variant="body2">
+                                    <Link href="#" variant="body2" style={{ fontSize: '18px', textDecoration: 'none' }}>
                                         ลืมรหัสผ่าน
                                     </Link>
                                 </Grid>
                                 <Grid item>
                                     <p>หากคุณยังไม่ได้เป็นสมาชิก
-                                        <Link href="/register" variant="body2">
-                                            {"สมัครสมาชิก"}
+                                        <Link href="/register" variant="body2" style={{ fontSize: '20px', textDecoration: 'none' }}>
+                                            {" สมัครสมาชิก "}
                                         </Link>
                                         ได้ที่นี้</p>
                                 </Grid>

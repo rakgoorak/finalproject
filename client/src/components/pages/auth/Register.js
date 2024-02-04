@@ -76,8 +76,8 @@ export default function Register() {
                             alignItems: "center",
                         }}
                     >
-                        <Typography component="h1" variant="h5">
-                            Register
+                        <Typography component="h1" variant="h5" style={{ marginTop: '200px' }}>
+                            สมัครสมาชิก
                         </Typography>
                         <Box
                             component="form"
@@ -90,7 +90,7 @@ export default function Register() {
                                 required
                                 fullWidth
                                 id="username"
-                                label="UserName"
+                                label="ชื่อผู้ใช้"
                                 name="username"
                                 autoFocus
                             />
@@ -99,7 +99,7 @@ export default function Register() {
                                 required
                                 fullWidth
                                 name="password"
-                                label="Password"
+                                label="รหัสผ่าน"
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
@@ -119,8 +119,8 @@ export default function Register() {
                             <Grid container>
                                 <Grid item>
                                     <p>หากคุณยังไม่ได้เป็นสมาชิก
-                                        <Link href="/login" variant="body2">
-                                            {"เข้าสู่ระบบ"}
+                                        <Link href="/login" variant="body2" style={{ fontSize: '20px', textDecoration: 'none' }}>
+                                            {" เข้าสู่ระบบ"}
                                         </Link>
                                     </p>
                                 </Grid>
