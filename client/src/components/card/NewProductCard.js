@@ -3,11 +3,12 @@ import { Card } from 'antd';
 import { EyeOutlined, ShoppingCartOutlined, } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import _ from 'lodash'
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 const { Meta } = Card;
 
 const NewProductCard = ({ product }) => {
-    const { _id, id, name, detail, images } = product
+    const { _id, name, detail, images } = product
     const dispatches = useDispatch()
 
     const handleAddtoCart = () => {
@@ -22,14 +23,16 @@ const NewProductCard = ({ product }) => {
         let unique = _.uniqWith(cart, _.isEqual)
         localStorage.setItem("cart", JSON.stringify(unique))
         dispatches({
-            type: "ADD_TO_CART",
+            type: "addToCart",
             payload: unique
         })
+        console.log('Cart after adding:', unique);
+        toast.success('เพิ่มสินค้าลงในตะกร้าสำเร็จ');
     }
     return (
         <Card
             hoverable
-            style={{ width: 240 }}
+            style={{ width: '240px', marginBottom: '100px' }}
             cover={<img
                 className='P-1'
                 style={{ height: "150px", objectFit: "cover" }}
@@ -39,10 +42,10 @@ const NewProductCard = ({ product }) => {
                 } />}
             actions={[
                 <Link to={'/product/' + _id}>
-                    < EyeOutlined className='text-warning' />
+                    < EyeOutlined className='text-warning' style={{ fontSize: '20px' }} />
                 </Link>
                 ,
-                <ShoppingCartOutlined
+                <ShoppingCartOutlined style={{ fontSize: '20px' }}
                     onClick={handleAddtoCart}
                     className='text-danger' />,
 

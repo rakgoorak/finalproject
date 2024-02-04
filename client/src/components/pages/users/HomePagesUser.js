@@ -7,9 +7,9 @@ export const HomePagesUser = () => {
     return (
         <div>
             <Home />
-            <p style={{ fontSize: '20px', textAlign: 'center', marginTop: '50px', marginBottom: '50px' }}>สินค้าขายดี</p>
+            <p style={{ fontSize: '40px', textAlign: 'center', marginTop: '50px', marginBottom: '50px' }}>สินค้าขายดี</p>
             <BestSeller />
-            <p style={{ fontSize: '20px', textAlign: 'center', marginTop: '50px', marginBottom: '50px' }}>สินค้ามาใหม่</p>
+            <p style={{ fontSize: '40px', textAlign: 'center', marginTop: '50px', marginBottom: '50px' }}>สินค้ามาใหม่</p>
             <NewProduct />
         </div>
     )

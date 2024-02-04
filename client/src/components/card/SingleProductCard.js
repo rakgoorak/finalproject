@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Descriptions, Tabs, } from 'antd';
+import { Card, Tabs, } from 'antd';
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -13,7 +13,7 @@ const { TabPane } = Tabs;
 
 const SingleProductCard = ({ product }) => {
     const dispatches = useDispatch()
-    const { _id, id, name, detail, images, price, sold, category } = product
+    const { _id, name, detail, images, price, sold, category } = product
     const { user } = useSelector((state) => ({ ...state }));
     const handleAddtoCart = () => {
         let cart = []
@@ -27,21 +27,24 @@ const SingleProductCard = ({ product }) => {
         let unique = _.uniqWith(cart, _.isEqual)
         localStorage.setItem("cart", JSON.stringify(unique))
         dispatches({
-            type: "ADD_TO_CART",
+            type: "addToCart",
             payload: unique
         })
+        console.log('Cart after adding:', unique);
+        toast.success('เพิ่มสินค้าลงในตะกร้าสำเร็จ');
     }
+
     const handleAddtoWishList = (e) => {
         if (user) {
             addToWishList(user.user.token, _id)
                 .then(res => {
                     console.log(res.data)
-                    toast.success('Add to wishlist Success')
+                    toast.success('เพิ่มเข้าในรายการที่ต้องการ สำเร็จ')
                 }).catch((err) => {
                     console.log(err)
                 })
         } else {
-            toast.error('Go to Login')
+            toast.error('เข้าสู่ระบบก่อน')
         }
     }
     return (
@@ -52,11 +55,8 @@ const SingleProductCard = ({ product }) => {
                 </Carousel>
 
                 <Tabs>
-                    <TabPane tab="Description" key="1">
+                    <TabPane tab="คำอธิบาย" key="1">
                         {detail}
-                    </TabPane>
-                    <TabPane tab="More..." key="2">
-                        More...
                     </TabPane>
                 </Tabs>
             </div>
@@ -64,44 +64,48 @@ const SingleProductCard = ({ product }) => {
                 <h1 className='bg-info p-3'>{name}</h1>
                 <Card
                     actions={[
-                        <a onClick={handleAddtoWishList}>
+                        <a onClick={handleAddtoWishList} style={{ fontSize: '20px' }}>
                             <HeartOutlined className='text-info' /><br />
-                            Add to wishlist
+                            เพิ่มเข้าในรายการที่ต้องการ
                         </a>,
                         <>
-                            <a onClick={handleAddtoCart}>
+                            <a onClick={handleAddtoCart} style={{ fontSize: '20px' }}>
                                 <ShoppingCartOutlined
                                     className='text-danger'
                                 />
                                 <br />
-                                Add to cart
+                                เพิ่มลงในตะกร้า
                             </a>
                         </>
-
                     ]}
                 >
                     <ul class="list-group">
-                        <li class="list-group-item">
-                            Price
+                        <li class="list-group-item" style={{ fontSize: '18px' }}>
+                            ราคา
                             <span className='float-end'>{price}</span>
                         </li>
-                        <li class="list-group-item">
-                            Detail
+                        <li class="list-group-item" style={{ fontSize: '18px' }}>
+                            รายละเอียดสินค้า
                             <span className='float-end'>{detail}</span>
                         </li>
-                        <li class="list-group-item">
-                            Sold
+                        <li class="list-group-item" style={{ fontSize: '18px' }}>
+                            ขายแล้ว
                             <span className='float-end'>{sold}</span>
                         </li>
                         {category &&
 
-                            <li class="list-group-item">
-                                Category
+                            <li class="list-group-item" style={{ fontSize: '18px' }}>
+                                หมวดหมู่
                                 <span className='float-end'>{category.name}</span>
                             </li>
                         }
                     </ul>
                 </Card>
+                <button className="button" style={{ marginBottom: '100px', marginTop: '20px', width: '720px' }}>
+                    <Link to="/shop" style={{ textDecoration: 'none', color: 'white' }}>
+                        กลับไปหน้าหลัก
+                    </Link>
+                </button>
             </div>
         </>
     )

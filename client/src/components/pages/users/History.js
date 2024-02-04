@@ -20,7 +20,7 @@ export const History = () => {
 
     return (
         <div className='col text-center'>
-            <div className='row' style={{marginTop:'30px'}}>
+            <div className='row' style={{ marginTop: '30px' }}>
                 <h1>ประวัติการสั่งซื้อ</h1>
                 {orders.length === 0 ? (
                     <p>ไม่มีสินค้า</p>
@@ -28,7 +28,7 @@ export const History = () => {
                     orders.map((order, index) => (
                         <div key={index} className='cart m-3'>
                             <p>สถานะสินค้า: {order.orderstatus}</p>
-                            <table className='table table-bordered'>
+                            <table className='table table-bordered' style={{ marginBottom: '50px' }}>
                                 <thead>
                                     <tr>
                                         <th>ชื่อ</th>

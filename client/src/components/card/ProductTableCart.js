@@ -8,15 +8,6 @@ const ProductTableCart = ({ item }) => {
     const [cart, setCart] = useState([])
     const { user } = useSelector((state) => ({ ...state }))
     const dispatch = useDispatch()
-    useEffect(() => {
-        loadData()
-    }, [])
-    const loadData = () => {
-        getUserCart(user.user.token)
-            .then((res) => {
-                setCart(res.data.cart)
-            })
-    }
     const handleChangeCount = (e) => {
         const count = e.target.value < 1 ? 1 : e.target.value
         let cart = []

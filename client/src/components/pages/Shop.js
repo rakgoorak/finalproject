@@ -1,67 +1,73 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+// Shop.js
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Slider, Checkbox } from 'antd';
-//function
-import { listProduct, searchFilters } from '../functions/product'
-import NewProductCard from '../card/NewProductCard'
+import { listProduct, searchFilters } from '../functions/product';
+import NewProductCard from '../card/NewProductCard';
 import { listCategory } from '../functions/Category';
-import Footer from '../pagehome/Footer'
+import { addToCart } from '../store/cartSlice';
 
 const Shop = () => {
-    const [product, setProduct] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [price, setPrice] = useState([0, 0])
-    const [ok, setOk] = useState(false)
-    const { search } = useSelector((state) => ({ ...state }))
-    const { text } = search
-    const [category, setCategory] = useState([])
-    const [categorySelect, setCategorySelect] = useState([])
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [price, setPrice] = useState([0, 0]);
+    const { search, cart } = useSelector((state) => ({ ...state }));
+    const { text } = search;
+    const [categories, setCategories] = useState([]);
+    const [categorySelect, setCategorySelect] = useState([]);
+    const dispatch = useDispatch();
+    const [cartQuantity, setCartQuantity] = useState(0);
 
-    //load All Data
     useEffect(() => {
-        loadData()
-        listCategory().then(res => setCategory(res.data))
-    }, [])
-    const loadData = () => {
-        setLoading(true)
-        listProduct(12)
-            .then((res) => {
-                setProduct(res.data)
-                setLoading(false)
-            }).catch((err) => {
-                console.log(err)
-                setLoading(false)
-            })
-    }
-    //load text
+        loadAllData();
+        listCategory().then(res => setCategories(res.data));
+    }, []);
+
     useEffect(() => {
         const delay = setTimeout(() => {
-            fetchDataFilter({ query: text })
+            fetchDataFilter({ query: text });
             if (!text) {
-                loadData()
+                loadAllData();
             }
-        }, 300)
-        return () => clearTimeout(delay)
-    }, [text])
+        }, 300);
+        return () => clearTimeout(delay);
+    }, [text]);
+
+    useEffect(() => {
+        fetchDataFilter({ price });
+    }, [price]);
+
+    useEffect(() => {
+        setCartQuantity(cart.length); // อัพเดต state ของจำนวนสินค้าในตะกร้า
+    }, [cart]);
+
+    const loadAllData = () => {
+        setLoading(true);
+        listProduct(12)
+            .then((res) => {
+                setProducts(res.data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            });
+    };
+
     const fetchDataFilter = (arg) => {
         searchFilters(arg)
             .then((res) => {
-                setProduct(res.data)
-            }).catch((err) => {
-                console.log(err)
+                setProducts(res.data);
             })
-    }
-    // load slider
-    useEffect(() => {
-        fetchDataFilter({ price })
-    }, [ok])
-    const handlePrice = (value) => {
-        setPrice(value)
-        setTimeout(() => {
-            setOk(!ok)
-        }, 300)
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
-    }
+    const handlePrice = (value) => {
+        setPrice(value);
+    };
+
     const handleCheck = (e) => {
         let inCheck = e.target.value;
         let inState = [...categorySelect];
@@ -72,58 +78,62 @@ const Shop = () => {
             inState.splice(findCheck, 1);
         }
         setCategorySelect(inState);
-        fetchDataFilter({ category: inState })
+        fetchDataFilter({ category: inState });
 
-        // Fetch data with updated filters
         if (inState.length < 1) {
-            loadData()
+            loadAllData();
         }
     };
 
+    const handleAddtoCart = (product) => {
+        dispatch(addToCart(product));
+    };
+
     return (
-        <>
-            <div className='container-fluid'>
-                <div className='row' style={{ margin: '50px' }}>
-                    <div className='col-md-3'>
-                        Filter / Search
-                        <hr />
-                        <h4>ค้นหาด้วยราคาสินค้า</h4>
-                        <Slider
-                            value={price}
-                            onChange={handlePrice}
-                            range max={100000} />
-                        <hr />
-                        <h4>ค้นหาตามหมวดหมู่สินค้า</h4>
-                        {category.map((item, index) =>
-                            <Checkbox
-                                onChange={handleCheck}
-                                value={item._id}
-                            >
-                                {item.name}
-                            </Checkbox>
-                        )}
-                    </div>
-                    <div className='col-md-9'>
-                        {loading
-                            ? <h4 className='text-danger'>Loading....</h4>
-                            : <h4 >Product</h4>
-                        }
-
-                        {product.length < 1 && <p>No Product found</p>}
-
-                        <div className='row pb-5'>
-                            {product.map((item, index) =>
-                                <div key={index} className='col-md-4 mt-3'>
-                                    <NewProductCard product={item} />
-                                </div>
-                            )}
-                        </div>
-                    </div>
+        <div className='container-fluid'>
+            <div className='row' style={{ margin: '50px' }}>
+                <div className='col-md-3' style={{ fontSize: '25px' }}>
+                    Filter / Search
+                    <hr />
+                    <h6>Search by Price</h6>
+                    <Slider value={price} onChange={handlePrice} range max={100000} />
+                    <hr />
+                    <h6>Search by Category</h6>
+                    {categories.map((item, index) => (
+                        <Checkbox
+                            key={index}
+                            style={{ fontSize: '20px' }}
+                            onChange={handleCheck}
+                            value={item._id}
+                        >
+                            {item.name}
+                        </Checkbox>
+                    ))}
+                    <hr />
+                </div>
+                <div className='col-md-9'>
+                    {loading ? (
+                        <h4 className='text-danger'>Loading....</h4>
+                    ) : (
+                        <>
+                            <h4>Products</h4>
+                            {products.length < 1 && <p>No Product found</p>}
+                            <div className='row pb-5'>
+                                {products.map((item, index) => (
+                                    <div key={index} className='col-md-4 mt-3'>
+                                        <NewProductCard
+                                            product={item}
+                                            handleAddtoCart={handleAddtoCart}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
-            <Footer />
-        </>
-    )
-}
+        </div>
+    );
+};
 
-export default Shop
+export default Shop;

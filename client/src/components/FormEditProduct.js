@@ -98,7 +98,7 @@ const FormEditProduct = () => {
                     value={data.price}
                 />
                 <br />
-                <button>Submit</button>
+                <button>ส่ง</button>
             </form>
 
         </div>

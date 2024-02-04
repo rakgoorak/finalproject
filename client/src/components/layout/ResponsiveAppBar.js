@@ -81,7 +81,7 @@ const settings = [
     {
         title: "โปรไฟล์",
         icon: "",
-        to: "/profile",
+        to: "/user/profileuser",
     },
     {
         title: "ประวัติการสั่งซื้อ",

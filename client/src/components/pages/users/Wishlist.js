@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getWishList, removeWishList } from "../../functions/user";
@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 const Wishlist = () => {
     const [wishlist, setWishList] = useState([]);
     const { user } = useSelector((state) => ({ ...state }));
-    const dispatch = useDispatch();
 
     useEffect(() => {
         loadData();
@@ -51,17 +50,17 @@ const Wishlist = () => {
     return (
         <div className='col'>
             <div className='row' style={{ margin: '50px' }}>
-                <h1>Wishlist</h1>
+                <h1>สินค้าที่ชอบ</h1>
                 {wishlist.map((item, index) => (
                     <div key={index} className='alert alert-secondary'>
-                        <Link to={"/product/" + item._id} style={{ marginLeft: '30px' }}>
+                        <Link to={"/product/" + item._id} style={{ marginLeft: '30px', textDecoration: 'none', fontSize: '25px' }}>
                             {item.name}
                         </Link>
-                        <span
+                        <button className="btn btn-outline-primary"
                             onClick={() => handleRemove(item._id)}
                             style={{ margin: '0 50px', float: 'right', cursor: 'pointer' }}>
                             ลบ
-                        </span>
+                        </button>
                     </div>
                 ))}
             </div>

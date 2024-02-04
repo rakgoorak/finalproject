@@ -103,10 +103,9 @@ exports.userCart = async (req, res) => {
         // Check if there is an existing cart for the user and remove it if present
         let cartOld = await Cart.findOne({ orderBy: user._id }).exec();
         if (cartOld) {
-            cartOld.remove() // Use deleteOne to remove the document
+            await cartOld.deleteOne(); // Use deleteOne to remove the document
             console.log('remove old cart');
         }
-
         // Loop through the cart items and format them for the new cart
         for (let i = 0; i < cart.length; i++) {
             let object = {
@@ -208,16 +207,18 @@ exports.getOrder = async (req, res) => {
 };
 exports.emptyCart = async (req, res) => {
     try {
-        const { id } = req.params;
         const user = await User.findOne({ username: req.user.username }).exec();
-        const deletecart = await Cart.findOneAndRemove({ _id: id }).exec();
-        res.send(deletecart)
-        res.status(204).send(); // No Content (success, but no response body)
-    } catch (error) {
-        console.error("Error removing cart:", error);
-        res.status(500).send("Server Error removecart User!!!");
+
+        const empty = await Cart
+            .findOneAndRemove({ orderBy: user._id })
+            .exec()
+        res.send(empty)
+
+    } catch (err) {
+        res.status(500).send("Remove Cart Error");
     }
 };
+
 exports.addToWishList = async (req, res) => {
     try {
         const { productId } = req.body

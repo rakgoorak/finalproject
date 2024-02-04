@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const { Meta } = Card;
 
 const ProductCard = ({ product, handleRemove }) => {
-    const { _id, id, name, detail, images } = product;
+    const { _id, name, detail, images } = product;
 
     return (
         <Card

@@ -2,7 +2,6 @@
 import React from 'react';
 import { Grid, Paper } from '@material-ui/core';
 import Map from './Map';
-import Footer from './Footer'
 
 const ContactForm = () => {
     return (
@@ -69,7 +68,6 @@ const ContactForm = () => {
                     </Paper>
                 </Grid>
             </Grid>
-            <Footer />
         </div>
     );
 };

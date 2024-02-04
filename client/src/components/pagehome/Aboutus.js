@@ -1,6 +1,5 @@
 import SimpleGallery from '../../components/SimpleGallery'
 import 'photoswipe/dist/photoswipe.css'
-import Footer from './Footer';
 
 function Aboutus() {
   return (
@@ -29,7 +28,6 @@ function Aboutus() {
           <h3>หากท่านกำลังมองหาสินค้าคุณภาพในราคาโรงงานพร้อมทั้งบริการที่ประทับใจ เราพร้อมให้บริการ</h3>
         </div>
       </div>
-      <Footer />
     </>
   )
 }

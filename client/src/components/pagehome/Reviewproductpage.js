@@ -2,7 +2,6 @@ import React from 'react';
 import 'photoswipe/dist/photoswipe.css';
 import { Gallery, Item } from 'react-photoswipe-gallery';
 import { Link } from 'react-router-dom';
-import Footer from './Footer';
 
 function Reviewproductpage() {
     // รายการรูปภาพ
@@ -74,7 +73,6 @@ function Reviewproductpage() {
                     กลับไปหน้าหลัก
                 </Link>
             </button>
-            <Footer />
         </div>
     )
 }

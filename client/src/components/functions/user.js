@@ -54,9 +54,11 @@ export const getUserCart = async (authtoken) => {
     });
 };
 
-export const emptyCart = async (authtoken, id) => {
-    return await axios.delete(process.env.REACT_APP_API + "/user/cart/" + id, {
-        headers: { authtoken },
+export const emptyCart = async (authtoken) => {
+    return await axios.delete(process.env.REACT_APP_API + "/user/cart", {
+        headers: {
+            authtoken,
+        },
     });
 };
 

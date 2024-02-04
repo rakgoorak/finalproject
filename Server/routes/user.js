@@ -53,7 +53,7 @@ router.post("/change-status", auth, adminCheck, changeStatus);
 router.post("/change-role", auth, adminCheck, changeRole);
 router.post("/user/cart", auth, userCart);
 router.get("/user/cart", auth, getUserCart);
-router.delete("/user/cart/:id", auth, emptyCart);
+router.delete("/user/cart", auth, emptyCart);
 router.post("/user/address", auth, saveAddress);
 router.post("/user/order", auth, saveOrder);
 router.get("/user/orders", auth, getOrder);

@@ -35,7 +35,7 @@ export default function Register() {
         register(regis)
             .then(res => {
                 console.log(res);
-                toast.success(res.data); // Show success message
+                toast.success("ลงทะเบียนสมัครสมาชิกสำเร็จ"); // Show success message
                 navi('/login');
             })
             .catch(err => {

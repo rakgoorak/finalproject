@@ -57,7 +57,7 @@ const HeaderBar = () => {
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
-                        <Link to="#" className="Adminmenu-bars" >
+                        <Link to="/user/profileadmin" className="Adminmenu-bars" >
                             <MenuItem onClick={handleClose}>โปรไฟล์</MenuItem>
                         </Link>
 
