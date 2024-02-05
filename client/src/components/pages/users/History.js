@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { getOrders } from '../../functions/user'
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { getOrders } from '../../functions/user';
 
 export const History = () => {
-
-    const { user } = useSelector((state) => ({ ...state }))
-    const [orders, setOrders] = useState([])
+    const { user } = useSelector((state) => ({ ...state }));
+    const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        loadData()
-    }, [])
+        loadData();
+    }, []);
 
     const loadData = () => {
         getOrders(user.user.token)
             .then((res) => {
-                setOrders(res.data)
-            })
-    }
+                setOrders(res.data);
+            });
+    };
 
     return (
         <div className='col text-center'>
@@ -28,6 +27,9 @@ export const History = () => {
                     orders.map((order, index) => (
                         <div key={index} className='cart m-3'>
                             <p>สถานะสินค้า: {order.orderstatus}</p>
+                            <p>ชื่อ: {order.name}</p>
+                            <p>ที่อยู่: {order.address}</p>
+                            <p>เบอร์โทร: {order.phoneNumber}</p>
                             <table className='table table-bordered' style={{ marginBottom: '50px' }}>
                                 <thead>
                                     <tr>
@@ -54,7 +56,7 @@ export const History = () => {
                 )}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default History
+export default History;

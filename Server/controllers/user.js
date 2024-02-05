@@ -171,22 +171,33 @@ exports.saveAddress = async (req, res) => {
 };
 exports.saveOrder = async (req, res) => {
     try {
-        let user = await User.findOne({ username: req.user.username })
-            .exec()
-        let userCart = await Cart
-            .findOne({ orderBy: user._id })
-            .exec()
+        const { name, address, phoneNumber } = req.body; // Add this line to get customer details
+
+        let user = await User.findOne({ username: req.user.username }).exec();
+        let userCart = await Cart.findOne({ orderBy: user._id }).exec();
+
+        // Save customer details to the user document
+        await User.findOneAndUpdate(
+            { _id: user._id },
+            { name, address, phoneNumber }
+        );
+
         let order = await new Order({
             products: userCart.products,
             orderBy: user._id,
             cartTotal: userCart.cartTotal
-        }).save()
-        res.send(order)
+        }).save();
+
+        // Remove the cart after order is placed
+        await Cart.findOneAndRemove({ orderBy: user._id }).exec();
+
+        res.send(order);
     } catch (error) {
-        // Handle errors, and send a 500 Internal Server Error response
-        res.status(500).send('Server Error saveAddress User!!!');
+        console.log(error);
+        res.status(500).send('Server Error saveOrder User!!!');
     }
 };
+
 exports.getOrder = async (req, res) => {
     try {
         const user = await User

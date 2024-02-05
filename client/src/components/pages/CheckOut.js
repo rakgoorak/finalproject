@@ -5,30 +5,17 @@ import 'react-quill/dist/quill.snow.css';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-import QRCode from 'qrcode.react';
-import generatePayload from 'promptpay-qr';
-import styled from 'styled-components';
-
-const Title = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
-  color: palevioletred;
-`;
-
 const CheckOut = () => {
     const [customerInfo, setCustomerInfo] = useState({
         name: "",
         address: "",
-        postalCode: "",
         phoneNumber: "",
     });
+
     const { user } = useSelector((state) => ({ ...state }));
     const [products, setProducts] = useState([]);
     const [total, setTotal] = useState(0);
-    const [address, setAddress] = useState("");
     const [addressSaved, setAddressSaved] = useState(false);
-    const [promptPayAmount, setPromptPayAmount] = useState(0); // New state for PromptPay amount
-    const [phoneNumber, setPhoneNumber] = useState("097-021-5655");
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -39,13 +26,12 @@ const CheckOut = () => {
                 console.log(res.data);
                 setProducts(res.data.products);
                 setTotal(res.data.cartTotal);
-                setPromptPayAmount(res.data.cartTotal); // Set the PromptPay amount
             });
-    }, []);
+    }, [user.user.token]);  // Add user.user.token as a dependency
 
     const handleSaveAddress = () => {
-        console.log(address);
-        saveAddress(user.user.token, address)
+        console.log(customerInfo.address);
+        saveAddress(user.user.token, customerInfo.address)
             .then((res) => {
                 console.log(res.data);
                 if (res.data.ok) {
@@ -56,7 +42,7 @@ const CheckOut = () => {
     };
 
     const handleCreateOrder = () => {
-        saveOrder(user.user.token)
+        saveOrder(user.user.token, customerInfo)
             .then((res) => {
                 console.log();
                 emptyCart(user.user.token);
@@ -103,16 +89,6 @@ const CheckOut = () => {
                         ></textarea>
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="postalCode" className="form-label">ไปรษณีย์:</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="postalCode"
-                            value={customerInfo.postalCode}
-                            onChange={(e) => handleInputChange("postalCode", e.target.value)}
-                        />
-                    </div>
-                    <div className="mb-3">
                         <label htmlFor="phoneNumber" className="form-label">เบอร์โทร:</label>
                         <input
                             type="text"
@@ -153,10 +129,6 @@ const CheckOut = () => {
                         ชำระเงิน
                     </button>
                     <hr />
-                    <div style={{ textAlign: 'center' }}>
-                        <Title>PromptPay!</Title>
-                        <QRCode value={generatePayload(phoneNumber, { total })} />
-                    </div>
                 </div>
             </div>
         </div>
