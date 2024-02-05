@@ -13,15 +13,9 @@ const CheckOut = () => {
     });
 
     const [selectedProvince, setSelectedProvince] = useState("");
-    const { user } = useSelector((state) => ({ ...state }));
-    const [products, setProducts] = useState([]);
-    const [total, setTotal] = useState(0);
-    const [addressSaved, setAddressSaved] = useState(false);
-
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const provinces = [
+    const [selectedSubdistrict, setSelectedSubdistrict] = useState("");
+    const [zipCode, setZipCode] = useState("");
+    const [provinces, setProvinces] = useState([
         "กรุงเทพมหานคร",
         "กระบี่",
         "กาญจนบุรี",
@@ -99,7 +93,17 @@ const CheckOut = () => {
         "อุทัยธานี",
         "อุบลราชธานี",
         "อ่างทอง",
-    ];
+    ]);
+
+    const [subdistricts, setSubdistricts] = useState([]);
+
+    const { user } = useSelector((state) => ({ ...state }));
+    const [products, setProducts] = useState([]);
+    const [total, setTotal] = useState(0);
+    const [addressSaved, setAddressSaved] = useState(false);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getUserCart(user.user.token)
@@ -110,8 +114,16 @@ const CheckOut = () => {
             });
     }, [user.user.token]);
 
+    useEffect(() => {
+        if (selectedProvince) {
+            // Fetch subdistricts based on the selected province
+            // Replace the following line with your actual API call
+            setSubdistricts(["ตำบล1", "ตำบล2", "ตำบล3"]);
+        }
+    }, [selectedProvince]);
+
     const handleSaveAddress = () => {
-        const fullAddress = `${customerInfo.address} ${selectedProvince}`;
+        const fullAddress = `${customerInfo.address} ${selectedProvince} ${selectedSubdistrict} ${zipCode}`;
         saveAddress(user.user.token, fullAddress)
             .then((res) => {
                 console.log(res.data);
@@ -123,7 +135,7 @@ const CheckOut = () => {
     };
 
     const handleCreateOrder = () => {
-        saveOrder(user.user.token, { ...customerInfo, address: `${customerInfo.address} ${selectedProvince}` })
+        saveOrder(user.user.token, { ...customerInfo, address: `${customerInfo.address} ${selectedProvince} ${selectedSubdistrict} ${zipCode}` })
             .then((res) => {
                 console.log();
                 emptyCart(user.user.token);
@@ -175,7 +187,10 @@ const CheckOut = () => {
                             className="form-select"
                             id="province"
                             value={selectedProvince}
-                            onChange={(e) => setSelectedProvince(e.target.value)}
+                            onChange={(e) => {
+                                setSelectedProvince(e.target.value);
+                                setSelectedSubdistrict(""); // Reset subdistrict when province changes
+                            }}
                         >
                             <option value="">เลือกจังหวัด</option>
                             {provinces.map((province, index) => (
@@ -184,6 +199,33 @@ const CheckOut = () => {
                                 </option>
                             ))}
                         </select>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="subdistrict" className="form-label">ตำบล:</label>
+                        <select
+                            className="form-select"
+                            id="subdistrict"
+                            value={selectedSubdistrict}
+                            onChange={(e) => setSelectedSubdistrict(e.target.value)}
+                            disabled={!selectedProvince} // Disable if no province selected
+                        >
+                            <option value="">เลือกตำบล</option>
+                            {subdistricts.map((subdistrict, index) => (
+                                <option key={index} value={subdistrict}>
+                                    {subdistrict}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="zipCode" className="form-label">รหัสไปรษณีย์:</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="zipCode"
+                            value={zipCode}
+                            onChange={(e) => setZipCode(e.target.value)}
+                        />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="phoneNumber" className="form-label">เบอร์โทร:</label>
