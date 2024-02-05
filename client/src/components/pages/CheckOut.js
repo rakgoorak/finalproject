@@ -12,6 +12,7 @@ const CheckOut = () => {
         phoneNumber: "",
     });
 
+    const [selectedProvince, setSelectedProvince] = useState("");
     const { user } = useSelector((state) => ({ ...state }));
     const [products, setProducts] = useState([]);
     const [total, setTotal] = useState(0);
@@ -20,6 +21,86 @@ const CheckOut = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const provinces = [
+        "กรุงเทพมหานคร",
+        "กระบี่",
+        "กาญจนบุรี",
+        "กาฬสินธุ์",
+        "กำแพงเพชร",
+        "ขอนแก่น",
+        "จันทบุรี",
+        "ฉะเชิงเทรา",
+        "ชลบุรี",
+        "ชัยนาท",
+        "ชัยภูมิ",
+        "ชุมพร",
+        "เชียงราย",
+        "เชียงใหม่",
+        "ตรัง",
+        "ตราด",
+        "ตาก",
+        "นครนายก",
+        "นครปฐม",
+        "นครพนม",
+        "นครราชสีมา",
+        "นครศรีธรรมราช",
+        "นครสวรรค์",
+        "นนทบุรี",
+        "นราธิวาส",
+        "น่าน",
+        "บึงกาฬ",
+        "บุรีรัมย์",
+        "ปทุมธานี",
+        "ประจวบคีรีขันธ์",
+        "ปราจีนบุรี",
+        "ปัตตานี",
+        "พระนครศรีอยุธยา",
+        "พะเยา",
+        "พังงา",
+        "พัทลุง",
+        "พิจิตร",
+        "พิษณุโลก",
+        "เพชรบุรี",
+        "เพชรบูรณ์",
+        "แพร่",
+        "ภูเก็ต",
+        "มหาสารคาม",
+        "มุกดาหาร",
+        "แม่ฮ่องสอน",
+        "ยะลา",
+        "ยโสธร",
+        "ระนอง",
+        "ระยอง",
+        "ราชบุรี",
+        "ลพบุรี",
+        "ลำปาง",
+        "ลำพูน",
+        "เลย",
+        "ศรีสะเกษ",
+        "สกลนคร",
+        "สงขลา",
+        "สตูล",
+        "สมุทรปราการ",
+        "สมุทรสงคราม",
+        "สมุทรสาคร",
+        "สระแก้ว",
+        "สระบุรี",
+        "สิงห์บุรี",
+        "สุโขทัย",
+        "สุพรรณบุรี",
+        "สุราษฎร์ธานี",
+        "สุรินทร์",
+        "หนองคาย",
+        "หนองบัวลำภู",
+        "อ่างทอง",
+        "อำนาจเจริญ",
+        "อุดรธานี",
+        "อุตรดิตถ์",
+        "อุทัยธานี",
+        "อุบลราชธานี",
+        "อ่างทอง",
+    ];
+
     useEffect(() => {
         getUserCart(user.user.token)
             .then((res) => {
@@ -27,11 +108,11 @@ const CheckOut = () => {
                 setProducts(res.data.products);
                 setTotal(res.data.cartTotal);
             });
-    }, [user.user.token]);  // Add user.user.token as a dependency
+    }, [user.user.token]);
 
     const handleSaveAddress = () => {
-        console.log(customerInfo.address);
-        saveAddress(user.user.token, customerInfo.address)
+        const fullAddress = `${customerInfo.address} ${selectedProvince}`;
+        saveAddress(user.user.token, fullAddress)
             .then((res) => {
                 console.log(res.data);
                 if (res.data.ok) {
@@ -42,7 +123,7 @@ const CheckOut = () => {
     };
 
     const handleCreateOrder = () => {
-        saveOrder(user.user.token, customerInfo)
+        saveOrder(user.user.token, { ...customerInfo, address: `${customerInfo.address} ${selectedProvince}` })
             .then((res) => {
                 console.log();
                 emptyCart(user.user.token);
@@ -87,6 +168,22 @@ const CheckOut = () => {
                             value={customerInfo.address}
                             onChange={(e) => handleInputChange("address", e.target.value)}
                         ></textarea>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="province" className="form-label">จังหวัด:</label>
+                        <select
+                            className="form-select"
+                            id="province"
+                            value={selectedProvince}
+                            onChange={(e) => setSelectedProvince(e.target.value)}
+                        >
+                            <option value="">เลือกจังหวัด</option>
+                            {provinces.map((province, index) => (
+                                <option key={index} value={province}>
+                                    {province}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="phoneNumber" className="form-label">เบอร์โทร:</label>
