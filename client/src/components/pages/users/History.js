@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { getOrders } from '../../functions/user';
 
 export const History = () => {
     const { user } = useSelector((state) => ({ ...state }));
     const [orders, setOrders] = useState([]);
+
+    // Use useLocation hook to access route parameters
+    const location = useLocation();
+    const { name, address, phoneNumber } = location.state || {};
 
     useEffect(() => {
         loadData();
@@ -27,9 +32,9 @@ export const History = () => {
                     orders.map((order, index) => (
                         <div key={index} className='cart m-3'>
                             <p>สถานะสินค้า: {order.orderstatus}</p>
-                            <p>ชื่อ: {order.name}</p>
-                            <p>ที่อยู่: {order.address}</p>
-                            <p>เบอร์โทร: {order.phoneNumber}</p>
+                            <p>ชื่อ: {name}</p>
+                            <p>ที่อยู่: {address}</p>
+                            <p>เบอร์โทร: {phoneNumber}</p>
                             <table className='table table-bordered' style={{ marginBottom: '50px' }}>
                                 <thead>
                                     <tr>
