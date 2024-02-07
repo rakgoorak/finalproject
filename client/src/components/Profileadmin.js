@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Modal, Button } from "antd";
-import { resetPassword, listUser } from "./functions/user";
-import moment from "moment/min/moment-with-locales";
+import { resetPassword, getAddress, getName, getPhoneNumber } from "./functions/user";
 
 const Profileadmin = () => {
     const { user } = useSelector((state) => ({ ...state }));
     const [data, setData] = useState([]);
+    const [name, setName] = useState({});
+    const [address, setAddress] = useState({});
+    const [phoneNumber, setPhoneNumber] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [values, setValues] = useState({
         id: "",
@@ -27,7 +29,7 @@ const Profileadmin = () => {
         resetPassword(user.user.token, values.id, { values })
             .then(res => {
                 console.log(res)
-                loadData(user.user.token);
+                loadData();
             }).catch(err => {
                 console.log(err.response)
             })
@@ -37,23 +39,27 @@ const Profileadmin = () => {
         setIsModalVisible(false);
     };
 
+    console.log("data", data);
     useEffect(() => {
         loadData(user.user.token);
     }, []);
 
-    const loadData = (authtoken) => {
-        listUser(authtoken)
-            .then((res) => {
-                setData(res.data);
+    const loadData = () => {
+        Promise.all([
+            getAddress(user.user.token),
+            getPhoneNumber(user.user.token),
+            getName(user.user.token)
+        ])
+            .then(([addressRes, phoneNumberRes, nameRes]) => {
+                setName(nameRes.data && typeof nameRes.data === 'object' ? nameRes.data : { name: nameRes.data });
+                setAddress(addressRes.data);
+                setPhoneNumber(phoneNumberRes.data && typeof phoneNumberRes.data === 'object' ? phoneNumberRes.data : { phoneNumber: phoneNumberRes.data });
             })
-            .catch((err) => {
-                console.log(err.response.data);
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+                // Handle errors, e.g., set an error state or display an error message
             });
     };
-
-    if (!user || !user.user || user.user.role !== 'admin') {
-        return null; // ถ้าไม่ใช่ admin ให้ return null เพื่อไม่แสดงข้อมูล
-    }
 
     return (
         <div className="container-fluid">
@@ -64,16 +70,40 @@ const Profileadmin = () => {
                         <thead>
                             <tr>
                                 <th scope="col">ชื่อผู้ใช้</th>
-                                <th scope="col">สร้างเมื่อ</th>
+                                <th scope="col">ที่อยู่</th>
+                                <th scope="col">ตำบล</th>
+                                <th scope="col">อำเภอ</th>
+                                <th scope="col">จังหวัด</th>
+                                <th scope="col">รหัสไปรษณีย์</th>
+                                <th scope="col">เบอร์โทรศัพท์</th>
                                 <th scope="col">เปลี่ยนรหัสผ่าน</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((item, index) => (
-                                <tr key={index}>
-                                    <th scope="row">{item.username}</th>
-                                    <td>{moment(item.createdAt).locale("th").format("ll")}</td>
-                                    <td><Button onClick={() => showModal(item._id)}>เปลี่ยนรหัสผ่าน</Button></td>
+                            <tr>
+                                <td>{name.name}</td>
+                                <td>{address && typeof address.fulladdress === 'object' ? address.fulladdress.houseNumber : address.fulladdress}</td>
+                                <td>{address && typeof address.fulladdress === 'object' ? address.fulladdress.subdistrict : ''}</td>
+                                <td>{address && typeof address.fulladdress === 'object' ? address.fulladdress.district : ''}</td>
+                                <td>{address && typeof address.fulladdress === 'object' ? address.fulladdress.province : ''}</td>
+                                <td>{address && typeof address.fulladdress === 'object' ? address.fulladdress.zipcode : ''}</td>
+                                <td>{phoneNumber && typeof phoneNumber.phoneNumber === 'object' ? phoneNumber.phoneNumber.someProperty : phoneNumber.phoneNumber}</td>
+                                <td>
+                                    <Button onClick={() => showModal(user.user._id)}>เปลี่ยนรหัสผ่าน</Button>
+                                </td>
+                            </tr>
+                            {data.map((item) => (
+                                <tr key={item._id}>
+                                    <td>{item.name}</td>
+                                    <td>{item.address}</td>
+                                    <td>{item.subdistrict}</td>
+                                    <td>{item.district}</td>
+                                    <td>{item.province}</td>
+                                    <td>{item.zipcode}</td>
+                                    <td>{item.phoneNumber}</td>
+                                    <td>
+                                        <Button onClick={() => showModal(item._id)}>เปลี่ยนรหัสผ่าน</Button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -93,7 +123,7 @@ const Profileadmin = () => {
                     </Modal>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

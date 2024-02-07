@@ -31,12 +31,13 @@ export default function AddressForm(props) {
                     placeholder="ชื่อผู้รับสินค้า"
                     className=" w-full mb-3 rounded-sm  border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:border-transparent caret-pink-500"
                 />
-                <input style={{ width: '350px', height: '50px', marginBottom: '10px', outlineStyle: 'none' }}
+                <input
+                    style={{ width: '350px', height: '50px', marginBottom: '10px', outlineStyle: 'none' }}
                     minLength="10"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.phone)}
+                    onChange={(e) => setPhone(e.target.value)}
                     placeholder="เบอร์โทร"
-                    className=" w-full rounded-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:border-transparent"
+                    className="w-full rounded-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:border-transparent"
                 />
             </div>
 

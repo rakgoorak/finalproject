@@ -1,40 +1,66 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { getOrders } from '../../functions/user';
+import { getAddress, getName, getOrders, getPhoneNumber } from '../../functions/user';
+
+// ... (imports)
 
 export const History = () => {
     const { user } = useSelector((state) => ({ ...state }));
-    const [orders, setOrders] = useState([]);
-
-    // Use useLocation hook to access route parameters
-    const location = useLocation();
-    const { name, address, phoneNumber } = location.state || {};
+    const [orders, setOrders] = useState({});
+    const [name, setName] = useState({});
+    const [address, setAddress] = useState({});
+    const [phoneNumber, setPhoneNumber] = useState({});
 
     useEffect(() => {
         loadData();
     }, []);
 
     const loadData = () => {
-        getOrders(user.user.token)
-            .then((res) => {
-                setOrders(res.data);
+        // Set loading state
+        setOrders({});
+        setName({});
+        setAddress({});
+        setPhoneNumber({});
+
+        // Fetching orders, address, phone number, and name concurrently
+        Promise.all([
+            getOrders(user.user.token),
+            getAddress(user.user.token),
+            getPhoneNumber(user.user.token),
+            getName(user.user.token)
+        ])
+            .then(([ordersRes, addressRes, phoneNumberRes, nameRes]) => {
+                console.log("Orders response:", ordersRes.data); // Log orders response
+                setOrders(ordersRes.data);
+                setName(nameRes.data && typeof nameRes.data === 'object' ? nameRes.data : { name: nameRes.data });
+                setAddress(addressRes.data);
+                setPhoneNumber(phoneNumberRes.data && typeof phoneNumberRes.data === 'object' ? phoneNumberRes.data : { phoneNumber: phoneNumberRes.data });
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+                // Handle errors, e.g., set an error state or display an error message
             });
     };
+
 
     return (
         <div className='col text-center'>
             <div className='row' style={{ marginTop: '30px' }}>
                 <h1>ประวัติการสั่งซื้อ</h1>
-                {orders.length === 0 ? (
+                {Object.keys(orders).length === 0 ? (
                     <p>ไม่มีสินค้า</p>
                 ) : (
-                    orders.map((order, index) => (
+                    Object.keys(orders).map((index) => (
                         <div key={index} className='cart m-3'>
-                            <p>สถานะสินค้า: {order.orderstatus}</p>
-                            <p>ชื่อ: {name}</p>
-                            <p>ที่อยู่: {address}</p>
-                            <p>เบอร์โทร: {phoneNumber}</p>
+                            <p>สถานะสินค้า: {orders[index].orderstatus}</p>
+                            <p>ชื่อ: {name.name}</p>
+                            <p>ที่อยู่: {address && typeof address.fulladdress === 'object' ? address.fulladdress.houseNumber : address.fulladdress}</p>
+                            <p>ตำบล: {address && typeof address.fulladdress === 'object' ? address.fulladdress.subdistrict : ''}</p>
+                            <p>อำเภอ: {address && typeof address.fulladdress === 'object' ? address.fulladdress.district : ''}</p>
+                            <p>จังหวัด: {address && typeof address.fulladdress === 'object' ? address.fulladdress.province : ''}</p>
+                            <p>รหัสไปรษณีย์: {address && typeof address.fulladdress === 'object' ? address.fulladdress.zipcode : ''}</p>
+                            <p>เบอร์โทร: {phoneNumber && typeof phoneNumber.phoneNumber === 'object' ? phoneNumber.phoneNumber.someProperty : phoneNumber.phoneNumber}</p>
+
                             <table className='table table-bordered' style={{ marginBottom: '50px' }}>
                                 <thead>
                                     <tr>
@@ -44,7 +70,7 @@ export const History = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {order.products.map((product, i) => (
+                                    {orders[index].products.map((product, i) => (
                                         <tr key={i}>
                                             <td>{product.name}</td>
                                             <td>{product.price}</td>
@@ -52,7 +78,7 @@ export const History = () => {
                                         </tr>
                                     ))}
                                     <tr>
-                                        <td colSpan={3}>ราคาสุทธิ:<b><u>{order.cartTotal}</u></b></td>
+                                        <td colSpan={3}>ราคาสุทธิ:<b><u>{orders[index].cartTotal}</u></b></td>
                                     </tr>
                                 </tbody>
                             </table>

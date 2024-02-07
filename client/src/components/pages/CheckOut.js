@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getUserCart, saveAddress, saveOrder, emptyCart } from '../functions/user';
+import { getUserCart, saveAddress, saveOrder, emptyCart, savePhoneNumber, saveName } from '../functions/user';
 import { useDispatch, useSelector } from 'react-redux';
 import 'react-quill/dist/quill.snow.css';
 import { toast } from 'react-toastify';
@@ -9,7 +9,7 @@ import './CheckOut.css';
 
 const Checkout = () => {
     const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
     const [houseNumber, setHouseNumber] = useState("");
     const [subdistrict, setSubDistrict] = useState("");
     const [district, setDistrict] = useState("");
@@ -28,43 +28,58 @@ const Checkout = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const onNext = (e) => {
+    const onNext = async (e) => {
         e.preventDefault();
-        console.log(houseNumber, subdistrict, district, province, zipcode);
 
         if (!houseNumber || !subdistrict || !district || !province || !zipcode) {
             setError("กรอกข้อมูลไม่ครบ");
             return;
         }
 
-        // Check if it's the first click
         if (page === 0) {
             setPage(page + 1);
         } else {
-            // It's the second click, perform the saveOrder logic
-            saveOrder(user.user.token)
-                .then((res) => {
-                    console.log();
-                    emptyCart(user.user.token);
-                    dispatch({
-                        type: 'addToCart',
-                        payload: [],
-                    });
-                    if (typeof window !== "undefined") {
-                        localStorage.removeItem("cart");
-                    }
-                    toast.success("Save Order Success");
-                    navigate('/user/history');
+            try {
+                // Save order
+                await saveOrder(user.user.token);
+                emptyCart(user.user.token);
+                dispatch({
+                    type: 'addToCart',
+                    payload: [],
                 });
+                if (typeof window !== "undefined") {
+                    localStorage.removeItem("cart");
+                }
+                toast.success("Save Order Success");
 
-            saveAddress(user.user.token)
-                .then((res) => {
-                    console.log(res.data);
-                    if (res.data.ok) {
-                        toast.success('Address Saved');
-                        setAddressSaved(true);
-                    }
-                });
+                // Save address
+                const addressRes = await saveAddress(user.user.token, fullAddress);
+
+                if (addressRes.data.ok) {
+                    toast.success('Address Saved');
+                    setAddressSaved(true);
+                } else {
+                    toast.error('Failed to save address. Please try again.');
+                    return;
+                }
+
+                // Save phone number and name
+                const phoneRes = await savePhoneNumber(user.user.token, phoneNumber);
+                const nameRes = await saveName(user.user.token, name);
+                console.log(nameRes.data);
+                console.log(phoneRes.data);
+                if (phoneRes.data.ok && nameRes.data.ok) {
+                    toast.success('Phone Number and Name Saved');
+                } else {
+                    toast.error('Failed to save phone number and name. Please try again.');
+                }
+
+                // Redirect to history page
+                navigate('/user/history');
+            } catch (error) {
+                console.error('Error during checkout:', error);
+                toast.error('Error during checkout. Please try again.');
+            }
         }
     };
 
@@ -83,7 +98,7 @@ const Checkout = () => {
         setDistrict(district);
         setProvince(province);
         setZipcode(zipcode);
-        setFullAddress([houseNumber, subdistrict, district, province, zipcode]);
+        setFullAddress({ houseNumber, subdistrict, district, province, zipcode });
         setError("");
         console.log("some fulladdress: ", fullAddress);
     }
@@ -115,8 +130,8 @@ const Checkout = () => {
                                     <AddressForm
                                         name={name}
                                         setName={setName}
-                                        phone={phone}
-                                        setPhone={setPhone}
+                                        phone={phoneNumber}
+                                        setPhone={setPhoneNumber}
                                         setError={setError}
                                         houseNumber={houseNumber}
                                         setHouseNumber={setHouseNumber}

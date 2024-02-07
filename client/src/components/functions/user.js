@@ -38,23 +38,6 @@ export const resetPassword = async (authtoken, id, values) => {
         },
     });
 };
-
-export const getUser = (userId, token) => {
-    return fetch(`${process.env.REACT_APP_API}/user/${userId}`, {
-        method: "GET",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
-    })
-        .then((response) => {
-            return response.json();
-        })
-        .catch((err) => console.log(err));
-};
-
-
 export const userCart = async (authtoken, cart) => {
     return await axios.post(process.env.REACT_APP_API + "/user/cart", { cart }, {
         headers: {
@@ -79,8 +62,85 @@ export const emptyCart = async (authtoken) => {
     });
 };
 
-export const saveAddress = async (authtoken, address) => {
-    return await axios.post(process.env.REACT_APP_API + "/user/address", { address }, {
+export const saveAddress = async (authtoken, fulladdress) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/address", { fulladdress }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const getAddress = async (authtoken) => {
+    return await axios.get(process.env.REACT_APP_API + "/user/address", {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const savePhoneNumber = async (authtoken, phoneNumber) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/phone", { phoneNumber }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const getPhoneNumber = async (authtoken) => {
+    return await axios.get(process.env.REACT_APP_API + "/user/phone", {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const saveName = async (authtoken, name) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/name", { name }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const getName = async (authtoken) => {
+    return await axios.get(process.env.REACT_APP_API + "/user/name", {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const saveZipCode = async (authtoken, zipCode) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/zipcode", { zipCode }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const getZipCode = async (authtoken, zipCode) => {
+    return await axios.get(process.env.REACT_APP_API + "/user/zipcode", { zipCode }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const saveSubdistrict = async (authtoken, subdistrict) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/subdistrict", { subdistrict }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const getSubdistrict = async (authtoken, subdistrict) => {
+    return await axios.get(process.env.REACT_APP_API + "/user/subdistrict", { subdistrict }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const saveProvince = async (authtoken, province) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/province", { province }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const getProvince = async (authtoken, province) => {
+    return await axios.get(process.env.REACT_APP_API + "/user/province", { province }, {
         headers: {
             authtoken,
         },

@@ -157,11 +157,47 @@ exports.getUserCart = async (req, res) => {
         res.status(500).send('Server Error getcart User!!!');
     }
 };
-exports.saveAddress = async (req, res) => {
+exports.saveZipCode = async (req, res) => {
+    try {
+        const userzipCode = await User
+            .findOneAndUpdate({ username: req.user.username },
+                { zipCode: req.body.zipCode }
+            ).exec()
+        res.json({ ok: true })
+    } catch (error) {
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).send('Server Error savezipcode User!!!');
+    }
+};
+exports.saveProvince = async (req, res) => {
+    try {
+        const userprovince = await User
+            .findOneAndUpdate({ username: req.user.username },
+                { province: req.body.province }
+            ).exec()
+        res.json({ ok: true })
+    } catch (error) {
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).send('Server Error saveprovince User!!!');
+    }
+};
+exports.savePhoneNumber = async (req, res) => {
+    try {
+        const userphoneNumber = await User
+            .findOneAndUpdate({ username: req.user.username },
+                { phoneNumber: req.body.phoneNumber }
+            ).exec()
+        res.json({ ok: true })
+    } catch (error) {
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).send('Server Error savephoneNumber User!!!');
+    }
+};
+exports.saveFullAddress = async (req, res) => {
     try {
         const userAddress = await User
             .findOneAndUpdate({ username: req.user.username },
-                { address: req.body.address }
+                { fulladdress: req.body.fulladdress }
             ).exec()
         res.json({ ok: true })
     } catch (error) {
@@ -169,35 +205,133 @@ exports.saveAddress = async (req, res) => {
         res.status(500).send('Server Error saveAddress User!!!');
     }
 };
+exports.saveName = async (req, res) => {
+    try {
+        const userName = await User
+            .findOneAndUpdate({ username: req.user.username },
+                { name: req.body.name }
+            ).exec()
+        res.json({ ok: true })
+    } catch (error) {
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).send('Server Error saveAddress User!!!');
+    }
+};
+exports.saveSubdistrict = async (req, res) => {
+    try {
+        const usersubdistrict = await User
+            .findOneAndUpdate({ username: req.user.username },
+                { subdistrict: req.body.subdistrict }
+            ).exec()
+        res.json({ ok: true })
+    } catch (error) {
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).send('Server Error subdistrict User!!!');
+    }
+};
+exports.getSubdistrict = async (req, res) => {
+    try {
+        let list = await User
+            .findOne({ username: req.user.username })
+            .select('subdistrict')
+            .populate('subdistrict')
+            .exec()
+        res.json(list)
+    } catch (error) {
+        console.error('Error in subdistrict', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+exports.getZipCode = async (req, res) => {
+    try {
+        let list = await User
+            .findOne({ username: req.user.username })
+            .select('zipCode')
+            .populate('zipCode')
+            .exec()
+        res.json(list)
+    } catch (error) {
+        console.error('Error in zipCode', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+exports.getProvince = async (req, res) => {
+    try {
+        let list = await User
+            .findOne({ username: req.user.username })
+            .select('province')
+            .populate('province')
+            .exec()
+        res.json(list)
+    } catch (error) {
+        console.error('Error in province', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+exports.getPhoneNumber = async (req, res) => {
+    try {
+        let list = await User
+            .findOne({ username: req.user.username })
+            .select('phoneNumber')
+            .populate('phoneNumber')
+            .exec()
+        res.json({ phoneNumber: list.phoneNumber })
+    } catch (error) {
+        console.error('Error in Phone', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+exports.getFullAddress = async (req, res) => {
+    try {
+        const user = await User
+            .findOne({ username: req.user.username })
+            .select('fulladdress')
+            .populate('fulladdress')
+            .exec();
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({ fulladdress: user.fulladdress });
+    } catch (error) {
+        // Log the error for debugging purposes
+        console.error('Error in getFullAddress:', error);
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+exports.getName = async (req, res) => {
+    try {
+        let list = await User
+            .findOne({ username: req.user.username })
+            .select('name')
+            .populate('name')
+            .exec()
+        res.json({ name: list.name })
+    } catch (error) {
+        console.error('Error in address', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
 exports.saveOrder = async (req, res) => {
     try {
-        const { name, address, phoneNumber } = req.body; // Add this line to get customer details
-
-        let user = await User.findOne({ username: req.user.username }).exec();
-        let userCart = await Cart.findOne({ orderBy: user._id }).exec();
-
-        // Save customer details to the user document
-        await User.findOneAndUpdate(
-            { _id: user._id },
-            { name, address, phoneNumber }
-        );
-
+        let user = await User.findOne({ username: req.user.username })
+            .exec()
+        let userCart = await Cart
+            .findOne({ orderBy: user._id })
+            .exec()
         let order = await new Order({
             products: userCart.products,
             orderBy: user._id,
             cartTotal: userCart.cartTotal
-        }).save();
-
-        // Remove the cart after order is placed
-        await Cart.findOneAndRemove({ orderBy: user._id }).exec();
-
-        res.send(order);
+        }).save()
+        res.send(order)
     } catch (error) {
-        console.log(error);
-        res.status(500).send('Server Error saveOrder User!!!');
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).send('Server Error saveAddress User!!!');
     }
 };
-
 exports.getOrder = async (req, res) => {
     try {
         const user = await User

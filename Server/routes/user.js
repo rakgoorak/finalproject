@@ -11,13 +11,24 @@ const {
     removeUser,
     userCart,
     getUserCart,
-    saveAddress,
+    saveFullAddress,
     saveOrder,
     emptyCart,
     addToWishList,
     getWishList,
     removeWishList,
-    getOrder } = require("../controllers/user");
+    getOrder,
+    getFullAddress,
+    getName,
+    saveName,
+    savePhoneNumber,
+    getPhoneNumber,
+    saveProvince,
+    getProvince,
+    saveZipCode,
+    getZipCode,
+    saveSubdistrict,
+    getSubdistrict, } = require("../controllers/user");
 const { auth, adminCheck } = require("../Middleware/auth");
 
 
@@ -40,7 +51,8 @@ router.put("/users/:id", auth, adminCheck, updateUsers);
 //@Endpoint  http://localhost:5000/api/users/:id
 //@Method    DELETE
 //@Access    Private
-router.delete("/users/:id", removeUsers);
+router.delete("/users/:id", auth, removeUsers);
+
 
 //@Endpoint  http://localhost:5000/api/change-status
 //@Method    POST
@@ -54,7 +66,18 @@ router.post("/change-role", auth, adminCheck, changeRole);
 router.post("/user/cart", auth, userCart);
 router.get("/user/cart", auth, getUserCart);
 router.delete("/user/cart", auth, emptyCart);
-router.post("/user/address", auth, saveAddress);
+router.post("/user/address", auth, saveFullAddress);
+router.get("/user/address", auth, getFullAddress);
+router.post("/user/phone", auth, savePhoneNumber);
+router.get("/user/phone", auth, getPhoneNumber);
+router.post("/user/province", auth, saveProvince);
+router.get("/user/province", auth, getProvince);
+router.post("/user/zipcode", auth, saveZipCode);
+router.get("/user/zipcode", auth, getZipCode);
+router.post("/user/name", auth, saveName);
+router.get("/user/name", auth, getName);
+router.post("/user/subdistrict", auth, saveSubdistrict);
+router.get("/user/subdistrict", auth, getSubdistrict);
 router.post("/user/order", auth, saveOrder);
 router.get("/user/orders", auth, getOrder);
 router.post("/user/wishlist", auth, addToWishList);
