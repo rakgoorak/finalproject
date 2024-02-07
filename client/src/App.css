@@ -363,3 +363,13 @@ section .cards .card {
   left: 0;
   width: 100%;
 }
+
+/*ManageAdmin component */
+.password {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-top: 5px;
+}
