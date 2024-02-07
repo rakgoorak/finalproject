@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getAddress, getName, getOrders, getPhoneNumber } from '../../functions/user';
 
-// ... (imports)
-
 export const History = () => {
     const { user } = useSelector((state) => ({ ...state }));
     const [orders, setOrders] = useState({});
@@ -16,13 +14,11 @@ export const History = () => {
     }, []);
 
     const loadData = () => {
-        // Set loading state
         setOrders({});
         setName({});
         setAddress({});
         setPhoneNumber({});
 
-        // Fetching orders, address, phone number, and name concurrently
         Promise.all([
             getOrders(user.user.token),
             getAddress(user.user.token),
@@ -30,7 +26,7 @@ export const History = () => {
             getName(user.user.token)
         ])
             .then(([ordersRes, addressRes, phoneNumberRes, nameRes]) => {
-                console.log("Orders response:", ordersRes.data); // Log orders response
+                console.log("Orders response:", ordersRes.data);
                 setOrders(ordersRes.data);
                 setName(nameRes.data && typeof nameRes.data === 'object' ? nameRes.data : { name: nameRes.data });
                 setAddress(addressRes.data);
@@ -38,50 +34,52 @@ export const History = () => {
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
-                // Handle errors, e.g., set an error state or display an error message
             });
     };
 
-
     return (
-        <div className='col text-center'>
-            <div className='row' style={{ marginTop: '30px' }}>
-                <h1>ประวัติการสั่งซื้อ</h1>
+        <div className='container' style={{ marginTop: '50px' }}>
+            <h1 className='text-center'>ประวัติการสั่งซื้อ</h1>
+            <div className='row justify-content-center'>
                 {Object.keys(orders).length === 0 ? (
-                    <p>ไม่มีสินค้า</p>
+                    <p className='text-center'>ไม่มีสินค้า</p>
                 ) : (
                     Object.keys(orders).map((index) => (
-                        <div key={index} className='cart m-3'>
-                            <p>สถานะสินค้า: {orders[index].orderstatus}</p>
-                            <p>ชื่อ: {name.name}</p>
-                            <p>ที่อยู่: {address && typeof address.fulladdress === 'object' ? address.fulladdress.houseNumber : address.fulladdress}</p>
-                            <p>ตำบล: {address && typeof address.fulladdress === 'object' ? address.fulladdress.subdistrict : ''}</p>
-                            <p>อำเภอ: {address && typeof address.fulladdress === 'object' ? address.fulladdress.district : ''}</p>
-                            <p>จังหวัด: {address && typeof address.fulladdress === 'object' ? address.fulladdress.province : ''}</p>
-                            <p>รหัสไปรษณีย์: {address && typeof address.fulladdress === 'object' ? address.fulladdress.zipcode : ''}</p>
-                            <p>เบอร์โทร: {phoneNumber && typeof phoneNumber.phoneNumber === 'object' ? phoneNumber.phoneNumber.someProperty : phoneNumber.phoneNumber}</p>
+                        <div key={index} className='col-md-10 mt-3'>
+                            <div className='card h-100'>
+                                <div className='card-body d-flex flex-column'>
+                                    <h5 className='card-title'>สถานะสินค้า: {orders[index].orderstatus}</h5>
+                                    <p className='mb-2'>ชื่อ: {name.name}</p>
+                                    <p className='mb-2'>ที่อยู่: {address && typeof address.fulladdress === 'object' ? address.fulladdress.houseNumber : address.fulladdress}</p>
+                                    <p className='mb-2'>ตำบล: {address && typeof address.fulladdress === 'object' ? address.fulladdress.subdistrict : ''}</p>
+                                    <p className='mb-2'>อำเภอ: {address && typeof address.fulladdress === 'object' ? address.fulladdress.district : ''}</p>
+                                    <p className='mb-2'>จังหวัด: {address && typeof address.fulladdress === 'object' ? address.fulladdress.province : ''}</p>
+                                    <p className='mb-2'>รหัสไปรษณีย์: {address && typeof address.fulladdress === 'object' ? address.fulladdress.zipcode : ''}</p>
+                                    <p className='mb-2'>เบอร์โทร: {phoneNumber && typeof phoneNumber.phoneNumber === 'object' ? phoneNumber.phoneNumber.someProperty : phoneNumber.phoneNumber}</p>
 
-                            <table className='table table-bordered' style={{ marginBottom: '50px' }}>
-                                <thead>
-                                    <tr>
-                                        <th>ชื่อ</th>
-                                        <th>ราคา</th>
-                                        <th>ชิ้น</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {orders[index].products.map((product, i) => (
-                                        <tr key={i}>
-                                            <td>{product.name}</td>
-                                            <td>{product.price}</td>
-                                            <td>{product.count}</td>
-                                        </tr>
-                                    ))}
-                                    <tr>
-                                        <td colSpan={3}>ราคาสุทธิ:<b><u>{orders[index].cartTotal}</u></b></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    <table className='table table-bordered mt-3'>
+                                        <thead>
+                                            <tr>
+                                                <th>ชื่อสินค้า</th>
+                                                <th>ราคา</th>
+                                                <th>ชิ้น</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {orders[index].products.map((product, i) => (
+                                                <tr key={i}>
+                                                    <td>{product.name}</td>
+                                                    <td>{product.price}</td>
+                                                    <td>{product.count}</td>
+                                                </tr>
+                                            ))}
+                                            <tr>
+                                                <td colSpan={3} className='text-center'>ราคาสุทธิ: <b>{orders[index].cartTotal}</b></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     ))
                 )}

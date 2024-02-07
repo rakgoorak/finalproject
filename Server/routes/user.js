@@ -4,6 +4,7 @@ const router = express.Router();
 const {
     listUsers,
     readUsers,
+    updateUser,
     updateUsers,
     removeUsers,
     changeStatus,
@@ -28,7 +29,14 @@ const {
     saveZipCode,
     getZipCode,
     saveSubdistrict,
-    getSubdistrict, } = require("../controllers/user");
+    getSubdistrict,
+    updatename,
+    updatehouseNumber,
+    updatesubdistrict,
+    updatedistrict,
+    updateprovince,
+    updatezipcode,
+    updatephoneNumber, } = require("../controllers/user");
 const { auth, adminCheck } = require("../Middleware/auth");
 
 
@@ -83,6 +91,13 @@ router.get("/user/orders", auth, getOrder);
 router.post("/user/wishlist", auth, addToWishList);
 router.get("/user/wishlist", auth, getWishList);
 router.put("/user/wishlist/:productId", auth, removeWishList);
+router.post("/user/update", auth, updatename)
+router.post("/user/update", auth, updatehouseNumber)
+router.post("/user/update", auth, updatesubdistrict)
+router.post("/user/update", auth, updatedistrict)
+router.post("/user/update", auth, updateprovince)
+router.post("/user/update", auth, updatezipcode)
+router.post("/user/update", auth, updatephoneNumber)
 
 
 

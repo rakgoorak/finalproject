@@ -1,7 +1,72 @@
+// functions/user.js
 import axios from "axios";
 
 export const listUser = async (authtoken) => {
     return await axios.get(process.env.REACT_APP_API + "/users", {
+        headers: {
+            authtoken,
+        },
+    });
+};
+
+export const updatename = async (authtoken, editedData) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/update", editedData, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+
+export const updatehouseNumber = async (authtoken, editedData) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/update", editedData, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+
+export const updatesubdistrict = async (authtoken, editedData) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/update", editedData, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+
+export const updatedistrict = async (authtoken, editedData) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/update", editedData, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+
+export const updateprovince = async (authtoken, editedData) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/update", editedData, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+
+export const updatezipcode = async (authtoken, editedData) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/update", editedData, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+
+export const updatephoneNumber = async (authtoken, editedData) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/update", editedData, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+
+export const readUser = async (authtoken, id) => {
+    return await axios.get(process.env.REACT_APP_API + "/users" + id, {
         headers: {
             authtoken,
         },
@@ -31,6 +96,7 @@ export const removeUser = async (authtoken, id) => {
         },
     });
 };
+
 export const resetPassword = async (authtoken, id, values) => {
     return await axios.put(process.env.REACT_APP_API + "/users/" + id, values, {
         headers: {
@@ -38,6 +104,7 @@ export const resetPassword = async (authtoken, id, values) => {
         },
     });
 };
+
 export const userCart = async (authtoken, cart) => {
     return await axios.post(process.env.REACT_APP_API + "/user/cart", { cart }, {
         headers: {
