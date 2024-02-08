@@ -104,6 +104,7 @@ section .cards .card {
   font-size: 16px;
   margin: 20px 20px;
   cursor: pointer;
+  margin-bottom: 100px;
 }
 
 .button:hover {
