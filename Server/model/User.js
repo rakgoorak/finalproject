@@ -16,8 +16,6 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    phoneNumber: String,
-    name: String,
     fulladdress: {
         houseNumber: String,
         subdistrict: String,
@@ -25,6 +23,8 @@ const userSchema = mongoose.Schema({
         province: String,
         zipcode: String,
     },
+    phoneNumber: String,
+    name: String,
     cart: [{
         type: ObjectId,
         ref: 'cart'

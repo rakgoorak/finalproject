@@ -16,107 +16,21 @@ exports.listUsers = async (req, res) => {
     }
 };
 
+// controllers/user.js
 exports.readUsers = async (req, res) => {
     try {
-        // Code
-        const id = req.params.id;
-        const user = await User.findOne({ _id: id }).select("-password").exec();
-        res.send(user);
+        const user = await User.findById(req.params.id); // Error occurs here
+        res.json(user);
     } catch (err) {
-        console.log(err);
-        res.status(500).send("Server Error!");
+        res.status(500).json({ error: err.message });
     }
 };
 
-exports.updatename = async (req, res) => {
-    try {
-        const updatename = await User
-            .findOneAndUpdate({ username: req.user.username },
-                { name: req.body.name },
-            ).exec()
-        res.json({ ok: true })
-    } catch (error) {
-        // Handle errors, and send a 500 Internal Server Error response
-        res.status(500).send('Server Error saveAddress User!!!');
-    }
-};
-
-exports.updatehouseNumber = async (req, res) => {
-    try {
-        const updatehouseNumber = await User
-            .findOneAndUpdate({ username: req.user.username },
-                { houseNumber: req.body.houseNumber },
-            ).exec()
-        res.json({ ok: true })
-    } catch (error) {
-        // Handle errors, and send a 500 Internal Server Error response
-        res.status(500).send('Server Error saveAddress User!!!');
-    }
-};
-exports.updatesubdistrict = async (req, res) => {
-    try {
-        const updatesubdistrict = await User
-            .findOneAndUpdate({ username: req.user.username },
-                { subdistrict: req.body.subdistrict },
-            ).exec()
-        res.json({ ok: true })
-    } catch (error) {
-        // Handle errors, and send a 500 Internal Server Error response
-        res.status(500).send('Server Error saveAddress User!!!');
-    }
-};
-exports.updatedistrict = async (req, res) => {
-    try {
-        const updatedistrict = await User
-            .findOneAndUpdate({ username: req.user.username },
-                { district: req.body.district },
-            ).exec()
-        res.json({ ok: true })
-    } catch (error) {
-        // Handle errors, and send a 500 Internal Server Error response
-        res.status(500).send('Server Error saveAddress User!!!');
-    }
-};
-exports.updateprovince = async (req, res) => {
-    try {
-        const updateprovince = await User
-            .findOneAndUpdate({ username: req.user.username },
-                { province: req.body.province },
-            ).exec()
-        res.json({ ok: true })
-    } catch (error) {
-        // Handle errors, and send a 500 Internal Server Error response
-        res.status(500).send('Server Error saveAddress User!!!');
-    }
-};
-exports.updatezipcode = async (req, res) => {
-    try {
-        const updatezipcode = await User
-            .findOneAndUpdate({ username: req.user.username },
-                { zipcode: req.body.zipcode },
-            ).exec()
-        res.json({ ok: true })
-    } catch (error) {
-        // Handle errors, and send a 500 Internal Server Error response
-        res.status(500).send('Server Error saveAddress User!!!');
-    }
-};
-exports.updatephoneNumber = async (req, res) => {
-    try {
-        const updatephoneNumber = await User
-            .findOneAndUpdate({ username: req.user.username },
-                { phoneNumber: req.body.phoneNumber }
-            ).exec()
-        res.json({ ok: true })
-    } catch (error) {
-        // Handle errors, and send a 500 Internal Server Error response
-        res.status(500).send('Server Error saveAddress User!!!');
-    }
-};
 
 exports.updateUsers = async (req, res) => {
     try {
         // Code
+
         var { id, password } = req.body.values
         // 1 gen salt
         const salt = await bcrypt.genSalt(10);
@@ -130,6 +44,28 @@ exports.updateUsers = async (req, res) => {
         res.send(user);
     } catch (err) {
         console.log(err);
+        res.status(500).send("Server Error!");
+    }
+};
+exports.resetPasswordUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { password } = req.body;
+
+        // Generate salt and hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Update the user's password in the database
+        const updatedUser = await User.findOneAndUpdate(
+            { _id: id },
+            { password: hashedPassword },
+            { new: true }
+        );
+
+        res.json(updatedUser);
+    } catch (error) {
+        console.error(error);
         res.status(500).send("Server Error!");
     }
 };
@@ -267,7 +203,6 @@ exports.saveProvince = async (req, res) => {
         res.status(500).send('Server Error saveprovince User!!!');
     }
 };
-
 exports.savePhoneNumber = async (req, res) => {
     try {
         const userphoneNumber = await User
@@ -280,8 +215,31 @@ exports.savePhoneNumber = async (req, res) => {
         res.status(500).send('Server Error savephoneNumber User!!!');
     }
 };
-
+exports.saveEditedPhoneNumber = async (req, res) => {
+    try {
+        const userphoneNumber = await User
+            .findOneAndUpdate({ username: req.user.username },
+                { phoneNumber: req.body.phoneNumber }
+            ).exec()
+        res.json({ ok: true })
+    } catch (error) {
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).send('Server Error savephoneNumber User!!!');
+    }
+};
 exports.saveFullAddress = async (req, res) => {
+    try {
+        const userAddress = await User
+            .findOneAndUpdate({ username: req.user.username },
+                { fulladdress: req.body.fulladdress }
+            ).exec()
+        res.json({ ok: true })
+    } catch (error) {
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).send('Server Error saveAddress User!!!');
+    }
+};
+exports.saveEditedFullAddress = async (req, res) => {
     try {
         const userAddress = await User
             .findOneAndUpdate({ username: req.user.username },
@@ -305,6 +263,19 @@ exports.saveName = async (req, res) => {
         res.status(500).send('Server Error saveAddress User!!!');
     }
 };
+exports.saveEditedName = async (req, res) => {
+    try {
+        const userName = await User
+            .findOneAndUpdate({ username: req.user.username },
+                { name: req.body.name }
+            ).exec()
+        res.json({ ok: true })
+    } catch (error) {
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).send('Server Error saveAddress User!!!');
+    }
+};
+
 exports.saveSubdistrict = async (req, res) => {
     try {
         const usersubdistrict = await User
@@ -397,6 +368,30 @@ exports.getName = async (req, res) => {
             .populate('name')
             .exec()
         res.json({ name: list.name })
+    } catch (error) {
+        console.error('Error in address', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+exports.getUserName = async (req, res) => {
+    try {
+        let list = await User
+            .findOne({ username: req.user.username })
+            .exec()
+        res.json(list)
+    } catch (error) {
+        console.error('Error in address', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+exports.getPassWord = async (req, res) => {
+    try {
+        let list = await User
+            .findOne({ username: req.user.username })
+            .select('password')
+            .populate('password')
+            .exec()
+        res.json({ password: list.password })
     } catch (error) {
         console.error('Error in address', error);
         res.status(500).send('Internal Server Error');

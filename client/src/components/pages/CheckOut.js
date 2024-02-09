@@ -3,9 +3,8 @@ import { getUserCart, saveAddress, saveOrder, emptyCart, savePhoneNumber, saveNa
 import { useDispatch, useSelector } from 'react-redux';
 import 'react-quill/dist/quill.snow.css';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';  // Change import
 import AddressForm from '../address/AddressForm';
-import axios from 'axios';
 import './CheckOut.css';
 
 const Checkout = () => {
@@ -18,6 +17,7 @@ const Checkout = () => {
     const [zipcode, setZipcode] = useState("");
     const [fullAddress, setFullAddress] = useState({});
     const [forOthers, setForOthers] = useState(false);
+    const [sliptFile, setSliptFile] = useState(null);
 
     const { user } = useSelector((state) => ({ ...state }));
     const [products, setProducts] = useState([]);
@@ -67,7 +67,6 @@ const Checkout = () => {
                 const phoneRes = await savePhoneNumber(user.user.token, phoneNumber);
                 const nameRes = await saveName(user.user.token, name);
                 console.log(nameRes.data);
-                console.log(phoneRes.data);
                 if (phoneRes.data.ok && nameRes.data.ok) {
                     toast.success('Phone Number and Name Saved');
                 } else {
@@ -89,10 +88,8 @@ const Checkout = () => {
                 console.log(res.data);
                 setProducts(res.data.products);
                 setTotal(res.data.cartTotal);
-                handlePayment(); // เรียกใช้งานฟังก์ชัน handlePayment เพื่อทำการชำระเงินอัตโนมัติ
             });
     }, [user.user.token]);
-
 
     function onSelect(fulladdress) {
         const { subdistrict, district, province, zipcode } = fulladdress;
@@ -104,29 +101,6 @@ const Checkout = () => {
         setError("");
         console.log("some fulladdress: ", fullAddress);
     }
-
-    // PromptPayment
-    const [promptPayNumber, setPromptPayNumber] = useState('');
-    const [amount, setAmount] = useState('');
-    const [message, setMessage] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [response, setResponse] = useState(null);
-
-    const handlePayment = async () => {
-        setLoading(true);
-        try {
-            const response = await axios.post('YOUR_PROMPTPAY_API_ENDPOINT', {
-                promptPayNumber,
-                amount,
-                message
-            });
-            setResponse(response.data);
-        } catch (error) {
-            console.error('Error making payment:', error);
-            setResponse(null);
-        }
-        setLoading(false);
-    };
 
     return (
         <div className='container-fluid'>
@@ -176,19 +150,60 @@ const Checkout = () => {
                                     />
                                 ) : (
                                     <div className="payment-section">
-                                        <div>
-                                            <input type="number" placeholder="ราคา" value={total} onChange={e => setAmount(e.target.value)} />
-                                            <input type="text" placeholder="เบอร์โทรศัพท์" value={"0970215655"} onChange={e => setPhoneNumber(e.target.value)} />
-                                            <input type="text" placeholder="ข้อความ" value={message} onChange={e => setMessage(e.target.value)} />
-                                            <button onClick={handlePayment} disabled={loading}>Make Payment</button>
+                                        <img
+                                            src="/Qrcode.png"
+                                            alt="slipt"
+                                            className="payment-image"
+                                        />
+                                        <div className="total-amount">
+                                            ยอดชำระ {total}
+                                        </div>
+                                        <p id='image-preview'></p>
+                                        <div className="upload-slip-section">
+                                            <label htmlFor="slipt" className="upload-slip-btn">
+                                                {sliptFile ? (
+                                                    <span className="image-preview" />
+                                                ) : (
+                                                    <div className="upload-slip-text">
+                                                        อัพโหลดสลิป
+                                                    </div>
+                                                )}
+                                            </label>
+                                            <input
+                                                id="slipt"
+                                                className="hidden"
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={(e) => {
+                                                    if (e.target.files) {
+                                                        setError();
+                                                        if (e.target.files[0].type.split("/")[0] !== "image") {
+                                                            setError("ไฟล์สลิปไม่ถูกต้อง");
+                                                            return;
+                                                        }
+                                                        console.log("Just regular image file");
+                                                        setSliptFile(e.target.files[0]);
+                                                        var openFile = function (event) {
+                                                            var input = event.target;
 
-                                            {loading && <p>Loading...</p>}
-                                            {response && (
-                                                <div>
-                                                    <p>Payment Status: {response.status}</p>
-                                                    <p>Transaction ID: {response.transactionId}</p>
-                                                </div>
-                                            )}
+                                                            // Instantiate FileReader
+                                                            var reader = new FileReader();
+                                                            reader.onload = function () {
+                                                                const TheFileContents = reader.result;
+                                                                // Update the output to include the <img> tag with the data URL as the source
+                                                                document.getElementById("image-preview").innerHTML =
+                                                                    '<h2>สลิปของท่าน</h2><p><img width="200" src="' +
+                                                                    TheFileContents +
+                                                                    '" /></p>';
+                                                            };
+                                                            // Produce a data URL (base64 encoded string of the data in the file)
+                                                            // We are retrieving the first file from the FileList object
+                                                            reader.readAsDataURL(input.files[0]);
+                                                        };
+                                                        openFile(e);
+                                                    }
+                                                }}
+                                            />
                                         </div>
                                     </div>
                                 )}

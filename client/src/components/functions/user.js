@@ -1,4 +1,3 @@
-// functions/user.js
 import axios from "axios";
 
 export const listUser = async (authtoken) => {
@@ -8,71 +7,39 @@ export const listUser = async (authtoken) => {
         },
     });
 };
-
-export const updatename = async (authtoken, editedData) => {
-    return await axios.post(process.env.REACT_APP_API + "/user/update", editedData, {
-        headers: {
-            authtoken,
-        },
-    });
-};
-
-export const updatehouseNumber = async (authtoken, editedData) => {
-    return await axios.post(process.env.REACT_APP_API + "/user/update", editedData, {
-        headers: {
-            authtoken,
-        },
-    });
-};
-
-export const updatesubdistrict = async (authtoken, editedData) => {
-    return await axios.post(process.env.REACT_APP_API + "/user/update", editedData, {
-        headers: {
-            authtoken,
-        },
-    });
-};
-
-export const updatedistrict = async (authtoken, editedData) => {
-    return await axios.post(process.env.REACT_APP_API + "/user/update", editedData, {
-        headers: {
-            authtoken,
-        },
-    });
-};
-
-export const updateprovince = async (authtoken, editedData) => {
-    return await axios.post(process.env.REACT_APP_API + "/user/update", editedData, {
-        headers: {
-            authtoken,
-        },
-    });
-};
-
-export const updatezipcode = async (authtoken, editedData) => {
-    return await axios.post(process.env.REACT_APP_API + "/user/update", editedData, {
-        headers: {
-            authtoken,
-        },
-    });
-};
-
-export const updatephoneNumber = async (authtoken, editedData) => {
-    return await axios.post(process.env.REACT_APP_API + "/user/update", editedData, {
-        headers: {
-            authtoken,
-        },
-    });
-};
-
 export const readUser = async (authtoken, id) => {
-    return await axios.get(process.env.REACT_APP_API + "/users" + id, {
+    return await axios.get(process.env.REACT_APP_API + "/users/" + id, {
         headers: {
             authtoken,
         },
     });
 };
-
+export const resetPasswordUser = async (authtoken, id, values) => {
+    try {
+        return await axios.put(process.env.REACT_APP_API + "/users/reset-password/" + id, values, {
+            headers: {
+                authtoken,
+            },
+        });
+    } catch (error) {
+        console.error('Error resetting password:', error);
+        throw error;
+    }
+};
+export const getUserName = async (authtoken) => {
+    return await axios.get(process.env.REACT_APP_API + "/user", {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const getPassWord = async (authtoken) => {
+    return await axios.get(process.env.REACT_APP_API + "/user", {
+        headers: {
+            authtoken,
+        },
+    });
+};
 export const changeStatus = async (authtoken, value) => {
     return await axios.post(process.env.REACT_APP_API + "/change-status", value, {
         headers: {
@@ -96,7 +63,6 @@ export const removeUser = async (authtoken, id) => {
         },
     });
 };
-
 export const resetPassword = async (authtoken, id, values) => {
     return await axios.put(process.env.REACT_APP_API + "/users/" + id, values, {
         headers: {
@@ -104,7 +70,6 @@ export const resetPassword = async (authtoken, id, values) => {
         },
     });
 };
-
 export const userCart = async (authtoken, cart) => {
     return await axios.post(process.env.REACT_APP_API + "/user/cart", { cart }, {
         headers: {
@@ -136,6 +101,13 @@ export const saveAddress = async (authtoken, fulladdress) => {
         },
     });
 };
+export const saveEditedFullAddress = async (authtoken, fulladdress) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/address", { fulladdress }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
 export const getAddress = async (authtoken) => {
     return await axios.get(process.env.REACT_APP_API + "/user/address", {
         headers: {
@@ -150,6 +122,13 @@ export const savePhoneNumber = async (authtoken, phoneNumber) => {
         },
     });
 };
+export const saveEditedPhoneNumber = async (authtoken, updatedData) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/phone", { updatedData }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
 export const getPhoneNumber = async (authtoken) => {
     return await axios.get(process.env.REACT_APP_API + "/user/phone", {
         headers: {
@@ -157,8 +136,16 @@ export const getPhoneNumber = async (authtoken) => {
         },
     });
 };
+
 export const saveName = async (authtoken, name) => {
     return await axios.post(process.env.REACT_APP_API + "/user/name", { name }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const saveEditedName = async (authtoken, updatedData) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/name", { updatedData }, {
         headers: {
             authtoken,
         },

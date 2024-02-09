@@ -1,106 +1,76 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Modal, Button } from "antd";
-import { resetPassword, getAddress, getName, getPhoneNumber, updatename, updatehouseNumber, updatesubdistrict, updatedistrict, updateprovince, updatezipcode, updatephoneNumber } from "./functions/user";
+import { Modal, Button, Input } from "antd";
+import {
+    getAddress,
+    getName,
+    getPhoneNumber,
+    getUserName,
+    getPassWord,
+    saveEditedFullAddress,
+    saveEditedName,
+    saveEditedPhoneNumber,
+    savePhoneNumber,
+    saveName,
+    resetPasswordUser,
+} from "./functions/user";
 
-const Profileuser = () => {
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const Profileadmin = () => {
     const { user } = useSelector((state) => ({ ...state }));
     const [name, setName] = useState({});
+    const [username, setUserName] = useState({});
+    const [password, setPassWord] = useState({});
     const [address, setAddress] = useState({});
     const [phoneNumber, setPhoneNumber] = useState({});
-    const [isModalVisible, setIsModalVisible] = useState(false);
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-
-    const [values, setValues] = useState({
-        id: "",
-        password: "",
-    });
-
+    const [isPasswordModalVisible, setIsPasswordModalVisible] = useState(false);
     const [editedData, setEditedData] = useState({
         name: "",
-        address: "",
+        houseNumber: "",
         subdistrict: "",
         district: "",
         province: "",
         zipcode: "",
         phoneNumber: "",
     });
-
-    const showModal = (id) => {
-        setIsModalVisible(true);
-        setValues({ ...values, id: id });
-    };
-
-    const handleChangePassword = (e) => {
-        setValues({ ...values, [e.target.name]: e.target.value });
-    };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-        resetPassword(user.user.token, values.id, { values })
-            .then(res => {
-                console.log(res)
-                loadData(); // โหลดข้อมูลใหม่หลังจากเปลี่ยนรหัสผ่าน
-            }).catch(err => {
-                console.log(err.response)
-            })
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
+    const [values, setValues] = useState({
+        id: "",
+        password: "",
+    });
+    const [newPassword, setNewPassword] = useState("");
 
     useEffect(() => {
-        loadData();
+        loadData(user.user.token);
     }, []);
 
     const loadData = () => {
         Promise.all([
             getAddress(user.user.token),
             getPhoneNumber(user.user.token),
-            getName(user.user.token)
+            getName(user.user.token),
+            getUserName(user.user.token),
+            getPassWord(user.user.token),
         ])
-            .then(([addressRes, phoneNumberRes, nameRes]) => {
-                setName(nameRes.data && typeof nameRes.data === 'object' ? nameRes.data : { name: nameRes.data });
+            .then(([addressRes, phoneNumberRes, nameRes, usernameRes, passwordRes]) => {
+                setName(nameRes.data && typeof nameRes.data === "object" ? nameRes.data : { name: nameRes.data });
                 setAddress(addressRes.data);
-                setPhoneNumber(phoneNumberRes.data && typeof phoneNumberRes.data === 'object' ? phoneNumberRes.data : { phoneNumber: phoneNumberRes.data });
+                setPhoneNumber(phoneNumberRes.data && typeof phoneNumberRes.data === "object" ? phoneNumberRes.data : { phoneNumber: phoneNumberRes.data });
+                setUserName(usernameRes.data);
+                setValues(usernameRes.data);
+                setPassWord(passwordRes.data);
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
             });
     };
 
-    const handleEditOk = () => {
-        updatename(user.user.token, editedData)
-        updatehouseNumber(user.user.token, editedData)
-        updatesubdistrict(user.user.token, editedData)
-        updatedistrict(user.user.token, editedData)
-        updateprovince(user.user.token, editedData)
-        updatezipcode(user.user.token, editedData)
-        updatephoneNumber(user.user.token, editedData)
-            .then((res) => {
-                console.log(res);
-                setIsEditModalVisible(false);
-                loadData();
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-    };
-    console.log(editedData);
-
-    const handleEditCancel = () => {
-        setIsEditModalVisible(false);
-    };
-
-    const handleChange = (e) => {
-        setEditedData({ ...editedData, [e.target.name]: e.target.value });
-    };
-
     const showEditModal = () => {
         setEditedData({
             name: name.name,
-            address: address.fulladdress.houseNumber,
+            houseNumber: address.fulladdress.houseNumber,
             subdistrict: address.fulladdress.subdistrict,
             district: address.fulladdress.district,
             province: address.fulladdress.province,
@@ -108,6 +78,66 @@ const Profileuser = () => {
             phoneNumber: phoneNumber.phoneNumber,
         });
         setIsEditModalVisible(true);
+    };
+
+    const handleChange = (e) => {
+        setEditedData({ ...editedData, [e.target.name]: e.target.value });
+    };
+
+    const handleEditOk = () => {
+        setIsEditModalVisible(false);
+
+        const updatedData = {
+            name: editedData.name,
+            houseNumber: editedData.houseNumber,
+            subdistrict: editedData.subdistrict,
+            district: editedData.district,
+            province: editedData.province,
+            zipcode: editedData.zipcode,
+            phoneNumber: editedData.phoneNumber,
+        };
+
+        Promise.all([
+            saveEditedFullAddress(user.user.token, updatedData),
+            savePhoneNumber(user.user.token, updatedData.phoneNumber),
+            saveName(user.user.token, updatedData.name),
+        ])
+            .then((res) => {
+                console.log(res);
+                loadData(user.user.token);
+                toast.success("ข้อมูลที่อยู่ได้รับการแก้ไขเรียบร้อยแล้ว!"); // เพิ่มการแสดง Toast สำเร็จ
+            })
+            .catch((err) => {
+                console.log(err.response);
+                toast.error("มีข้อผิดพลาดเกิดขึ้นในขณะที่แก้ไขข้อมูลที่อยู่"); // เพิ่มการแสดง Toast ผิดพลาด
+            });
+    };
+
+    const handleEditCancel = () => {
+        setIsEditModalVisible(false);
+    };
+
+    const showPasswordModal = () => {
+        setIsPasswordModalVisible(true);
+    };
+
+    const handlePasswordOk = () => {
+        setIsPasswordModalVisible(false);
+
+        resetPasswordUser(user.user.token, values._id, { password: newPassword })
+            .then((res) => {
+                console.log(res);
+                loadData(user.user.token);
+                toast.success("รหัสผ่านได้รับการเปลี่ยนแปลงเรียบร้อยแล้ว!"); // เพิ่มการแสดง Toast สำเร็จ
+            })
+            .catch((err) => {
+                console.log(err.response);
+                toast.error("มีข้อผิดพลาดเกิดขึ้นในขณะที่เปลี่ยนรหัสผ่าน"); // เพิ่มการแสดง Toast ผิดพลาด
+            });
+    };
+
+    const handlePasswordCancel = () => {
+        setIsPasswordModalVisible(false);
     };
 
     return (
@@ -118,20 +148,21 @@ const Profileuser = () => {
                         <div className="card text-center profile-card">
                             <div className="card-body">
                                 <h1 className="card-title">โปรไฟล์ผู้ใช้</h1>
+                                <p>UserName: {username.username}</p>
                                 <div className="d-flex flex-column align-items-start">
-                                    <Button onClick={showModal}>เปลี่ยนรหัสผ่าน</Button>
+                                    <Button onClick={showPasswordModal}>เปลี่ยนรหัสผ่าน</Button>
                                 </div>
                             </div>
                         </div>
                         <div className="card address-card mt-3">
                             <div className="card-body">
                                 <p>ชื่อผู้ใช้: {name.name}</p>
-                                <p>ที่อยู่: {address && typeof address.fulladdress === 'object' ? address.fulladdress.houseNumber : address.fulladdress}</p>
-                                <p>ตำบล: {address && typeof address.fulladdress === 'object' ? address.fulladdress.subdistrict : ''}</p>
-                                <p>อำเภอ: {address && typeof address.fulladdress === 'object' ? address.fulladdress.district : ''}</p>
-                                <p>จังหวัด: {address && typeof address.fulladdress === 'object' ? address.fulladdress.province : ''}</p>
-                                <p>รหัสไปรษณีย์: {address && typeof address.fulladdress === 'object' ? address.fulladdress.zipcode : ''}</p>
-                                <p>เบอร์โทรศัพท์: {phoneNumber && typeof phoneNumber.phoneNumber === 'object' ? phoneNumber.phoneNumber.someProperty : phoneNumber.phoneNumber}</p>
+                                <p>ที่อยู่: {address && typeof address.fulladdress === "object" ? address.fulladdress.houseNumber : address.fulladdress}</p>
+                                <p>ตำบล: {address && typeof address.fulladdress === "object" ? address.fulladdress.subdistrict : ""}</p>
+                                <p>อำเภอ: {address && typeof address.fulladdress === "object" ? address.fulladdress.district : ""}</p>
+                                <p>จังหวัด: {address && typeof address.fulladdress === "object" ? address.fulladdress.province : ""}</p>
+                                <p>รหัสไปรษณีย์: {address && typeof address.fulladdress === "object" ? address.fulladdress.zipcode : ""}</p>
+                                <p>เบอร์โทรศัพท์: {phoneNumber && typeof phoneNumber.phoneNumber === "object" ? phoneNumber.phoneNumber.someProperty : phoneNumber.phoneNumber}</p>
                                 <Button onClick={showEditModal}>แก้ไขข้อมูล</Button>
                             </div>
                         </div>
@@ -140,16 +171,15 @@ const Profileuser = () => {
             </div>
             <Modal
                 title="เปลี่ยนรหัสผ่าน"
-                visible={isModalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
+                visible={isPasswordModalVisible}
+                onOk={handlePasswordOk}
+                onCancel={handlePasswordCancel}
             >
-                <input
-                    className="password"
-                    onChange={handleChangePassword}
+                <Input
+                    type="password"
                     placeholder="รหัสผ่านใหม่"
-                    type="text"
-                    name="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
                 />
             </Modal>
             <Modal
@@ -169,10 +199,10 @@ const Profileuser = () => {
                 <input
                     className="edit-input"
                     onChange={handleChange}
-                    value={editedData.address}
+                    value={editedData.houseNumber}
                     placeholder="ที่อยู่"
                     type="text"
-                    name="address"
+                    name="houseNumber"
                 />
                 <input
                     className="edit-input"
@@ -215,8 +245,8 @@ const Profileuser = () => {
                     name="phoneNumber"
                 />
             </Modal>
-        </div >
+        </div>
     );
 };
 
-export default Profileuser;
+export default Profileadmin;
