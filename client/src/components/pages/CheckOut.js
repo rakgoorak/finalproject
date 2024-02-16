@@ -7,6 +7,10 @@ import { useNavigate } from 'react-router-dom';  // Change import
 import AddressForm from '../address/AddressForm';
 import './CheckOut.css';
 
+import QRCode from 'qrcode.react';
+import styled from 'styled-components';
+
+// Checkout
 const Checkout = () => {
     const [name, setName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -102,6 +106,55 @@ const Checkout = () => {
         console.log("some fulladdress: ", fullAddress);
     }
 
+    // Payment
+    const generatePayload = require('promptpay-qr');
+    const Title = styled.h1`
+  font-size: 3em;
+  text-align: center;
+  color: palevioletred;
+  margin-bottom: 20px;
+`;
+
+    const Container = styled.div`
+  max-height: 100vh;
+  padding: 4em;
+  background: papayawhip;
+`;
+
+    const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+`;
+
+    const QRWrapper = styled.div`
+  margin: auto;
+  text-align: center;
+  padding: 20px;
+  background-color: white;
+  border: 2px solid palevioletred;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+`;
+
+    const InputWrapper = styled.div`
+  margin: auto;
+  text-align: center;
+  padding: 20px;
+`;
+
+    const [qrCode, setQRCode] = useState("");
+    const [promptpay, setPromptPay] = useState("062-671-8672");
+
+    useEffect(() => {
+        handleQR();
+    }, []);
+
+    function handleQR() {
+        setQRCode(generatePayload(promptpay, { total: total.toFixed(2) }));
+    }
+
+
     return (
         <div className='container-fluid'>
             <div className='row' style={{ margin: '50px' }}>
@@ -150,14 +203,18 @@ const Checkout = () => {
                                     />
                                 ) : (
                                     <div className="payment-section">
-                                        <img
-                                            src="/Qrcode.png"
-                                            alt="slipt"
-                                            className="payment-image"
-                                        />
-                                        <div className="total-amount">
-                                            ยอดชำระ {total}
-                                        </div>
+                                        <Container>
+                                            <Title>ชำระเงินที่นี้</Title>
+                                            <FlexContainer>
+                                                <QRWrapper>
+                                                    <QRCode value={qrCode} />
+                                                    <InputWrapper>
+                                                        <p>ชื่อบัญชี อาทิตยา ฆารเลิศ</p>
+                                                        <p>โปรดตรวจสอบจำนวนเงินให้ถูกต้องก่อนทำรายการ จำนวนเงิน {total} บาท</p>
+                                                    </InputWrapper>
+                                                </QRWrapper>
+                                            </FlexContainer>
+                                        </Container>
                                         <p id='image-preview'></p>
                                         <div className="upload-slip-section">
                                             <label htmlFor="slipt" className="upload-slip-btn">
@@ -232,7 +289,7 @@ const Checkout = () => {
                         </div>
                     ))}
                     <hr />
-                    ราคาสุทธิ: <b>{total}</b>
+                    ราคาสุทธิ: <b>{total}</b> บาท
                     <br />
                     <hr />
                 </div>
