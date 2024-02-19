@@ -4,7 +4,7 @@ import { getAddress, getName, getOrders, getPhoneNumber } from '../../functions/
 
 
 // Create styles
-import { Document, Page, Text, View, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 import Receipt from '../../order/Receipt';
 // Create styles
 
@@ -82,7 +82,7 @@ export const History = () => {
                                         </tr>
                                     ))}
                                     <tr>
-                                        <td colSpan={3}>ราคาสุทธิ:<b><u>{orders[index].cartTotal}</u></b></td>
+                                        <td colSpan={3}>ราคาสุทธิ : <b><u>{orders[index].cartTotal}</u></b></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -91,10 +91,10 @@ export const History = () => {
                                     <PDFDownloadLink
                                         document={<Receipt order={orders[index]}
                                         />}
-                                        fileName="invoice.pdf"
+                                        fileName="ใบเสร็จคำสั่งซื้อ.pdf"
                                         className="btn btn-primary m-1"
                                     >
-                                        PDF DownLoad
+                                        ใบเสร็จสั่งซื้อสินค้า
                                     </PDFDownloadLink>
                                 </div>
                             </div>

@@ -17,7 +17,7 @@ const OrderSchema = new mongoose.Schema(
         cartTotal: Number,
         orderstatus: {
             type: String,
-            default: 'Not Process'
+            default: 'Processing'
         },
         orderBy: {
             type: ObjectId,

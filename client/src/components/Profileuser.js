@@ -15,6 +15,9 @@ import {
     resetPasswordUser,
 } from "./functions/user";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Profileadmin = () => {
     const { user } = useSelector((state) => ({ ...state }));
     const [name, setName] = useState({});
@@ -102,9 +105,11 @@ const Profileadmin = () => {
             .then((res) => {
                 console.log(res);
                 loadData(user.user.token);
+                toast.success("ข้อมูลที่อยู่ได้รับการแก้ไขเรียบร้อยแล้ว!"); // เพิ่มการแสดง Toast สำเร็จ
             })
             .catch((err) => {
                 console.log(err.response);
+                toast.error("มีข้อผิดพลาดเกิดขึ้นในขณะที่แก้ไขข้อมูลที่อยู่"); // เพิ่มการแสดง Toast ผิดพลาด
             });
     };
 
@@ -123,11 +128,12 @@ const Profileadmin = () => {
             .then((res) => {
                 console.log(res);
                 loadData(user.user.token);
+                toast.success("รหัสผ่านได้รับการเปลี่ยนแปลงเรียบร้อยแล้ว!"); // เพิ่มการแสดง Toast สำเร็จ
             })
             .catch((err) => {
                 console.log(err.response);
+                toast.error("มีข้อผิดพลาดเกิดขึ้นในขณะที่เปลี่ยนรหัสผ่าน"); // เพิ่มการแสดง Toast ผิดพลาด
             });
-
     };
 
     const handlePasswordCancel = () => {

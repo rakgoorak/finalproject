@@ -107,9 +107,9 @@ function App() {
                 <Route path="/admin/orders" element={<AdminRoute><Order /></AdminRoute>} />
                 <Route path="/edit/:id" element={<AdminRoute><UpdateProduct /></AdminRoute>} />
             </Routes>
-            {/* <div className="Footercontact">
+            <div className="Footercontact">
                 <Footer />
-            </div> */}
+            </div>
         </BrowserRouter>
     );
 }

@@ -5,7 +5,6 @@ import 'react-quill/dist/quill.snow.css';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import AddressForm from '../address/AddressForm';
-import axios from 'axios';
 import './CheckOut.css';
 import SlipUpload from './SlipUpload';
 import QRCode from 'qrcode.react';
@@ -231,8 +230,8 @@ const Checkout = () => {
                                                     <span className="image-preview" />
                                                 ) : (
                                                     <div className="upload-slip-text">
-                                                        อัพโหลดสลิป
                                                         <SlipUpload values={values} setValues={setValues} loading={loading} setLoading={setLoading} />
+                                                        อัพโหลดสลิป
                                                     </div>
                                                 )}
                                             </label>
