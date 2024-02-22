@@ -107,8 +107,12 @@ const ManageAdmin = () => {
         <div className="container-fluid">
             <div className="row">
                 <div className="col">
-                    <h1>ManageAdmin Page</h1>
+                    <h1>จัดการผู้ใช้งานระบบ</h1>
+<<<<<<< HEAD
                     <table class="table">
+=======
+                    <table className="table">
+>>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
                         <thead>
                             <tr>
                                 <th scope="col">ชื่อผู้ใช้</th>
@@ -167,8 +171,12 @@ const ManageAdmin = () => {
                         onOk={handleOk}
                         onCancel={handleCancel}
                     >
-                        <p>New Password :</p>
+<<<<<<< HEAD
+                        <p>รหัสผ่านใหม่ :</p>
                         <input
+=======
+                        <input className="password"
+>>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
                             onChange={handleChangePassword}
                             placeholder="รหัสผ่านใหม่"
                             type="text"
