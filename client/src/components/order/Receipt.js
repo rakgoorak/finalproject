@@ -6,6 +6,7 @@ import { getAddress, getName, getPhoneNumber } from '../functions/user';
 
 Font.register({ family: 'Sarabun', src: fontPdf });
 
+
 // Create styles
 const styles = StyleSheet.create({
     page: {
