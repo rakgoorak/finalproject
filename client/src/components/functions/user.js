@@ -88,6 +88,116 @@ export const getUserCart = async (authtoken) => {
 
 export const emptyCart = async (authtoken) => {
     return await axios.delete(process.env.REACT_APP_API + "/user/cart", {
+<<<<<<< HEAD
+=======
+        headers: {
+            authtoken,
+        },
+    });
+};
+
+export const saveAddress = async (authtoken, fulladdress) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/address", { fulladdress }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const saveEditedFullAddress = async (authtoken, fulladdress) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/address", { fulladdress }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const getAddress = async (authtoken) => {
+    return await axios.get(process.env.REACT_APP_API + "/user/address", {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const savePhoneNumber = async (authtoken, phoneNumber) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/phone", { phoneNumber }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const saveEditedPhoneNumber = async (authtoken, updatedData) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/phone", { updatedData }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const getPhoneNumber = async (authtoken) => {
+    return await axios.get(process.env.REACT_APP_API + "/user/phone", {
+        headers: {
+            authtoken,
+        },
+    });
+};
+
+export const saveName = async (authtoken, name) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/name", { name }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const saveEditedName = async (authtoken, updatedData) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/name", { updatedData }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const getName = async (authtoken) => {
+    return await axios.get(process.env.REACT_APP_API + "/user/name", {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const saveZipCode = async (authtoken, zipCode) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/zipcode", { zipCode }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const getZipCode = async (authtoken, zipCode) => {
+    return await axios.get(process.env.REACT_APP_API + "/user/zipcode", { zipCode }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const saveSubdistrict = async (authtoken, subdistrict) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/subdistrict", { subdistrict }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const getSubdistrict = async (authtoken, subdistrict) => {
+    return await axios.get(process.env.REACT_APP_API + "/user/subdistrict", { subdistrict }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const saveProvince = async (authtoken, province) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/province", { province }, {
+        headers: {
+            authtoken,
+        },
+    });
+};
+export const getProvince = async (authtoken, province) => {
+    return await axios.get(process.env.REACT_APP_API + "/user/province", { province }, {
+>>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
         headers: {
             authtoken,
         },

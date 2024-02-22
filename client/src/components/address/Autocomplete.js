@@ -113,4 +113,8 @@ function App(props) {
     );
 }
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App;
+>>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d

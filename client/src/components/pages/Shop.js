@@ -38,7 +38,11 @@ const Shop = () => {
     }, [price]);
 
     useEffect(() => {
+<<<<<<< HEAD
         setCartQuantity(cart.length);
+=======
+        setCartQuantity(cart.length); // อัพเดต state ของจำนวนสินค้าในตะกร้า
+>>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
     }, [cart]);
 
     const loadAllData = () => {
@@ -93,12 +97,21 @@ const Shop = () => {
         <div className='container-fluid'>
             <div className='row' style={{ margin: '50px' }}>
                 <div className='col-md-3' style={{ fontSize: '25px' }}>
+<<<<<<< HEAD
                     ตัวกรอง / ค้นหา
                     <hr />
                     <h6>ค้นหาตามราคา</h6>
                     <Slider value={price} onChange={handlePrice} range max={100000} />
                     <hr />
                     <h6>ค้นหาตามหมวดหมู่</h6>
+=======
+                    Filter / Search
+                    <hr />
+                    <h6>Search by Price</h6>
+                    <Slider value={price} onChange={handlePrice} range max={100000} />
+                    <hr />
+                    <h6>Search by Category</h6>
+>>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
                     {categories.map((item, index) => (
                         <Checkbox
                             key={index}
@@ -109,13 +122,21 @@ const Shop = () => {
                             {item.name}
                         </Checkbox>
                     ))}
+<<<<<<< HEAD
+=======
+                    <hr />
+>>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
                 </div>
                 <div className='col-md-9'>
                     {loading ? (
                         <h4 className='text-danger'>Loading....</h4>
                     ) : (
                         <>
+<<<<<<< HEAD
                             <h4>สินค้า</h4>
+=======
+                            <h4>Products</h4>
+>>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
                             {products.length < 1 && <p>No Product found</p>}
                             <div className='row pb-5'>
                                 {products.map((item, index) => (

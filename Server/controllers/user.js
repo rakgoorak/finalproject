@@ -240,6 +240,167 @@ exports.saveFullAddress = async (req, res) => {
     }
 };
 exports.saveEditedFullAddress = async (req, res) => {
+<<<<<<< HEAD
+=======
+    try {
+        const userAddress = await User
+            .findOneAndUpdate({ username: req.user.username },
+                { fulladdress: req.body.fulladdress }
+            ).exec()
+        res.json({ ok: true })
+    } catch (error) {
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).send('Server Error saveAddress User!!!');
+    }
+};
+exports.saveName = async (req, res) => {
+    try {
+        const userName = await User
+            .findOneAndUpdate({ username: req.user.username },
+                { name: req.body.name }
+            ).exec()
+        res.json({ ok: true })
+    } catch (error) {
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).send('Server Error saveAddress User!!!');
+    }
+};
+exports.saveEditedName = async (req, res) => {
+    try {
+        const userName = await User
+            .findOneAndUpdate({ username: req.user.username },
+                { name: req.body.name }
+            ).exec()
+        res.json({ ok: true })
+    } catch (error) {
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).send('Server Error saveAddress User!!!');
+    }
+};
+
+exports.saveSubdistrict = async (req, res) => {
+    try {
+        const usersubdistrict = await User
+            .findOneAndUpdate({ username: req.user.username },
+                { subdistrict: req.body.subdistrict }
+            ).exec()
+        res.json({ ok: true })
+    } catch (error) {
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).send('Server Error subdistrict User!!!');
+    }
+};
+exports.getSubdistrict = async (req, res) => {
+    try {
+        let list = await User
+            .findOne({ username: req.user.username })
+            .select('subdistrict')
+            .populate('subdistrict')
+            .exec()
+        res.json(list)
+    } catch (error) {
+        console.error('Error in subdistrict', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+exports.getZipCode = async (req, res) => {
+    try {
+        let list = await User
+            .findOne({ username: req.user.username })
+            .select('zipCode')
+            .populate('zipCode')
+            .exec()
+        res.json(list)
+    } catch (error) {
+        console.error('Error in zipCode', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+exports.getProvince = async (req, res) => {
+    try {
+        let list = await User
+            .findOne({ username: req.user.username })
+            .select('province')
+            .populate('province')
+            .exec()
+        res.json(list)
+    } catch (error) {
+        console.error('Error in province', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+exports.getPhoneNumber = async (req, res) => {
+    try {
+        let list = await User
+            .findOne({ username: req.user.username })
+            .select('phoneNumber')
+            .populate('phoneNumber')
+            .exec()
+        res.json({ phoneNumber: list.phoneNumber })
+    } catch (error) {
+        console.error('Error in Phone', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+exports.getFullAddress = async (req, res) => {
+    try {
+        const user = await User
+            .findOne({ username: req.user.username })
+            .select('fulladdress')
+            .populate('fulladdress')
+            .exec();
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({ fulladdress: user.fulladdress });
+    } catch (error) {
+        // Log the error for debugging purposes
+        console.error('Error in getFullAddress:', error);
+        // Handle errors, and send a 500 Internal Server Error response
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+exports.getName = async (req, res) => {
+    try {
+        let list = await User
+            .findOne({ username: req.user.username })
+            .select('name')
+            .populate('name')
+            .exec()
+        res.json({ name: list.name })
+    } catch (error) {
+        console.error('Error in address', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+exports.getUserName = async (req, res) => {
+    try {
+        let list = await User
+            .findOne({ username: req.user.username })
+            .exec()
+        res.json(list)
+    } catch (error) {
+        console.error('Error in address', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+exports.getPassWord = async (req, res) => {
+    try {
+        let list = await User
+            .findOne({ username: req.user.username })
+            .select('password')
+            .populate('password')
+            .exec()
+        res.json({ password: list.password })
+    } catch (error) {
+        console.error('Error in address', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+exports.saveOrder = async (req, res) => {
+>>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
     try {
         const userAddress = await User
             .findOneAndUpdate({ username: req.user.username },

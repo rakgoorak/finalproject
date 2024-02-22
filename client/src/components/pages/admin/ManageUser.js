@@ -3,6 +3,7 @@ import { Switch, Select, Tag, Modal } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import moment from "moment/min/moment-with-locales";
+
 // functions
 import {
     listUser,
@@ -47,19 +48,15 @@ const ManageAdmin = () => {
 
     console.log("data", data);
     useEffect(() => {
-        //code
         loadData(user.user.token);
     }, []);
 
     const loadData = (authtoken) => {
-        //code
         listUser(authtoken)
             .then((res) => {
-                //code
                 setData(res.data);
             })
             .catch((err) => {
-                //err
                 console.log(err.response.data);
             });
     };
@@ -109,9 +106,8 @@ const ManageAdmin = () => {
     return (
         <div className="container-fluid">
             <div className="row">
-
                 <div className="col">
-                    <h1>จัดการผู้ใช้งานระบบ</h1>
+                    <h1>ManageAdmin Page</h1>
                     <table class="table">
                         <thead>
                             <tr>
@@ -125,7 +121,7 @@ const ManageAdmin = () => {
                         </thead>
                         <tbody>
                             {data.map((item, index) => (
-                                <tr>
+                                <tr key={index}>
                                     <th scope="row">{item.username}</th>
                                     <td>
                                         <Select
@@ -133,12 +129,12 @@ const ManageAdmin = () => {
                                             value={item.role}
                                             onChange={(e) => handleChangeRole(e, item._id)}
                                         >
-                                            {roleData.map((item, index) => (
-                                                <Select.Option value={item} key={index}>
-                                                    {item == "admin" ? (
-                                                        <Tag color="green">{item}</Tag>
+                                            {roleData.map((role, roleIndex) => (
+                                                <Select.Option value={role} key={roleIndex}>
+                                                    {role === "admin" ? (
+                                                        <Tag color="green">{role}</Tag>
                                                     ) : (
-                                                        <Tag color="red">{item}</Tag>
+                                                        <Tag color="red">{role}</Tag>
                                                     )}
                                                 </Select.Option>
                                             ))}
@@ -171,9 +167,10 @@ const ManageAdmin = () => {
                         onOk={handleOk}
                         onCancel={handleCancel}
                     >
-                        <p>รหัสผ่านใหม่ :</p>
+                        <p>New Password :</p>
                         <input
                             onChange={handleChangePassword}
+                            placeholder="รหัสผ่านใหม่"
                             type="text"
                             name="password"
                         />
