@@ -46,6 +46,11 @@ function Reviewproductpage() {
         { original: "/assets/reviewproduct/rp38.jpg", width: 1200, height: 900 },
         { original: "/assets/reviewproduct/rp39.jpg", width: 1200, height: 900 },
         { original: "/assets/reviewproduct/rp40.jpg", width: 1200, height: 900 },
+        { original: "/assets/reviewproduct/rp41.jpg", width: 1200, height: 900 },
+        { original: "/assets/reviewproduct/rp42.jpg", width: 1200, height: 900 },
+        { original: "/assets/reviewproduct/rp43.jpg", width: 1200, height: 900 },
+        { original: "/assets/reviewproduct/rp44.jpg", width: 1200, height: 900 },
+        { original: "/assets/reviewproduct/rp45.jpg", width: 1200, height: 900 },
     ];
 
     return (

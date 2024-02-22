@@ -82,7 +82,7 @@ export const History = () => {
                                         </tr>
                                     ))}
                                     <tr>
-                                        <td colSpan={3}>ราคาสุทธิ : <b><u>{orders[index].cartTotal}</u></b></td>
+                                        <td colSpan={3}>ราคาสุทธิ:<b><u>{orders[index].cartTotal}</u></b></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -94,7 +94,7 @@ export const History = () => {
                                         fileName="ใบเสร็จคำสั่งซื้อ.pdf"
                                         className="btn btn-primary m-1"
                                     >
-                                        ใบเสร็จสั่งซื้อสินค้า
+                                        PDF DownLoad
                                     </PDFDownloadLink>
                                 </div>
                             </div>

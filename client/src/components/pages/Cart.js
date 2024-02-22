@@ -1,10 +1,6 @@
 // rafce
 import React from "react";
-<<<<<<< HEAD
 import { useDispatch, useSelector } from "react-redux";
-=======
-import { useSelector } from "react-redux";
->>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
 import { Link } from "react-router-dom";
 import ProductTableCart from '../card/ProductTableCart'
 import { useNavigate } from "react-router-dom";
@@ -13,10 +9,7 @@ import { userCart } from "../functions/user";
 
 const Cart = () => {
     const navigate = useNavigate();
-<<<<<<< HEAD
     const dispatch = useDispatch();
-=======
->>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
     const { cart, user } = useSelector((state) => ({ ...state }));
 
     const getTotal = () => {
@@ -26,11 +19,7 @@ const Cart = () => {
     };
     const handleSaveOrder = () => {
         // code
-<<<<<<< HEAD
         alert("ต้องการที่จะชำระเงิน?");
-=======
-        alert("ต้องการที่จะสั่งซื้อสินค้า?");
->>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
         userCart(user.user.token, cart)
             .then((res) => {
                 console.log(res);
@@ -82,11 +71,7 @@ const Cart = () => {
                             onClick={handleSaveOrder}
                             disabled={!cart.length}
                         >
-<<<<<<< HEAD
                             ชำระเงิน
-=======
-                            สั่งซื้อสินค้า
->>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
                         </button>
                     ) : (
                         <button className="btn btn-danger">

@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-<<<<<<< HEAD
 import SlipCard from '../../card/SlipCard';
-=======
->>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
 import { updateStatusOrder, getOrdersAdmin } from '../../functions/admin';
 import { getAddress, getName, getOrders, getPhoneNumber } from '../../functions/user';
 import { toast } from 'react-toastify';
@@ -63,11 +60,6 @@ const Order = () => {
         }
     };
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
     const handleChangeStatus = (orderId, orderstatus) => {
         updateStatusOrder(user.user.token, orderId, orderstatus)
             .then(res => {
@@ -103,32 +95,17 @@ const Order = () => {
                                 <p className='mb-2'>เบอร์โทร: {phoneNumber && typeof phoneNumber.phoneNumber === 'object' ? phoneNumber.phoneNumber.someProperty : phoneNumber.phoneNumber}</p>
                             </p>
 
-<<<<<<< HEAD
                             <table className='table table-bordered'>
+                                <colgroup>
+                                    <col style={{ width: '25%' }} />
+                                    <col style={{ width: '25%' }} />
+                                    <col style={{ width: '25%' }} />
+                                </colgroup>
                                 <thead>
                                     <tr>
                                         <th>ชื่อสินค้า</th>
                                         <th>ราคา</th>
                                         <th>ชิ้น</th>
-                                        <th>สลิปการโอน</th>
-=======
-                            <select
-                                value={order.orderstatus}
-                                onChange={(e) => handleChangeStatus(order._id, e.target.value)}
-                                className='form form-control'
-                            >
-                                <option value="Not Process">ยังไม่ดำเนินการ</option>
-                                <option value="Processing">กำลังดำเนินการ</option>
-                                <option value="Cancelled">ถูกยกเลิก</option>
-                                <option value="Completed">สั่งซื้อสำเร็จ</option>
-                            </select>
-                            <table className='table table-bordered'>
-                                <thead>
-                                    <tr>
-                                        <th>ชื่อ</th>
-                                        <th>ราคา</th>
-                                        <th>ชิ้น</th>
->>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -137,7 +114,6 @@ const Order = () => {
                                             <td>{product.name}</td>
                                             <td>{product.price}</td>
                                             <td>{product.count}</td>
-                                            <td><SlipCard order={order} /></td>
                                         </tr>
                                     ))}
                                     <tr>
@@ -147,8 +123,14 @@ const Order = () => {
                                                 <u>{order.cartTotal}</u>
                                             </b>
                                         </td>
-<<<<<<< HEAD
-                                        <td>
+                                    </tr>
+                                    <tr>
+                                        <td colSpan={3}>
+                                            <SlipCard order={order} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colSpan={3}>
                                             <select
                                                 value={order.orderstatus}
                                                 onChange={(e) => handleChangeStatus(order._id, e.target.value)}
@@ -160,8 +142,6 @@ const Order = () => {
                                                 <option value="Completed">สั่งซื้อสำเร็จ</option>
                                             </select>
                                         </td>
-=======
->>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d
                                     </tr>
                                 </tbody>
                             </table>
