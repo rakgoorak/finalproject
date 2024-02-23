@@ -13,8 +13,4 @@ const Notification = ({ open, message, severity, onClose }) => {
     );
 };
 
-<<<<<<< HEAD
 export default Notification;
-=======
-export default Notification;
->>>>>>> 8250aa1fe700d4334b1c9adfef53bc6c1a0e526d

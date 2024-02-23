@@ -135,11 +135,6 @@ export default function Login() {
                                 เข้าสู่ระบบ
                             </Button>
                             <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant="body2" style={{ fontSize: '18px', textDecoration: 'none' }}>
-                                        ลืมรหัสผ่าน
-                                    </Link>
-                                </Grid>
                                 <Grid item>
                                     <p>หากคุณยังไม่ได้เป็นสมาชิก
                                         <Link href="/register" variant="body2" style={{ fontSize: '20px', textDecoration: 'none' }}>
