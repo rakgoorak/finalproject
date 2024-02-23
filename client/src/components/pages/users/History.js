@@ -94,7 +94,7 @@ export const History = () => {
                                         fileName="ใบเสร็จคำสั่งซื้อ.pdf"
                                         className="btn btn-primary m-1"
                                     >
-                                        PDF DownLoad
+                                        ใบเสร็จคำสั่งซื้อ
                                     </PDFDownloadLink>
                                 </div>
                             </div>
