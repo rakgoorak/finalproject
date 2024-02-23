@@ -201,8 +201,8 @@ export const getProvince = async (authtoken, province) => {
     });
 };
 
-export const saveOrder = async (authtoken) => {
-    return await axios.post(process.env.REACT_APP_API + "/user/order", {}, {
+export const saveOrder = async (authtoken, values) => {
+    return await axios.post(process.env.REACT_APP_API + "/user/order", values, {
         headers: {
             authtoken,
         },

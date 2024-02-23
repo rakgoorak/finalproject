@@ -26,7 +26,7 @@ const BastSeller = () => {
 
     return (
         <>
-            <div className='container'>
+            <div className='container' style={{ margin: '0 auto' }}>
                 {loading ? (
                     <LoadingCard count={4} />
                 ) : (

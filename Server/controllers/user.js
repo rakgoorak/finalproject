@@ -399,20 +399,30 @@ exports.getPassWord = async (req, res) => {
 }
 exports.saveOrder = async (req, res) => {
     try {
-        let user = await User.findOne({ username: req.user.username })
-            .exec()
-        let userCart = await Cart
-            .findOne({ orderBy: user._id })
-            .exec()
-        let order = await new Order({
+        console.log(req.body.images); // Log the images from the request body
+        const user = await User.findOne({ username: req.user.username }).exec();
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        const userCart = await Cart.findOne({ orderBy: user._id }).exec();
+
+        if (!userCart) {
+            return res.status(404).send('User cart not found');
+        }
+
+        const order = await new Order({
             products: userCart.products,
             orderBy: user._id,
-            cartTotal: userCart.cartTotal
-        }).save()
-        res.send(order)
+            cartTotal: userCart.cartTotal,
+            images: req.body.images, // Assuming images are in the request body
+        }).save();
+
+        res.status(201).send(order); // Sending 201 Created status with the saved order
     } catch (error) {
-        // Handle errors, and send a 500 Internal Server Error response
-        res.status(500).send('Server Error saveAddress User!!!');
+        console.error(error);
+        res.status(500).send('Server Error while saving order');
     }
 };
 exports.getOrder = async (req, res) => {

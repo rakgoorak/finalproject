@@ -1,6 +1,6 @@
 // rafce
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ProductTableCart from '../card/ProductTableCart'
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import { userCart } from "../functions/user";
 
 const Cart = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const { cart, user } = useSelector((state) => ({ ...state }));
 
     const getTotal = () => {
@@ -18,7 +19,7 @@ const Cart = () => {
     };
     const handleSaveOrder = () => {
         // code
-        alert("ต้องการที่จะสั่งซื้อสินค้า?");
+        alert("ต้องการที่จะชำระเงิน?");
         userCart(user.user.token, cart)
             .then((res) => {
                 console.log(res);
@@ -70,7 +71,7 @@ const Cart = () => {
                             onClick={handleSaveOrder}
                             disabled={!cart.length}
                         >
-                            สั่งซื้อสินค้า
+                            ชำระเงิน
                         </button>
                     ) : (
                         <button className="btn btn-danger">

@@ -108,7 +108,7 @@ const ManageAdmin = () => {
             <div className="row">
                 <div className="col">
                     <h1>จัดการผู้ใช้งานระบบ</h1>
-                    <table className="table">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col">ชื่อผู้ใช้</th>
@@ -167,7 +167,8 @@ const ManageAdmin = () => {
                         onOk={handleOk}
                         onCancel={handleCancel}
                     >
-                        <input className="password"
+                        <p>รหัสผ่านใหม่ :</p>
+                        <input
                             onChange={handleChangePassword}
                             placeholder="รหัสผ่านใหม่"
                             type="text"

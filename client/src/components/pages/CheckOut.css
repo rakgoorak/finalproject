@@ -5,8 +5,7 @@
 }
 
 .checkout-section {
-    width: 100%;
-    max-width: 600px; /* Adjust as per your design */
+    width: 50%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -14,7 +13,7 @@
 }
 
 .checkout-content {
-    max-width: 100%; /* Adjust as per your design */
+    max-width: 400px;
     margin: 0 auto;
 }
 
@@ -50,8 +49,7 @@
 }
 
 .payment-image {
-    max-width: 100%; /* Adjust as per your design */
-    height: auto; /* Preserve aspect ratio */
+    max-height: 400px;
     margin-bottom: 20px;
 }
 
@@ -65,19 +63,20 @@
     margin-bottom: 20px;
 }
 
-.upload-slip-btn,
+.upload-slip-btn {
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    color: #495057;
+    cursor: pointer;
+}
+
 .upload-slip-text {
     padding: 20px;
     border-radius: 8px;
     border: 2px solid #ccc;
     color: #495057;
     cursor: pointer;
-    display: inline-block; /* Ensure both elements are displayed inline */
-}
-
-.upload-slip-btn:hover,
-.upload-slip-text:hover {
-    background-color: #f0f0f0;
 }
 
 .image-preview {

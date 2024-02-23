@@ -3,10 +3,10 @@ import { getUserCart, saveAddress, saveOrder, emptyCart, savePhoneNumber, saveNa
 import { useDispatch, useSelector } from 'react-redux';
 import 'react-quill/dist/quill.snow.css';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';  // Change import
+import { useNavigate } from 'react-router-dom';
 import AddressForm from '../address/AddressForm';
 import './CheckOut.css';
-
+import SlipUpload from './SlipUpload';
 import QRCode from 'qrcode.react';
 import styled from 'styled-components';
 
@@ -32,6 +32,14 @@ const Checkout = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    // Move initialstate declaration before its usage
+    const initialstate = {
+        images: [],
+    };
+
+    const [values, setValues] = useState(initialstate);
+    const [loading, setLoading] = useState(false);
+
     const onNext = async (e) => {
         e.preventDefault();
 
@@ -45,7 +53,7 @@ const Checkout = () => {
         } else {
             try {
                 // Save order
-                await saveOrder(user.user.token);
+                await saveOrder(user.user.token, values);
                 emptyCart(user.user.token);
                 dispatch({
                     type: 'addToCart',
@@ -76,8 +84,9 @@ const Checkout = () => {
                 } else {
                     toast.error('Failed to save phone number and name. Please try again.');
                 }
+                // Upload slip image to Cloudinary
 
-                // Redirect to history page
+                // Redirect to the history page
                 navigate('/user/history');
             } catch (error) {
                 console.error('Error during checkout:', error);
@@ -109,39 +118,39 @@ const Checkout = () => {
     // Payment
     const generatePayload = require('promptpay-qr');
     const Title = styled.h1`
-  font-size: 3em;
-  text-align: center;
-  color: palevioletred;
-  margin-bottom: 20px;
-`;
+        font-size: 3em;
+        text-align: center;
+        color: palevioletred;
+        margin-bottom: 20px;
+    `;
 
     const Container = styled.div`
-  max-height: 100vh;
-  padding: 4em;
-  background: papayawhip;
-`;
+        max-height: 100vh;
+        padding: 4em;
+        background: papayawhip;
+    `;
 
     const FlexContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-`;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    `;
 
     const QRWrapper = styled.div`
-  margin: auto;
-  text-align: center;
-  padding: 20px;
-  background-color: white;
-  border: 2px solid palevioletred;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-`;
+        margin: auto;
+        text-align: center;
+        padding: 20px;
+        background-color: white;
+        border: 2px solid palevioletred;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    `;
 
     const InputWrapper = styled.div`
-  margin: auto;
-  text-align: center;
-  padding: 20px;
-`;
+        margin: auto;
+        text-align: center;
+        padding: 20px;
+    `;
 
     const [qrCode, setQRCode] = useState("");
     const [promptpay, setPromptPay] = useState("062-671-8672");
@@ -153,7 +162,6 @@ const Checkout = () => {
     function handleQR() {
         setQRCode(generatePayload(promptpay, { total: total.toFixed(2) }));
     }
-
 
     return (
         <div className='container-fluid'>
@@ -222,45 +230,11 @@ const Checkout = () => {
                                                     <span className="image-preview" />
                                                 ) : (
                                                     <div className="upload-slip-text">
+                                                        <SlipUpload values={values} setValues={setValues} loading={loading} setLoading={setLoading} />
                                                         อัพโหลดสลิป
                                                     </div>
                                                 )}
                                             </label>
-                                            <input
-                                                id="slipt"
-                                                className="hidden"
-                                                type="file"
-                                                accept="image/*"
-                                                onChange={(e) => {
-                                                    if (e.target.files) {
-                                                        setError();
-                                                        if (e.target.files[0].type.split("/")[0] !== "image") {
-                                                            setError("ไฟล์สลิปไม่ถูกต้อง");
-                                                            return;
-                                                        }
-                                                        console.log("Just regular image file");
-                                                        setSliptFile(e.target.files[0]);
-                                                        var openFile = function (event) {
-                                                            var input = event.target;
-
-                                                            // Instantiate FileReader
-                                                            var reader = new FileReader();
-                                                            reader.onload = function () {
-                                                                const TheFileContents = reader.result;
-                                                                // Update the output to include the <img> tag with the data URL as the source
-                                                                document.getElementById("image-preview").innerHTML =
-                                                                    '<h2>สลิปของท่าน</h2><p><img width="200" src="' +
-                                                                    TheFileContents +
-                                                                    '" /></p>';
-                                                            };
-                                                            // Produce a data URL (base64 encoded string of the data in the file)
-                                                            // We are retrieving the first file from the FileList object
-                                                            reader.readAsDataURL(input.files[0]);
-                                                        };
-                                                        openFile(e);
-                                                    }
-                                                }}
-                                            />
                                         </div>
                                     </div>
                                 )}
