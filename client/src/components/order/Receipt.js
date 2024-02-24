@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer';
 import fontPdf from './Sarabun.ttf';
 import userImage from './user.jpg';
-import { getAddress, getName, getPhoneNumber } from '../functions/user';
 
 Font.register({ family: 'Sarabun', src: fontPdf });
 
@@ -23,13 +22,13 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         fontSize: 18,
         fontWeight: 'bold',
-        textAlign: 'center',
+        textAlign: 'left',
     },
     title1: {
         marginBottom: 5,
         fontSize: 14,
         fontWeight: 'bold',
-        textAlign: 'center',
+        textAlign: 'left',
     },
     table: {
         marginTop: 10,
@@ -80,30 +79,7 @@ const styles = StyleSheet.create({
 });
 
 
-const Receipt = ({ order }) => {
-    const [name, setName] = useState('');
-    const [address, setAddress] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-
-    useEffect(() => {
-        loadData();
-    }, []);
-
-    const loadData = () => {
-        Promise.all([
-            getName(order.user),
-            getAddress(order.user),
-            getPhoneNumber(order.user)
-        ])
-            .then(([nameRes, addressRes, phoneNumberRes]) => {
-                setName(nameRes.data);
-                setAddress(addressRes.data);
-                setPhoneNumber(phoneNumberRes.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-            });
-    };
+const Receipt = ({ order, name, address, phoneNumber }) => {
 
     return (
         <Document>
@@ -122,9 +98,9 @@ const Receipt = ({ order }) => {
 
                     <View style={styles.dataContainer}>
                         <Text>วันที่ : {new Date().toLocaleDateString()}</Text>
-                        <Text>ชื่อลูกค้า : {name}</Text>
-                        <Text>ที่อยู่ : {address}</Text>
-                        <Text>โทรศัพท์ : {phoneNumber}</Text>
+                        <Text>ชื่อลูกค้า : {name && name.name}</Text>
+                        <Text>ที่อยู่ : {address && address.fulladdress && address.fulladdress.houseNumber} ต.{address && address.fulladdress && address.fulladdress.subdistrict} อ.{address && address.fulladdress && address.fulladdress.district} จ.{address && address.fulladdress && address.fulladdress.province} {address && address.fulladdress && address.fulladdress.zipcode}</Text>
+                        <Text>โทรศัพท์ : {phoneNumber && phoneNumber.phoneNumber}</Text>
                     </View>
 
                     {/* Table */}

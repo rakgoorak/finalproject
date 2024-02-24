@@ -56,4 +56,4 @@ const NewProductCard = ({ product }) => {
     );
 }
 
-export default NewProductCard
+export default NewProductCard;

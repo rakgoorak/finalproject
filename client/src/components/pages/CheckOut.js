@@ -263,7 +263,7 @@ const Checkout = () => {
                         </div>
                     ))}
                     <hr />
-                    ราคาสุทธิ: <b>{total}</b> บาท
+                    ราคาสุทธิ: <b>{(total * 1.07).toFixed(2)}</b> บาท
                     <br />
                     <hr />
                 </div>

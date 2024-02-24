@@ -2,11 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getAddress, getName, getOrders, getPhoneNumber } from '../../functions/user';
 
-
-// Create styles
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import Receipt from '../../order/Receipt';
-// Create styles
 
 export const History = () => {
     const { user } = useSelector((state) => ({ ...state }));
@@ -86,15 +83,14 @@ export const History = () => {
                                     </tr>
                                 </tbody>
                             </table>
-                            <div className="row">
+                            <div className="row" style={{ marginBottom: '50px' }}>
                                 <div className="col">
                                     <PDFDownloadLink
-                                        document={<Receipt order={orders[index]}
-                                        />}
+                                        document={<Receipt order={orders[index]} name={name} address={address} phoneNumber={phoneNumber} />}
                                         fileName="ใบเสร็จคำสั่งซื้อ.pdf"
                                         className="btn btn-primary m-1"
                                     >
-                                        PDF DownLoad
+                                        ใบเสร็จคำสั่งซื้อ
                                     </PDFDownloadLink>
                                 </div>
                             </div>
@@ -102,7 +98,7 @@ export const History = () => {
                     ))
                 )}
             </div>
-        </div>
+        </div >
     );
 };
 

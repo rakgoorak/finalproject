@@ -1,46 +1,47 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify'
-import { DeleteOutlined } from '@ant-design/icons'
+import { toast } from 'react-toastify';
+import { DeleteOutlined } from '@ant-design/icons';
 import { getUserCart } from '../functions/user';
 
 const ProductTableCart = ({ item }) => {
-    const [cart, setCart] = useState([])
-    const { user } = useSelector((state) => ({ ...state }))
-    const dispatch = useDispatch()
+    const [cart, setCart] = useState([]);
+    const { user } = useSelector((state) => ({ ...state }));
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const cartFromLocalStorage = JSON.parse(localStorage.getItem('cart')) || [];
+        setCart(cartFromLocalStorage);
+    }, []); // Run only once on component mount
+
     const handleChangeCount = (e) => {
-        const count = e.target.value < 1 ? 1 : e.target.value
-        let cart = []
-        if (localStorage.getItem('cart')) {
-            cart = JSON.parse(localStorage.getItem('cart'))
-        }
-        cart.map((product, i) => {
+        const count = e.target.value < 1 ? 1 : e.target.value;
+        const updatedCart = cart.map((product) => {
             if (product._id === item._id) {
-                cart[i].count = count
+                return { ...product, count };
             }
-        })
-        localStorage.setItem('cart', JSON.stringify(cart))
-        dispatch({
-            type: "addToCart",
-            payload: cart
-        })
-    }
-    const handleRemove = () => {
-        let cart = []
-        if (localStorage.getItem('cart')) {
-            cart = JSON.parse(localStorage.getItem('cart'))
-        }
-        cart.map((product, i) => {
-            if (product._id === item._id) {
-                cart.splice(i, 1);
-            }
+            return product;
         });
-        localStorage.setItem('cart', JSON.stringify(cart))
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+        setCart(updatedCart);
         dispatch({
-            type: "addToCart",
-            payload: cart
-        })
-    }
+            type: 'addToCart',
+            payload: updatedCart,
+        });
+        window.location.reload(); // Reload the page
+    };
+
+    const handleRemove = () => {
+        const updatedCart = cart.filter((product) => product._id !== item._id);
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+        setCart(updatedCart);
+        dispatch({
+            type: 'addToCart',
+            payload: updatedCart,
+        });
+        window.location.reload(); // Reload the page
+    };
+
     return (
         <tr>
             <td>
@@ -61,9 +62,7 @@ const ProductTableCart = ({ item }) => {
                 />
             </td>
             <td>
-                <DeleteOutlined
-                    onClick={handleRemove}
-                    className='text-danger' />
+                <DeleteOutlined onClick={handleRemove} className='text-danger' />
             </td>
         </tr>
     );
