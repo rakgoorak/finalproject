@@ -119,7 +119,7 @@ const Shop = () => {
                         <>
                             <h4>สินค้า</h4>
                             {products.length < 1 && <p>No Product found</p>}
-                            <div className='row pb-5'>
+                            <div className='shop row pb-5'>
                                 {products.map((item, index) => (
                                     <div key={index} className='col-md-4 mt-3'>
                                         <NewProductCard
@@ -131,7 +131,7 @@ const Shop = () => {
                             </div>
                         </>
                     )}
-                </div >
+                </div>
             </div >
         </div >
     );
