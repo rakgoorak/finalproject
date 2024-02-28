@@ -1,6 +1,6 @@
 import React from 'react';
-import { EditOutlined, DeleteOutlined, SettingOutlined } from '@ant-design/icons';
-import { Card } from 'antd';  // Keep only one import statement for Card
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Card } from 'antd';
 import { Link } from 'react-router-dom';
 
 const { Meta } = Card;

@@ -13,7 +13,7 @@ const NewProduct = () => {
 
     const loadData = () => {
         setLoading(true);
-        listProductBy("createdAt", "desc", 3)
+        listProductBy("createdAt", "desc", 8)
             .then(res => {
                 setLoading(false);
                 setProducts(res.data);
@@ -26,13 +26,13 @@ const NewProduct = () => {
 
     return (
         <>
-            <div className='container' style={{ margin: '0 auto' }}>
+            <div className='NewProduct'>
                 {loading ? (
                     <LoadingCard count={4} />
                 ) : (
-                    <div className='row'>
+                    <div className='productrow'>
                         {products.map((item, index) => (
-                            <div className='col-md-4' key={index}>
+                            <div className='productimage' key={index}>
                                 <NewProductCard product={item} />
                             </div>
                         ))}

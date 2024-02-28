@@ -3,7 +3,7 @@ import { listProductBy } from '../functions/product';
 import NewProductCard from '../card/NewProductCard';
 import LoadingCard from '../card/LoadingCard';
 
-const BastSeller = () => {
+const BestSeller = () => {
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
 
@@ -13,7 +13,7 @@ const BastSeller = () => {
 
     const loadData = () => {
         setLoading(true);
-        listProductBy("sold", "desc", 3)
+        listProductBy("sold", "desc", 8)
             .then(res => {
                 setLoading(false);
                 setProducts(res.data);
@@ -25,22 +25,20 @@ const BastSeller = () => {
     };
 
     return (
-        <>
-            <div className='container' style={{ margin: '0 auto' }}>
-                {loading ? (
-                    <LoadingCard count={4} />
-                ) : (
-                    <div className='row'>
-                        {products.map((item, index) => (
-                            <div className='col-md-4' key={index}>
-                                <NewProductCard product={item} />
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
-        </>
-    )
+        <div className='BastSeller'>
+            {loading ? (
+                <LoadingCard count={4} />
+            ) : (
+                <div className='productrow'>
+                    {products.map((item) => (
+                        <div className='productimage'>
+                            <NewProductCard product={item} />
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
 }
 
-export default BastSeller
+export default BestSeller;

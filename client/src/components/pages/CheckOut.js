@@ -22,6 +22,48 @@ const Checkout = () => {
     const [fullAddress, setFullAddress] = useState({});
     const [forOthers, setForOthers] = useState(false);
     const [sliptFile, setSliptFile] = useState(null);
+    // const [selectedFile, setSelectedFile] = useState(null);
+    // const [imageUrl, setImageUrl] = useState('');
+    const [qrCode, setQRCode] = useState("");
+    const [promptpay, setPromptPay] = useState("062-671-8672");
+
+    // const handFileChange = (event) => {
+    //     const file = event.target.files[0];
+    //     if (file) {
+    //         setSelectedFile(file);
+    //         const reader = new FileReader();
+    //         reader.onloadend = () => {
+    //             setImageUrl(reader.result);
+    //         }
+    //         reader.readAsDataURL(file);
+    //     }
+    // }
+
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+
+    //     const formData = new FormData();
+    //     formData.append('files', selectedFile);
+
+    //     try {
+    //         const response = await fetch('http://localhost:5000/slipok', {
+    //             method: 'POST',
+    //             body: formData,
+    //         })
+
+    //         if (response.ok) {
+    //             const data = await response.json();
+    //             alert('Slip Uploading Successfully!')
+    //             console.log('Response', data);
+    //         } else {
+    //             alert('Failed to Upload Slip')
+    //         }
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //         alert('An error upload slip')
+    //     }
+    // }
+
 
     const { user } = useSelector((state) => ({ ...state }));
     const [products, setProducts] = useState([]);
@@ -152,9 +194,6 @@ const Checkout = () => {
         padding: 20px;
     `;
 
-    const [qrCode, setQRCode] = useState("");
-    const [promptpay, setPromptPay] = useState("062-671-8672");
-
     useEffect(() => {
         handleQR();
     }, []);
@@ -218,7 +257,7 @@ const Checkout = () => {
                                                     <QRCode value={qrCode} />
                                                     <InputWrapper>
                                                         <p>ชื่อบัญชี อาทิตยา ฆารเลิศ</p>
-                                                        <p>โปรดตรวจสอบจำนวนเงินให้ถูกต้องก่อนทำรายการ จำนวนเงิน {total} บาท</p>
+                                                        <p>โปรดตรวจสอบจำนวนเงินให้ถูกต้องก่อนทำรายการ จำนวนเงิน {(total * 1.07).toFixed(2)} บาท</p>
                                                     </InputWrapper>
                                                 </QRWrapper>
                                             </FlexContainer>
@@ -229,6 +268,11 @@ const Checkout = () => {
                                                 {sliptFile ? (
                                                     <span className="image-preview" />
                                                 ) : (
+                                                    //     <img src={imageUrl} height={300} />
+                                                    // <form onSubmit={handleSubmit}>
+                                                    //     <input type='file' accept='image/*'
+                                                    //         onChange={handFileChange} />
+                                                    //     <input type='submit' value="Upload Slip" />
                                                     <div className="upload-slip-text">
                                                         <SlipUpload values={values} setValues={setValues} loading={loading} setLoading={setLoading} />
                                                         อัพโหลดสลิป
@@ -238,7 +282,6 @@ const Checkout = () => {
                                         </div>
                                     </div>
                                 )}
-
                                 <div
                                     className="payment-button"
                                     onClick={onNext}
@@ -248,7 +291,7 @@ const Checkout = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div >
                 <div className="col-md-6" style={{ marginTop: '35px', fontSize: '20px' }}>
                     <h4>ข้อมูลสินค้าทั้งหมด</h4>
                     <hr />
@@ -267,8 +310,8 @@ const Checkout = () => {
                     <br />
                     <hr />
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 

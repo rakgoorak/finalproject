@@ -1,4 +1,3 @@
-// Shop.js
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Slider, Checkbox } from 'antd';
@@ -87,6 +86,7 @@ const Shop = () => {
 
     const handleAddtoCart = (product) => {
         dispatch(addToCart(product));
+        window.location.reload();
     };
 
     return (

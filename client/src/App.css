@@ -84,8 +84,44 @@ body {
   }
 }
 
-/* BastSeller */
+/* BastSeller&NewProduct */
+.BestSeller {
+  text-align: center;
+}
 
+.NewProduct {
+  text-align: center;
+}
+
+.productrow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.productimage {
+  flex: 0 0 calc(25% - 90px);
+  margin: 15px;
+}
+
+@media (max-width: 1200px) {
+  .productimage {
+    flex: 0 0 calc(35% - 100px);
+  }
+}
+
+@media (max-width: 810px) {
+  .productimage {
+    flex: 0 0 calc(50% - 150px);
+  }
+}
+
+@media (max-width: 530px) {
+  .productimage {
+    flex: 0 0 calc(100% - 300px);
+  }
+}
 
 /* Review */
 .review h2 {

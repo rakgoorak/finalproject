@@ -79,7 +79,7 @@ export const History = () => {
                                         </tr>
                                     ))}
                                     <tr>
-                                        <td colSpan={3}>ราคาสุทธิ:<b><u>{orders[index].cartTotal}</u></b></td>
+                                        <td colSpan={3}>ราคาสุทธิ: <b><u>{(orders[index].cartTotal * 1.07).toFixed(2)}</u></b> (รวม VAT 7% แล้ว)</td>
                                     </tr>
                                 </tbody>
                             </table>
