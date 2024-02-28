@@ -44,6 +44,8 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         textAlign: 'center',
         flex: 1,
+        wordWrap: 'break-word',
+        overflow: 'hidden',
     },
     totalRow: {
         borderWidth: 1,
