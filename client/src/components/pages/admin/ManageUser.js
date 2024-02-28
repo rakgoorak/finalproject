@@ -7,7 +7,6 @@ import moment from "moment/min/moment-with-locales";
 // functions
 import {
     listUser,
-    changeStatus,
     changeRole,
     removeUser,
     resetPassword
@@ -61,21 +60,6 @@ const ManageAdmin = () => {
             });
     };
 
-    const handleOnchange = (e, id) => {
-        const value = {
-            id: id,
-            enabled: e,
-        };
-        changeStatus(user.user.token, value)
-            .then((res) => {
-                console.log(res);
-                loadData(user.user.token);
-            })
-            .catch((err) => {
-                console.log(err.response);
-            });
-    };
-
     const handleChangeRole = (e, id) => {
         let values = {
             id: id,
@@ -113,7 +97,6 @@ const ManageAdmin = () => {
                             <tr>
                                 <th scope="col">ชื่อผู้ใช้</th>
                                 <th scope="col">ยศ</th>
-                                <th scope="col">สถานะ</th>
                                 <th scope="col">สร้างเมื่อ</th>
                                 <th scope="col">ปรับปรุงเมื่อ</th>
                                 <th scope="col">แก้ไข</th>
@@ -140,12 +123,7 @@ const ManageAdmin = () => {
                                             ))}
                                         </Select>
                                     </td>
-                                    <td>
-                                        <Switch
-                                            checked={item.enabled}
-                                            onChange={(e) => handleOnchange(e, item._id)}
-                                        />
-                                    </td>
+
                                     <td>{moment(item.createdAt).locale("th").format("ll")}</td>
                                     <td>
                                         {moment(item.updatedAt)

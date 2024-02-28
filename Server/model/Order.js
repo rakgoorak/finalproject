@@ -14,6 +14,15 @@ const OrderSchema = new mongoose.Schema(
                 price: Number
             }
         ],
+        fulladdress: {
+            houseNumber: String,
+            subdistrict: String,
+            district: String,
+            province: String,
+            zipcode: String,
+        },
+        phoneNumber: String,
+        name: String,
         cartTotal: Number,
         orderstatus: {
             type: String,

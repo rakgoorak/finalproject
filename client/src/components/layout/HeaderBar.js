@@ -1,13 +1,9 @@
 import react, { useState } from "react";
 import { Box, IconButton, Menu, MenuItem } from "@mui/material";
-import InputBase from "@mui/material/InputBase";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -37,9 +33,6 @@ const HeaderBar = () => {
             </Box>
             {/* icons */}
             <Box display="flex">
-                <IconButton>
-                    <NotificationsOutlinedIcon />
-                </IconButton>
                 <IconButton>
                     <PersonOutlinedIcon onClick={handleMenu} />
                     <Menu style={{ marginTop: '30px' }}

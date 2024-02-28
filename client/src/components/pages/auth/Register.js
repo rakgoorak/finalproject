@@ -17,8 +17,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function Register() {
@@ -35,12 +33,12 @@ export default function Register() {
         register(regis)
             .then(res => {
                 console.log(res);
-                toast.success("ลงทะเบียนสมัครสมาชิกสำเร็จ"); // Show success message
+                toast.success("ลงทะเบียนสมัครสมาชิกสำเร็จ");
                 navi('/login');
             })
             .catch(err => {
                 console.log(err);
-                toast.error("การลงทะเบียนไม่สำเร็จ. กรุณาลองอีกครั้ง."); // Show error message
+                toast.error("การลงทะเบียนไม่สำเร็จ. กรุณาลองอีกครั้ง.");
             });
     }
     return (
@@ -53,7 +51,6 @@ export default function Register() {
                     sm={4}
                     md={7}
                     sx={{
-                        // backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
                         backgroundImage: "url(/assets/logo.png)",
                         backgroundRepeat: "no-repeat",
                         backgroundColor: (t) =>

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { addToCart } from '../store/cartSlice'; // แก้ import นี้
 
 const { Meta } = Card;
 
@@ -17,10 +18,15 @@ const NewProductCard = ({ product }) => {
         if (localStorage.getItem('cart')) {
             cart = JSON.parse(localStorage.getItem('cart'));
         }
-        cart.push({
-            ...product,
-            count: 1
-        });
+        const existingItemIndex = cart.findIndex(item => item._id === product._id);
+        if (existingItemIndex !== -1) {
+            cart[existingItemIndex].count += 1;
+        } else {
+            cart.push({
+                ...product,
+                count: 1
+            });
+        }
         let unique = _.uniqWith(cart, _.isEqual);
         localStorage.setItem("cart", JSON.stringify(unique));
         dispatches({
@@ -30,7 +36,6 @@ const NewProductCard = ({ product }) => {
         console.log('Cart after adding:', unique);
         toast.success('เพิ่มสินค้าลงในตะกร้าสำเร็จ');
     };
-
 
     return (
         <Card

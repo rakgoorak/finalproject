@@ -126,19 +126,14 @@ function ResponsiveAppBar() {
     };
     useEffect(() => {
         const handleCartChange = () => {
-            // Reload the page when cart length changes
             window.location.reload();
         };
-
-        // Add event listener for changes in the cart length
         window.addEventListener("cartChange", handleCartChange);
-
-        // Remove the event listener on component unmount
         return () => {
             window.removeEventListener("cartChange", handleCartChange);
         };
     }, [cart.length]);
-
+    console.log(cart.length);
 
     return (
         <AppBar position="static" style={{ backgroundColor: "#f9a0a1", height: '100%' }}>

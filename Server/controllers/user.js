@@ -414,6 +414,9 @@ exports.saveOrder = async (req, res) => {
 
         const order = await new Order({
             products: userCart.products,
+            fulladdress: req.body.fulladdress,
+            phoneNumber: req.body.phoneNumber,
+            name: req.body.name,
             orderBy: user._id,
             cartTotal: userCart.cartTotal,
             images: req.body.images, // Assuming images are in the request body

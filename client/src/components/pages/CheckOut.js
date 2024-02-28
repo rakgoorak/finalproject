@@ -126,7 +126,6 @@ const Checkout = () => {
                 } else {
                     toast.error('Failed to save phone number and name. Please try again.');
                 }
-                // Upload slip image to Cloudinary
 
                 // Redirect to the history page
                 navigate('/user/history');
@@ -136,6 +135,7 @@ const Checkout = () => {
             }
         }
     };
+
 
     useEffect(() => {
         getUserCart(user.user.token)
