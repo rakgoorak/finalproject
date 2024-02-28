@@ -9,7 +9,6 @@ const {
     removeImage,
     uploadSlip,
     removeSlip,
-
 } = require('../controllers/Cloudinary')
 const { auth, adminCheck } = require('../Middleware/auth')
 
