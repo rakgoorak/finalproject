@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { getUserCart, saveAddress, saveOrder, emptyCart, savePhoneNumber, saveName } from '../functions/user';
+import { getUserCart, saveOrder, emptyCart } from '../functions/user';
 import { useDispatch, useSelector } from 'react-redux';
 import 'react-quill/dist/quill.snow.css';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import AddressForm from '../address/AddressForm';
+import axios from 'axios';
 import './CheckOut.css';
 import SlipUpload from './SlipUpload';
 import QRCode from 'qrcode.react';
@@ -22,48 +23,6 @@ const Checkout = () => {
     const [fullAddress, setFullAddress] = useState({});
     const [forOthers, setForOthers] = useState(false);
     const [sliptFile, setSliptFile] = useState(null);
-    // const [selectedFile, setSelectedFile] = useState(null);
-    // const [imageUrl, setImageUrl] = useState('');
-    const [qrCode, setQRCode] = useState("");
-    const [promptpay, setPromptPay] = useState("062-671-8672");
-
-    // const handFileChange = (event) => {
-    //     const file = event.target.files[0];
-    //     if (file) {
-    //         setSelectedFile(file);
-    //         const reader = new FileReader();
-    //         reader.onloadend = () => {
-    //             setImageUrl(reader.result);
-    //         }
-    //         reader.readAsDataURL(file);
-    //     }
-    // }
-
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault();
-
-    //     const formData = new FormData();
-    //     formData.append('files', selectedFile);
-
-    //     try {
-    //         const response = await fetch('http://localhost:5000/slipok', {
-    //             method: 'POST',
-    //             body: formData,
-    //         })
-
-    //         if (response.ok) {
-    //             const data = await response.json();
-    //             alert('Slip Uploading Successfully!')
-    //             console.log('Response', data);
-    //         } else {
-    //             alert('Failed to Upload Slip')
-    //         }
-    //     } catch (error) {
-    //         console.error('Error:', error);
-    //         alert('An error upload slip')
-    //     }
-    // }
-
 
     const { user } = useSelector((state) => ({ ...state }));
     const [products, setProducts] = useState([]);
@@ -77,6 +36,15 @@ const Checkout = () => {
     // Move initialstate declaration before its usage
     const initialstate = {
         images: [],
+        fullAddress: {
+            houseNumber: "",
+            subdistrict: "",
+            district: "",
+            province: "",
+            zipcode: "",
+        },
+        name: "",
+        phoneNumber: "",
     };
 
     const [values, setValues] = useState(initialstate);
@@ -95,7 +63,16 @@ const Checkout = () => {
         } else {
             try {
                 // Save order
-                await saveOrder(user.user.token, values);
+                await saveOrder(user.user.token, {
+                    ...values,
+                    fulladdress: {
+                        houseNumber,
+                        subdistrict,
+                        district,
+                        province,
+                        zipcode,
+                    },
+                });
                 emptyCart(user.user.token);
                 dispatch({
                     type: 'addToCart',
@@ -106,26 +83,10 @@ const Checkout = () => {
                 }
                 toast.success("Save Order Success");
 
-                // Save address
-                const addressRes = await saveAddress(user.user.token, fullAddress);
+                // Removed the calls to saveAddress, savePhoneNumber, and saveName
 
-                if (addressRes.data.ok) {
-                    toast.success('Address Saved');
-                    setAddressSaved(true);
-                } else {
-                    toast.error('Failed to save address. Please try again.');
-                    return;
-                }
-
-                // Save phone number and name
-                const phoneRes = await savePhoneNumber(user.user.token, phoneNumber);
-                const nameRes = await saveName(user.user.token, name);
-                console.log(nameRes.data);
-                if (phoneRes.data.ok && nameRes.data.ok) {
-                    toast.success('Phone Number and Name Saved');
-                } else {
-                    toast.error('Failed to save phone number and name. Please try again.');
-                }
+                // Set values including fullAddress, name, and phoneNumber
+                // Upload slip image to Cloudinary
 
                 // Redirect to the history page
                 navigate('/user/history');
@@ -137,6 +98,7 @@ const Checkout = () => {
     };
 
 
+    console.log("values", values)
     useEffect(() => {
         getUserCart(user.user.token)
             .then((res) => {
@@ -155,6 +117,19 @@ const Checkout = () => {
         setFullAddress({ houseNumber, subdistrict, district, province, zipcode });
         setError("");
         console.log("some fulladdress: ", fullAddress);
+        setValues({
+            ...values,
+            fullAddress: {
+                houseNumber,
+                subdistrict,
+                district,
+                province,
+                zipcode,
+            },
+            name,
+            phoneNumber,
+        });
+
     }
 
     // Payment
@@ -193,6 +168,9 @@ const Checkout = () => {
         text-align: center;
         padding: 20px;
     `;
+
+    const [qrCode, setQRCode] = useState("");
+    const [promptpay, setPromptPay] = useState("062-671-8672");
 
     useEffect(() => {
         handleQR();
@@ -257,7 +235,7 @@ const Checkout = () => {
                                                     <QRCode value={qrCode} />
                                                     <InputWrapper>
                                                         <p>ชื่อบัญชี อาทิตยา ฆารเลิศ</p>
-                                                        <p>โปรดตรวจสอบจำนวนเงินให้ถูกต้องก่อนทำรายการ จำนวนเงิน {(total * 1.07).toFixed(2)} บาท</p>
+                                                        <p>โปรดตรวจสอบจำนวนเงินให้ถูกต้องก่อนทำรายการ จำนวนเงิน {total} บาท</p>
                                                     </InputWrapper>
                                                 </QRWrapper>
                                             </FlexContainer>
@@ -268,20 +246,16 @@ const Checkout = () => {
                                                 {sliptFile ? (
                                                     <span className="image-preview" />
                                                 ) : (
-                                                    //     <img src={imageUrl} height={300} />
-                                                    // <form onSubmit={handleSubmit}>
-                                                    //     <input type='file' accept='image/*'
-                                                    //         onChange={handFileChange} />
-                                                    //     <input type='submit' value="Upload Slip" />
                                                     <div className="upload-slip-text">
-                                                        <SlipUpload values={values} setValues={setValues} loading={loading} setLoading={setLoading} />
                                                         อัพโหลดสลิป
+                                                        <SlipUpload values={values} setValues={setValues} loading={loading} setLoading={setLoading} />
                                                     </div>
                                                 )}
                                             </label>
                                         </div>
                                     </div>
                                 )}
+
                                 <div
                                     className="payment-button"
                                     onClick={onNext}
@@ -291,7 +265,7 @@ const Checkout = () => {
                             </div>
                         </div>
                     </div>
-                </div >
+                </div>
                 <div className="col-md-6" style={{ marginTop: '35px', fontSize: '20px' }}>
                     <h4>ข้อมูลสินค้าทั้งหมด</h4>
                     <hr />
@@ -306,12 +280,12 @@ const Checkout = () => {
                         </div>
                     ))}
                     <hr />
-                    ราคาสุทธิ: <b>{(total * 1.07).toFixed(2)}</b> บาท
+                    ราคาสุทธิ: <b>{total}</b> บาท
                     <br />
                     <hr />
                 </div>
-            </div >
-        </div >
+            </div>
+        </div>
     );
 };
 

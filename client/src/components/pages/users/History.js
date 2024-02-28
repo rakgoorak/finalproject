@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getAddress, getName, getOrders, getPhoneNumber } from '../../functions/user';
+import { getOrders } from '../../functions/user';
 
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import Receipt from '../../order/Receipt';
@@ -8,38 +8,22 @@ import Receipt from '../../order/Receipt';
 export const History = () => {
     const { user } = useSelector((state) => ({ ...state }));
     const [orders, setOrders] = useState({});
-    const [name, setName] = useState({});
-    const [address, setAddress] = useState({});
-    const [phoneNumber, setPhoneNumber] = useState({});
 
     useEffect(() => {
         loadData();
     }, []);
 
     const loadData = () => {
-        // Set loading state
         setOrders({});
-        setName({});
-        setAddress({});
-        setPhoneNumber({});
-
-        // Fetching orders, address, phone number, and name concurrently
         Promise.all([
             getOrders(user.user.token),
-            getAddress(user.user.token),
-            getPhoneNumber(user.user.token),
-            getName(user.user.token)
         ])
-            .then(([ordersRes, addressRes, phoneNumberRes, nameRes]) => {
+            .then(([ordersRes]) => {
                 console.log("Orders response:", ordersRes.data); // Log orders response
                 setOrders(ordersRes.data);
-                setName(nameRes.data && typeof nameRes.data === 'object' ? nameRes.data : { name: nameRes.data });
-                setAddress(addressRes.data);
-                setPhoneNumber(phoneNumberRes.data && typeof phoneNumberRes.data === 'object' ? phoneNumberRes.data : { phoneNumber: phoneNumberRes.data });
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
-                // Handle errors, e.g., set an error state or display an error message
             });
     };
 
@@ -54,13 +38,13 @@ export const History = () => {
                     Object.keys(orders).map((index) => (
                         <div key={index} className='cart m-3'>
                             <p>สถานะสินค้า: {orders[index].orderstatus}</p>
-                            <p>ชื่อ: {name.name}</p>
-                            <p>ที่อยู่: {address && typeof address.fulladdress === 'object' ? address.fulladdress.houseNumber : address.fulladdress}</p>
-                            <p>ตำบล: {address && typeof address.fulladdress === 'object' ? address.fulladdress.subdistrict : ''}</p>
-                            <p>อำเภอ: {address && typeof address.fulladdress === 'object' ? address.fulladdress.district : ''}</p>
-                            <p>จังหวัด: {address && typeof address.fulladdress === 'object' ? address.fulladdress.province : ''}</p>
-                            <p>รหัสไปรษณีย์: {address && typeof address.fulladdress === 'object' ? address.fulladdress.zipcode : ''}</p>
-                            <p>เบอร์โทร: {phoneNumber && typeof phoneNumber.phoneNumber === 'object' ? phoneNumber.phoneNumber.someProperty : phoneNumber.phoneNumber}</p>
+                            <p>ชื่อ: {orders[index].name}</p>
+                            <p>ที่อยู่: {orders && typeof orders[index].fulladdress === 'object' ? orders[index].fulladdress.houseNumber : orders[index].fulladdress}</p>
+                            <p>ตำบล: {orders && typeof orders[index].fulladdress === 'object' ? orders[index].fulladdress.subdistrict : ''}</p>
+                            <p>อำเภอ: {orders && typeof orders[index].fulladdress === 'object' ? orders[index].fulladdress.district : ''}</p>
+                            <p>จังหวัด: {orders && typeof orders[index].fulladdress === 'object' ? orders[index].fulladdress.province : ''}</p>
+                            <p>รหัสไปรษณีย์: {orders && typeof orders[index].fulladdress === 'object' ? orders[index].fulladdress.zipcode : ''}</p>
+                            <p>เบอร์โทร: {orders[index].phoneNumber}</p>
 
                             <table className='table table-bordered' style={{ marginBottom: '50px' }}>
                                 <thead>
@@ -86,7 +70,7 @@ export const History = () => {
                             <div className="row" style={{ marginBottom: '50px' }}>
                                 <div className="col">
                                     <PDFDownloadLink
-                                        document={<Receipt order={orders[index]} name={name} address={address} phoneNumber={phoneNumber} />}
+                                        document={<Receipt order={orders[index]} />}
                                         fileName="ใบเสร็จคำสั่งซื้อ.pdf"
                                         className="btn btn-primary m-1"
                                     >

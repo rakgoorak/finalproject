@@ -11,14 +11,11 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-// function
 import { login } from "../../functions/auth";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login as loginRedux } from "../../store/userSlice";
 import { toast } from 'react-toastify';
-
-// TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
@@ -26,7 +23,7 @@ export default function Login() {
     const navi = useNavigate()
     const dispatch = useDispatch()
     const location = useLocation()
-    console.log('lo', location)
+    console.log('lo', location.state)
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);

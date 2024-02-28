@@ -11,8 +11,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-import { ShoppingOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
@@ -58,12 +56,12 @@ const contact = [
 const cartPage = {
     title: "ตะกร้า",
     icon: <ShoppingCartIcon />,
-    to: "/cart", // Update with the correct path for your shop
+    to: "/cart",
 };
 const WishlistPage = {
     title: "สินค้าที่ชอบ",
     icon: <StarOutlined />,
-    to: "/user/wishlist", // Update with the correct path for your shop
+    to: "/user/wishlist",
 };
 const authen = [
     {

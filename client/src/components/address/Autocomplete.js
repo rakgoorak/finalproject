@@ -1,4 +1,3 @@
-import { useState } from "react";
 import InputAddress from "react-thailand-address-autocomplete";
 
 function App(props) {

@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
 });
 
 
-const Receipt = ({ order, name, address, phoneNumber }) => {
-
+const Receipt = ({ order }) => {
+    console.log("order receipt", order)
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -98,9 +98,14 @@ const Receipt = ({ order, name, address, phoneNumber }) => {
 
                     <View style={styles.dataContainer}>
                         <Text>วันที่ : {new Date().toLocaleDateString()}</Text>
-                        <Text>ชื่อลูกค้า : {name && name.name}</Text>
-                        <Text>ที่อยู่ : {address && address.fulladdress && address.fulladdress.houseNumber} ต.{address && address.fulladdress && address.fulladdress.subdistrict} อ.{address && address.fulladdress && address.fulladdress.district} จ.{address && address.fulladdress && address.fulladdress.province} {address && address.fulladdress && address.fulladdress.zipcode}</Text>
-                        <Text>โทรศัพท์ : {phoneNumber && phoneNumber.phoneNumber}</Text>
+                        <Text>ชื่อลูกค้า : {order.name}</Text>
+                        <Text>
+                            ที่อยู่ : {order && order.fulladdress && order.fulladdress.houseNumber}{' '}
+                            ต.{order && order.fulladdress && order.fulladdress.subdistrict} อ.{order && order.fulladdress && order.fulladdress.district} จ.{order && order.fulladdress && order.fulladdress.province}{' '}
+                            {order && order.fulladdress && order.fulladdress.zipcode}
+                        </Text>
+                        <Text>โทรศัพท์ : {order.phoneNumber}</Text>
+
                     </View>
 
                     {/* Table */}
@@ -138,4 +143,3 @@ const Receipt = ({ order, name, address, phoneNumber }) => {
 };
 
 export default Receipt;
-

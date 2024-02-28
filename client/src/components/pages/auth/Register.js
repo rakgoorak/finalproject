@@ -10,8 +10,6 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-// function
 import { register } from "../../functions/auth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -20,27 +18,55 @@ import "react-toastify/dist/ReactToastify.css";
 const defaultTheme = createTheme();
 
 export default function Register() {
-    const navi = useNavigate()
+    const navigate = useNavigate();
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
+        const username = data.get("username");
+        const password = data.get("password");
+
+        // Validate username and password
+        if (username.includes(" ") || password.includes(" ")) {
+            toast.error("ชื่อผู้ใช้และรหัสผ่านไม่สามารถมีช่องว่างได้");
+            return;
+        }
+
+        const specialChars = /[!#$%^&*(),?":{}|<>]/;
+        if (specialChars.test(username)) {
+            toast.error("ชื่อผู้ใช้ไม่สามารถมีอักขระพิเศษได้");
+            return;
+        }
+        if (specialChars.test(password)) {
+            toast.error("รหัสผ่านไม่สามารถมีอักขระพิเศษได้");
+            return;
+        }
+
         const regis = {
-            username: data.get("username"),
-            password: data.get("password"),
+            username,
+            password,
+            confirmPassword: data.get("confirmPassword"),
         };
+
+        // Validate password and confirmPassword
+        if (regis.password !== regis.confirmPassword) {
+            toast.error("รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน");
+            return;
+        }
 
         register(regis)
             .then(res => {
                 console.log(res);
                 toast.success("ลงทะเบียนสมัครสมาชิกสำเร็จ");
-                navi('/login');
+                navigate('/login');
             })
             .catch(err => {
                 console.log(err);
                 toast.error("การลงทะเบียนไม่สำเร็จ. กรุณาลองอีกครั้ง.");
             });
-    }
+    };
+
     return (
         <ThemeProvider theme={defaultTheme}>
             <Grid container component="main" sx={{ height: "100vh" }}>
@@ -99,6 +125,16 @@ export default function Register() {
                                 id="password"
                                 autoComplete="current-password"
                             />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="confirmPassword"
+                                label="ยืนยันรหัสผ่าน"
+                                type="password"
+                                id="confirmPassword"
+                                autoComplete="current-password"
+                            />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="จดจำในระบบ"
@@ -113,7 +149,8 @@ export default function Register() {
                             </Button>
                             <Grid container>
                                 <Grid item>
-                                    <p>หากคุณยังไม่ได้เป็นสมาชิก
+                                    <p>
+                                        หากคุณยังไม่ได้เป็นสมาชิก
                                         <Link href="/login" variant="body2" style={{ fontSize: '20px', textDecoration: 'none' }}>
                                             {" เข้าสู่ระบบ"}
                                         </Link>
@@ -124,6 +161,6 @@ export default function Register() {
                     </Box>
                 </Grid>
             </Grid>
-        </ThemeProvider >
+        </ThemeProvider>
     );
 }

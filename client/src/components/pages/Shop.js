@@ -4,7 +4,7 @@ import { Slider, Checkbox } from 'antd';
 import { listProduct, searchFilters } from '../functions/product';
 import NewProductCard from '../card/NewProductCard';
 import { listCategory } from '../functions/Category';
-import { addToCart } from '../store/cartSlice';
+import { cartReducer } from '../store/cartSlice';
 
 const Shop = () => {
     const [products, setProducts] = useState([]);
@@ -85,7 +85,7 @@ const Shop = () => {
     };
 
     const handleAddtoCart = (product) => {
-        dispatch(addToCart(product));
+        dispatch(cartReducer(product));
         window.location.reload();
     };
 

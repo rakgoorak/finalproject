@@ -41,9 +41,9 @@ const Cart = () => {
                     <td>ลบสินค้า</td>
                 </tr>
             </thead>
-            {cart.map((item) => (
+            {cart.map((item) =>
                 <ProductTableCart key={item._id} item={item} />
-            ))}
+            )}
         </table>
     );
     return (
@@ -65,21 +65,20 @@ const Cart = () => {
                     <hr />
                     ราคาสินค้าทั้งหมด : <b> {getTotal()} </b>
                     <hr />
-                    {user ? (
-                        <button
+                    {user
+                        ? <button
                             className="btn btn-success"
                             onClick={handleSaveOrder}
                             disabled={!cart.length}
                         >
                             ชำระเงิน
                         </button>
-                    ) : (
-                        <button className="btn btn-danger">
+                        : <button className="btn btn-danger">
                             <Link to="/login" state="cart">
                                 เข้าสู่ระบบก่อน
                             </Link>
                         </button>
-                    )}
+                    }
                 </div>
             </div>
         </div>

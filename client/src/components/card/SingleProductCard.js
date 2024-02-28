@@ -28,7 +28,7 @@ const SingleProductCard = ({ product }) => {
         let unique = _.uniqWith(cart, _.isEqual);
         localStorage.setItem("cart", JSON.stringify(unique));
         dispatches({
-            type: "addToCart",
+            type: "ADD_TO_CART",
             payload: unique
         });
         console.log('Cart after adding:', unique);
