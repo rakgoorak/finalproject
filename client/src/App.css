@@ -14,7 +14,6 @@ body {
 }
 
 /*Home*/
-
 .homepage {
   height: 50vh;
   width: 100%;
@@ -31,29 +30,31 @@ body {
   z-index: 3;
   justify-content: center;
   flex-direction: column;
+  align-items: center;
   text-align: center;
 }
 
 .homepage .content .text {
   color: #fff;
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 50px;
 }
 
 .homepage .content .text h1 {
-  font-size: clamp(16px, 5vw, 150px);
-  margin-bottom: 30px;
+  font-size: clamp(30px, 5vw, 150px);
   font-family: 'Roboto', sans-serif;
+  margin: auto;
 }
 
 .homepage .content .text2 h1 {
-  font-size: clamp(16px, 4vw, 150px);
-  margin-bottom: 10px;
+  font-size: clamp(25px, 4vw, 150px);
   font-family: 'Roboto', sans-serif;
+  margin: auto;
 }
 
 .homepage .content .text3 p {
-  margin-top: 10px;
-  font-size: clamp(16px, 3.5vw, 150px);
+  font-size: clamp(20px, 2.5vw, 150px);
+  font-family: 'Roboto', sans-serif;
 }
 
 /* Shop */

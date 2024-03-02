@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Slider, Checkbox } from 'antd';
+import { Checkbox } from 'antd';
 import { listProduct, searchFilters } from '../functions/product';
 import NewProductCard from '../card/NewProductCard';
 import { listCategory } from '../functions/Category';
@@ -63,10 +63,6 @@ const Shop = () => {
             });
     };
 
-    const handlePrice = (value) => {
-        setPrice(value);
-    };
-
     const handleCheck = (e) => {
         let inCheck = e.target.value;
         let inState = [...categorySelect];
@@ -89,28 +85,39 @@ const Shop = () => {
         window.location.reload();
     };
 
+    const handleSort = (e) => {
+        const sortType = e.target.value;
+        let sortedProducts = [...products];
+        if (sortType === "asc") {
+            sortedProducts.sort((a, b) => a.price - b.price);
+        } else {
+            sortedProducts.sort((a, b) => b.price - a.price);
+        }
+        setProducts(sortedProducts);
+    };
+
     return (
         <div className='container-fluid'>
             <div className='row' style={{ margin: '50px' }}>
                 <div className='col-md-3' style={{ fontSize: '25px' }}>
-                    ตัวกรอง / ค้นหา
-                    < hr />
-                    <h6>ค้นหาตามราคา</h6>
-                    <Slider value={price} onChange={handlePrice} range max={100000} />
+                    <h6>เรียงลำดับตามราคา</h6>
+                    <select onChange={handleSort} style={{ fontSize: '17px' }}>
+                        <option value="" style={{ display: 'flex', fontSize: '17px' }}>เรียงลำดับตาม</option>
+                        <option value="asc" style={{ display: 'flex', fontSize: '17px' }}>ต่ำไปสูง</option>
+                        <option value="desc" style={{ display: 'flex', fontSize: '17px' }}>สูงไปต่ำ</option>
+                    </select>
                     <hr />
                     <h6>ค้นหาตามหมวดหมู่</h6>
-                    {
-                        categories.map((item, index) => (
-                            <Checkbox
-                                key={index}
-                                style={{ fontSize: '20px' }}
-                                onChange={handleCheck}
-                                value={item._id}
-                            >
-                                {item.name}
-                            </Checkbox>
-                        ))
-                    }
+                    {categories.map((item, index) => (
+                        <Checkbox
+                            key={index}
+                            style={{ fontSize: '20px', display: 'flex' }}
+                            onChange={handleCheck}
+                            value={item._id}
+                        >
+                            {item.name}
+                        </Checkbox>
+                    ))}
                 </div >
                 <div className='col-md-9'>
                     {loading ? (

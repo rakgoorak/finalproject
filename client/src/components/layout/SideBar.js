@@ -4,20 +4,14 @@ import {
     Menu,
     MenuItem,
     SubMenu,
-    SidebarFooter,
 } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme, Badge } from "@mui/material";
+import { Box, IconButton, Typography, Badge } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import TableViewIcon from '@mui/icons-material/TableView';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CategoryIcon from '@mui/icons-material/Category';
 import StoreIcon from '@mui/icons-material/Store';
@@ -127,7 +121,9 @@ const SideBar = () => {
                         </Menu>
                         <Menu>
                             <Link to={"/admin/orders"} className="Adminmenu-bars">
-                                <MenuItem icon={<ShoppingCartIcon />}>Orders</MenuItem>
+                                <MenuItem icon={<ShoppingCartIcon />}>
+                                    Orders
+                                </MenuItem>
                             </Link>
                         </Menu>
                     </div>

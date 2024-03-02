@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from 'antd';
-import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { BarsOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
@@ -10,7 +10,7 @@ const { Meta } = Card;
 
 const NewProductCard = ({ product }) => {
     const dispatch = useDispatch();
-    const { _id, name, detail, images } = product;
+    const { _id, name, detail, images, price } = product;
 
     const handleAddtoCart = () => {
         let cart = [];
@@ -44,14 +44,25 @@ const NewProductCard = ({ product }) => {
                 } />}
             actions={[
                 <Link to={`/product/${_id}`}>
-                    <EyeOutlined className='text-warning' style={{ fontSize: '20px' }} />
+                    <BarsOutlined className='text-warning' style={{ fontSize: '20px' }} />
                 </Link>,
                 <ShoppingCartOutlined style={{ fontSize: '20px' }}
                     onClick={handleAddtoCart}
                     className='text-danger' />,
             ]}
         >
-            <Meta title={name} description={detail} />
+            <Meta
+                title={
+                    <span style={{ color: '#1890FF' }}>{name}</span>
+                }
+                description={
+                    <>
+                        <span style={{ color: '#00171F' }}>{detail}</span>
+                        <br />
+                        <span style={{ color: '#2E67B1' }}>฿{price}</span>
+                    </>
+                }
+            />
         </Card>
     );
 };

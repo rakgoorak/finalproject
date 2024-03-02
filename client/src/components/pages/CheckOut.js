@@ -5,7 +5,6 @@ import 'react-quill/dist/quill.snow.css';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import AddressForm from '../address/AddressForm';
-import axios from 'axios';
 import './CheckOut.css';
 import SlipUpload from './SlipUpload';
 import QRCode from 'qrcode.react';
@@ -83,12 +82,6 @@ const Checkout = () => {
                 }
                 toast.success("Save Order Success");
 
-                // Removed the calls to saveAddress, savePhoneNumber, and saveName
-
-                // Set values including fullAddress, name, and phoneNumber
-                // Upload slip image to Cloudinary
-
-                // Redirect to the history page
                 navigate('/user/history');
             } catch (error) {
                 console.error('Error during checkout:', error);
@@ -96,7 +89,6 @@ const Checkout = () => {
             }
         }
     };
-
 
     console.log("values", values)
     useEffect(() => {
@@ -135,17 +127,23 @@ const Checkout = () => {
     // Payment
     const generatePayload = require('promptpay-qr');
     const Title = styled.h1`
-        font-size: 3em;
+        font-size: 1.5em;
         text-align: center;
         color: palevioletred;
-        margin-bottom: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
     `;
 
     const Container = styled.div`
-        max-height: 100vh;
-        padding: 4em;
+        height: 100%;
+        width: 250px;
+        padding: 5px;
+        text-align: center;
         background: papayawhip;
+        flex-direction: column;
+        justify-content: space-around;
     `;
+
 
     const FlexContainer = styled.div`
         display: flex;
@@ -156,38 +154,47 @@ const Checkout = () => {
     const QRWrapper = styled.div`
         margin: auto;
         text-align: center;
-        padding: 20px;
+        padding: 5px;
         background-color: white;
         border: 2px solid palevioletred;
         border-radius: 10px;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        max-width: 300px; /* Adjust max-width as needed */
+        width: 100%; /* Ensure QR code fits container */
     `;
+
 
     const InputWrapper = styled.div`
         margin: auto;
         text-align: center;
-        padding: 20px;
+        padding: 5px;
+        width: 100%;
     `;
 
-    const [qrCode, setQRCode] = useState("");
+
+    const [qrCode, setQRCode] = useState(total * 1.07);
     const [promptpay, setPromptPay] = useState("062-671-8672");
 
+    const [totalWithVat, setTotalWithVat] = useState(0);
+
     useEffect(() => {
+        setTotalWithVat(total * 1.07);
         handleQR();
-    }, []);
+    }, [total]);
 
     function handleQR() {
-        setQRCode(generatePayload(promptpay, { total: total.toFixed(2) }));
+        const newQRCode = generatePayload(promptpay, totalWithVat.toFixed(2));
+        setQRCode(newQRCode);
     }
 
     return (
         <div className='container-fluid'>
             <div className='row' style={{ margin: '50px' }}>
                 <div className="col-md-6">
-                    <div className="checkout-container">
+                    <div className="checkout-container" style={{ maxWidth: '100%' }}>
                         <div className="checkout-section">
-                            <div className="checkout-content">
-                                <div className="checkout-header">
+                            <div className="checkout-content" style={{ width: '250px' }}>
+                                <div className="checkout-header" style={{ margin: '0', width: '250px' }}>
                                     <div
                                         className={`header-tab ${page === 0 ? 'active' : ''}`}
                                     >
@@ -235,7 +242,7 @@ const Checkout = () => {
                                                     <QRCode value={qrCode} />
                                                     <InputWrapper>
                                                         <p>ชื่อบัญชี อาทิตยา ฆารเลิศ</p>
-                                                        <p>โปรดตรวจสอบจำนวนเงินให้ถูกต้องก่อนทำรายการ จำนวนเงิน {total} บาท</p>
+                                                        <p>โปรดตรวจสอบจำนวนเงินให้ถูกต้องก่อนทำรายการ <p style={{ color: 'blue' }}>จำนวนเงิน {total * 1.07} บาท</p></p>
                                                     </InputWrapper>
                                                 </QRWrapper>
                                             </FlexContainer>
@@ -266,7 +273,7 @@ const Checkout = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-6" style={{ marginTop: '35px', fontSize: '20px' }}>
+                <div className="col-md-6" style={{ marginTop: '35px', fontSize: '21px' }}>
                     <h4>ข้อมูลสินค้าทั้งหมด</h4>
                     <hr />
                     <p>จำนวนสินค้า: {products.length} ชิ้น</p>
@@ -280,9 +287,9 @@ const Checkout = () => {
                         </div>
                     ))}
                     <hr />
-                    ราคาสุทธิ: <b>{total}</b> บาท
-                    <br />
+                    ราคา: <b>{total}</b> บาท
                     <hr />
+                    <p>ราคาสุทธิ: <b>{(total * 1.07).toFixed(2)}</b> บาท (รวม Vat 7%)</p>
                 </div>
             </div>
         </div>

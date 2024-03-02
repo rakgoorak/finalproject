@@ -74,7 +74,7 @@ export default function Register() {
                 <Grid
                     item
                     xs={false}
-                    sm={4}
+                    sm={false}
                     md={7}
                     sx={{
                         backgroundImage: "url(/assets/logo.png)",
@@ -85,9 +85,10 @@ export default function Register() {
                                 : t.palette.grey[900],
                         backgroundSize: "cover",
                         backgroundPosition: "center",
+                        display: { xs: "none", md: "block" },
                     }}
                 />
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                <Grid item xs={12} sm={12} md={5} component={Paper} elevation={6} square sx={{ display: 'flex', alignItems: 'center' }}>
                     <Box
                         sx={{
                             my: 8,
@@ -97,7 +98,7 @@ export default function Register() {
                             alignItems: "center",
                         }}
                     >
-                        <Typography component="h1" variant="h5" style={{ marginTop: '200px' }}>
+                        <Typography component="h1" variant="h5">
                             สมัครสมาชิก
                         </Typography>
                         <Box
@@ -161,6 +162,7 @@ export default function Register() {
                     </Box>
                 </Grid>
             </Grid>
+
         </ThemeProvider>
     );
 }

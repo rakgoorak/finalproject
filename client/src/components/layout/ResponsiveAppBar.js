@@ -13,16 +13,16 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
 
-import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LoginIcon from "@mui/icons-material/Login";
+import { StarOutlined } from '@ant-design/icons';
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
-import { StarOutlined } from '@ant-design/icons';
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import Search from "../card/Search";
 import { Badge } from "antd";
+import Search from "../card/Search";
 
 const product = [
     {
@@ -66,7 +66,7 @@ const WishlistPage = {
 const authen = [
     {
         title: "สมัครสมาชิก",
-        icon: <PeopleAltOutlinedIcon />,
+        icon: <PeopleAltIcon />,
         to: "/register",
     },
     {
@@ -138,7 +138,6 @@ function ResponsiveAppBar() {
             <Container maxWidth="xxl">
                 <Toolbar disableGutters>
                     {/* LOGO */}
-                    {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
                     <Typography
                         variant="h6"
                         noWrap
@@ -153,13 +152,12 @@ function ResponsiveAppBar() {
                             textDecoration: "none",
                         }}
                     >
-                        <IconButton>
-                            <Link to="/">
-                                <Avatar style={{ width: '150px', height: '150px' }}
-                                    alt="Remy Sharp"
-                                    src={`/assets/logo.png`}
-                                />
-                            </Link>
+                        <IconButton component={Link} to="/">
+                            <Avatar style={{ width: '50px', height: '50px', marginRight: '10px' }} alt="Remy Sharp" src={`/assets/logo.png`} />
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', fontFamily: 'Roboto, sans-serif', fontSize: '25px', color: 'inherit', textDecoration: 'none' }}>
+                                <Typography variant="h6" style={{ margin: '0', lineHeight: '1' }}>J.S POWERELECTRIC</Typography>
+                                <Typography variant="subtitle1" style={{ margin: '0', lineHeight: '1' }}>LIMITED PARTNERSHIP</Typography>
+                            </div>
                         </IconButton>
                     </Typography>
                     {/* /LOGO */}
@@ -239,7 +237,6 @@ function ResponsiveAppBar() {
                     {/* /Menu Right Full */}
 
                     {/* LOGO Minimize */}
-                    {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
                     <Typography
                         variant="h5"
                         noWrap
@@ -267,6 +264,7 @@ function ResponsiveAppBar() {
                                     key={index}
                                     onClick={handleCloseNavMenu}
                                     sx={{ my: 2, color: "white", mr: 5 }}
+                                    startIcon={page.icon}
                                 >
                                     {page.title}
                                 </Button>
@@ -278,6 +276,7 @@ function ResponsiveAppBar() {
                                     key={index}
                                     onClick={handleCloseNavMenu}
                                     sx={{ my: 2, color: "white", mr: 5 }}
+                                    startIcon={page.icon}
                                 >
                                     {page.title}
                                 </Button>
@@ -289,6 +288,7 @@ function ResponsiveAppBar() {
                                     key={index}
                                     onClick={handleCloseNavMenu}
                                     sx={{ my: 2, color: "white", mr: 5 }}
+                                    startIcon={page.icon}
                                 >
                                     {page.title}
                                 </Button>
@@ -300,6 +300,7 @@ function ResponsiveAppBar() {
                                     key={index}
                                     onClick={handleCloseNavMenu}
                                     sx={{ my: 2, color: "white", mr: 5 }}
+                                    startIcon={page.icon}
                                 >
                                     {page.title}
                                 </Button>
@@ -321,7 +322,7 @@ function ResponsiveAppBar() {
                                             color: "white",
                                             mr: 2,
                                         }}
-                                        startIcon={page.icon}
+                                        startIcon={page.icon} // ระบุไอคอนที่นี่
                                     >
                                         {page.title}
                                     </Button>
@@ -339,7 +340,7 @@ function ResponsiveAppBar() {
                                         color: "white",
                                         mr: 2,
                                     }}
-                                    startIcon={WishlistPage.icon}
+                                    startIcon={WishlistPage.icon} // ระบุไอคอนที่นี่
                                 >
                                     {WishlistPage.title}
                                 </Button>
@@ -355,7 +356,7 @@ function ResponsiveAppBar() {
                                         color: "white",
                                         mr: 2,
                                     }}
-                                    startIcon={cartPage.icon}
+                                    startIcon={cartPage.icon} // ระบุไอคอนที่นี่
                                 >
                                     <Badge count={cart.length} offset={[9, 0]}>
                                         <a style={{ color: 'white' }}>
@@ -365,6 +366,7 @@ function ResponsiveAppBar() {
                                 </Button>
                             </Link>
                         )}
+
                     <Box sx={{ flexGrow: 0.2, display: { sx: "flex", lg: "flex" }, float: "right" }}>
                         <Search />
                     </Box>
@@ -377,7 +379,7 @@ function ResponsiveAppBar() {
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                         <Avatar
                                             alt="Remy Sharp"
-                                            src="#"
+                                            src="#" // ระบุรูปภาพของผู้ใช้ที่นี่
                                         />
                                     </IconButton>
                                 </Tooltip>

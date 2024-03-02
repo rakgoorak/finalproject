@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const { Meta } = Card;
 
 const ProductCard = ({ product, handleRemove }) => {
-    const { _id, name, detail, images } = product;
+    const { _id, name, detail, images, price } = product;
 
     return (
         <Card
@@ -25,7 +25,18 @@ const ProductCard = ({ product, handleRemove }) => {
                     key="delete" className='text-danger' />,
             ]}
         >
-            <Meta title={name} description={detail} />
+            <Meta
+                title={
+                    <span style={{ color: '#1890FF' }}>{name}</span>
+                }
+                description={
+                    <>
+                        <span style={{ color: '#00171F' }}>{detail}</span>
+                        <br />
+                        <span style={{ color: '#2E67B1' }}>฿{price}</span>
+                    </>
+                }
+            />
         </Card>
     );
 }

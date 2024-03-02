@@ -67,11 +67,10 @@ export default function Login() {
                 <Grid
                     item
                     xs={false}
-                    sm={4}
+                    sm={false}
                     md={7}
                     sx={{
-                        // backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-                        backgroundImage: "url(assets/logo.png)",
+                        backgroundImage: "url(/assets/logo.png)",
                         backgroundRepeat: "no-repeat",
                         backgroundColor: (t) =>
                             t.palette.mode === "light"
@@ -79,9 +78,10 @@ export default function Login() {
                                 : t.palette.grey[900],
                         backgroundSize: "cover",
                         backgroundPosition: "center",
+                        display: { xs: "none", md: "block" },
                     }}
                 />
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                <Grid item xs={12} sm={12} md={5} component={Paper} elevation={6} square sx={{ display: 'flex', alignItems: 'center' }}>
                     <Box
                         sx={{
                             my: 8,
@@ -91,7 +91,7 @@ export default function Login() {
                             alignItems: "center",
                         }}
                     >
-                        <Typography component="h1" variant="h5" style={{ marginTop: '200px' }}>
+                        <Typography component="h1" variant="h5">
                             เข้าสู่ระบบ
                         </Typography>
                         <Box
@@ -133,11 +133,12 @@ export default function Login() {
                             </Button>
                             <Grid container>
                                 <Grid item>
-                                    <p>หากคุณยังไม่ได้เป็นสมาชิก
-                                        <Link href="/register" variant="body2" style={{ fontSize: '20px', textDecoration: 'none' }}>
-                                            {" สมัครสมาชิก "}
+                                    <Typography variant="body2">
+                                        หากคุณยังไม่ได้เป็นสมาชิก{" "}
+                                        <Link href="/register" variant="body2">
+                                            สมัครสมาชิก
                                         </Link>
-                                        ได้ที่นี้</p>
+                                    </Typography>
                                 </Grid>
                             </Grid>
                         </Box>
