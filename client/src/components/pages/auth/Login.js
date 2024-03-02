@@ -135,7 +135,7 @@ export default function Login() {
                                 <Grid item>
                                     <Typography variant="body2">
                                         หากคุณยังไม่ได้เป็นสมาชิก{" "}
-                                        <Link href="/register" variant="body2">
+                                        <Link href="/register" variant="body2" style={{ fontSize: '20px', textDecoration: 'none' }}>
                                             สมัครสมาชิก
                                         </Link>
                                     </Typography>

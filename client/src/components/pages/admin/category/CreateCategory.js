@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { createCategory, listCategory, deleteCategory } from '../../../functions/Category';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState, useEffect } from "react";
+import {
+    createCategory,
+    listCategory,
+    deleteCategory,
+} from "../../../functions/Category";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { editProductTime } from "../../../functions/user";
 
 const CreateCategory = () => {
     const { user } = useSelector((state) => ({ ...state }));
     const [values, setValues] = useState({
-        name: '',
+        name: "",
     });
     const [category, setCategory] = useState([]);
 
@@ -25,17 +30,20 @@ const CreateCategory = () => {
     };
 
     const handleRemove = (id) => {
-        const confirmDelete = window.confirm('คุณแน่ใจหรือไม่ว่าต้องการลบหมวดหมู่นี้?');
+        const confirmDelete = window.confirm(
+            "คุณแน่ใจหรือไม่ว่าต้องการลบหมวดหมู่นี้?"
+        );
         if (confirmDelete) {
             deleteCategory(user.user.token, id)
                 .then((res) => {
+                    editProductTime(user.user.token, user.user.token);
                     console.log(res);
                     loadData(user.user.token);
-                    toast.success('ลบหมวดหมู่เรียบร้อยแล้ว');
+                    toast.success("ลบหมวดหมู่เรียบร้อยแล้ว");
                 })
                 .catch((err) => {
                     console.log(err);
-                    toast.error('เกิดข้อผิดพลาดในการลบหมวดหมู่');
+                    toast.error("เกิดข้อผิดพลาดในการลบหมวดหมู่");
                 });
         }
     };
@@ -48,12 +56,13 @@ const CreateCategory = () => {
         e.preventDefault();
         createCategory(user.user.token, values)
             .then((res) => {
+                editProductTime(user.user.token, user.user.token);
                 loadData(user.user.token);
-                toast.success('สร้างหมวดหมู่เรียบร้อยแล้ว');
+                toast.success("สร้างหมวดหมู่เรียบร้อยแล้ว");
             })
             .catch((err) => {
                 console.log(err);
-                toast.error('เกิดข้อผิดพลาดในการสร้างหมวดหมู่');
+                toast.error("เกิดข้อผิดพลาดในการสร้างหมวดหมู่");
             });
     };
 
@@ -79,13 +88,16 @@ const CreateCategory = () => {
                     <li key={item.id} className="list-group-item ">
                         {item.name}
                         <span
-                            style={{ float: 'right' }}
+                            style={{ float: "right" }}
                             className="btn btn-outline-primary"
                             onClick={() => handleRemove(item._id)}
                         >
                             X
                         </span>
-                        <span style={{ float: 'right' }} className="btn btn-outline-primary">
+                        <span
+                            style={{ float: "right" }}
+                            className="btn btn-outline-primary"
+                        >
                             <Link to={`/admin/update-category/${item._id}`}>แก้ไข</Link>
                         </span>
                     </li>

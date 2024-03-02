@@ -7,9 +7,11 @@ import moment from "moment/min/moment-with-locales";
 // functions
 import {
     listUser,
+    changeStatus,
     changeRole,
     removeUser,
-    resetPassword
+    resetPassword,
+    editUserTime,
 } from "../../functions/user";
 
 const ManageAdmin = () => {
@@ -32,20 +34,18 @@ const ManageAdmin = () => {
     const handleOk = () => {
         setIsModalVisible(false);
         resetPassword(user.user.token, values.id, { values })
-            .then(res => {
-                console.log(res)
+            .then((res) => {
+                console.log(res);
                 loadData(user.user.token);
-            }).catch(err => {
-                console.log(err.response)
             })
-
+            .catch((err) => {
+                console.log(err.response);
+            });
     };
 
     const handleCancel = () => {
         setIsModalVisible(false);
     };
-
-    console.log("data", data);
     useEffect(() => {
         loadData(user.user.token);
     }, []);
@@ -60,6 +60,21 @@ const ManageAdmin = () => {
             });
     };
 
+    const handleOnchange = (e, id) => {
+        const value = {
+            id: id,
+            enabled: e,
+        };
+        changeStatus(user.user.token, value)
+            .then((res) => {
+                console.log(res);
+                loadData(user.user.token);
+            })
+            .catch((err) => {
+                console.log(err.response);
+            });
+    };
+
     const handleChangeRole = (e, id) => {
         let values = {
             id: id,
@@ -67,6 +82,7 @@ const ManageAdmin = () => {
         };
         changeRole(user.user.token, values)
             .then((res) => {
+                editUserTime(user.user.token, user.user.user_id);
                 console.log(res);
                 loadData(user.user.token);
             })
@@ -97,9 +113,10 @@ const ManageAdmin = () => {
                             <tr>
                                 <th scope="col">ชื่อผู้ใช้</th>
                                 <th scope="col">ยศ</th>
-                                <th scope="col">สร้างเมื่อ</th>
-                                <th scope="col">ปรับปรุงเมื่อ</th>
-                                <th scope="col">แก้ไข</th>
+                                <th scope="col">ปรับปรุงผู้ใช้งาน</th>
+                                <th scope="col">ปรับปรุงคำสั่งซื้อ</th>
+                                <th scope="col">ปรับปรุงสินค้า</th>
+                                <th scope="col">ลบ</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -123,17 +140,20 @@ const ManageAdmin = () => {
                                             ))}
                                         </Select>
                                     </td>
-
-                                    <td>{moment(item.createdAt).locale("th").format("ll")}</td>
                                     <td>
-                                        {moment(item.updatedAt)
-                                            .locale("th")
-                                            .startOf(item.updatedAt)
-                                            .fromNow()}
+                                        {moment(item.editUserTime).locale("th").format("LLL")}
                                     </td>
                                     <td>
-                                        <EditOutlined onClick={() => showModal(item._id)} />
-                                        <DeleteOutlined onClick={() => handleRemove(item._id)} style={{ marginLeft: '15px' }} />
+                                        {moment(item.editOrderTime).locale("th").format("LLL")}
+                                    </td>
+                                    <td>
+                                        {moment(item.editProductTime).locale("th").format("LLL")}
+                                    </td>
+                                    <td>
+                                        <DeleteOutlined
+                                            onClick={() => handleRemove(item._id)}
+                                            style={{ marginLeft: "15px" }}
+                                        />
                                     </td>
                                 </tr>
                             ))}

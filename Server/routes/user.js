@@ -34,9 +34,15 @@ const {
     saveEditedPhoneNumber,
     getUserName,
     getPassWord,
-    resetPasswordUser } = require("../controllers/user");
+    resetPasswordUser,
+    editUserTime,
+    editOrderTime,
+    editProductTime,
+    createAddress,
+    listAddress,
+    editAddress,
+} = require("../controllers/user");
 const { auth, adminCheck } = require("../Middleware/auth");
-
 
 // http://localhost:5000/api/user
 //@Endpoint  http://localhost:5000/api/users
@@ -62,6 +68,9 @@ router.put("/users/reset-password/:id", auth, resetPasswordUser);
 //@Access    Private
 router.delete("/users/:id", auth, removeUsers);
 router.get("/user", auth, getUserName);
+router.post("/users/edit-user-time/:id", auth, adminCheck, editUserTime);
+router.post("/users/edit-order-time/:id", auth, adminCheck, editOrderTime);
+router.post("/users/edit-product-time/:id", auth, adminCheck, editProductTime);
 router.get("/user", auth, getPassWord);
 
 //@Endpoint  http://localhost:5000/api/change-status
@@ -76,6 +85,8 @@ router.post("/change-role", auth, adminCheck, changeRole);
 router.post("/user/cart", auth, userCart);
 router.get("/user/cart", auth, getUserCart);
 router.delete("/user/cart", auth, emptyCart);
+router.get("/user/address/:id", listAddress);
+router.post("/user/address/:id", createAddress);
 router.post("/user/address", auth, saveFullAddress);
 router.post("/user/address", auth, saveEditedFullAddress);
 router.get("/user/address", auth, getFullAddress);
@@ -96,7 +107,5 @@ router.get("/user/orders", auth, getOrder);
 router.post("/user/wishlist", auth, addToWishList);
 router.get("/user/wishlist", auth, getWishList);
 router.put("/user/wishlist/:productId", auth, removeWishList);
-
-
-
+router.put("/user/address/:addressId", auth, editAddress);
 module.exports = router;

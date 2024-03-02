@@ -32,7 +32,6 @@ const Checkout = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // Move initialstate declaration before its usage
     const initialstate = {
         images: [],
         fullAddress: {
@@ -61,7 +60,6 @@ const Checkout = () => {
             setPage(page + 1);
         } else {
             try {
-                // Save order
                 await saveOrder(user.user.token, {
                     ...values,
                     fulladdress: {
@@ -74,18 +72,17 @@ const Checkout = () => {
                 });
                 emptyCart(user.user.token);
                 dispatch({
-                    type: 'addToCart',
+                    type: 'ADD_TO_CART',
                     payload: [],
                 });
                 if (typeof window !== "undefined") {
                     localStorage.removeItem("cart");
                 }
-                toast.success("Save Order Success");
-
+                toast.success("บันทึกคำสั่งชำระเงินสำเร็จ");
                 navigate('/user/history');
             } catch (error) {
-                console.error('Error during checkout:', error);
-                toast.error('Error during checkout. Please try again.');
+                console.error('เกิดข้อผิดพลาดในขณะทำรายการชำระเงิน:', error);
+                toast.error('เกิดข้อผิดพลาดในขณะทำรายการชำระเงิน โปรดลองอีกครั้ง');
             }
         }
     };
@@ -171,10 +168,8 @@ const Checkout = () => {
         width: 100%;
     `;
 
-
-    const [qrCode, setQRCode] = useState(total * 1.07);
     const [promptpay, setPromptPay] = useState("062-671-8672");
-
+    const [qrCode, setQRCode] = useState((total * 1.07).toFixed(2));
     const [totalWithVat, setTotalWithVat] = useState(0);
 
     useEffect(() => {
@@ -186,6 +181,7 @@ const Checkout = () => {
         const newQRCode = generatePayload(promptpay, totalWithVat.toFixed(2));
         setQRCode(newQRCode);
     }
+
 
     return (
         <div className='container-fluid'>
@@ -242,7 +238,7 @@ const Checkout = () => {
                                                     <QRCode value={qrCode} />
                                                     <InputWrapper>
                                                         <p>ชื่อบัญชี อาทิตยา ฆารเลิศ</p>
-                                                        <p>โปรดตรวจสอบจำนวนเงินให้ถูกต้องก่อนทำรายการ <p style={{ color: 'blue' }}>จำนวนเงิน {total * 1.07} บาท</p></p>
+                                                        <p>โปรดตรวจสอบจำนวนเงินให้ถูกต้องก่อนทำรายการ <p style={{ color: 'blue' }}>จำนวนเงิน {(total * 1.07).toFixed(2)} บาท</p></p>
                                                     </InputWrapper>
                                                 </QRWrapper>
                                             </FlexContainer>

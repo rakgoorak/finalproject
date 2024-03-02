@@ -322,7 +322,7 @@ function ResponsiveAppBar() {
                                             color: "white",
                                             mr: 2,
                                         }}
-                                        startIcon={page.icon} // ระบุไอคอนที่นี่
+                                        startIcon={page.icon}
                                     >
                                         {page.title}
                                     </Button>
@@ -340,7 +340,7 @@ function ResponsiveAppBar() {
                                         color: "white",
                                         mr: 2,
                                     }}
-                                    startIcon={WishlistPage.icon} // ระบุไอคอนที่นี่
+                                    startIcon={WishlistPage.icon}
                                 >
                                     {WishlistPage.title}
                                 </Button>
@@ -356,7 +356,7 @@ function ResponsiveAppBar() {
                                         color: "white",
                                         mr: 2,
                                     }}
-                                    startIcon={cartPage.icon} // ระบุไอคอนที่นี่
+                                    startIcon={cartPage.icon}
                                 >
                                     <Badge count={cart.length} offset={[9, 0]}>
                                         <a style={{ color: 'white' }}>
@@ -379,7 +379,7 @@ function ResponsiveAppBar() {
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                         <Avatar
                                             alt="Remy Sharp"
-                                            src="#" // ระบุรูปภาพของผู้ใช้ที่นี่
+                                            src="#"
                                         />
                                     </IconButton>
                                 </Tooltip>
