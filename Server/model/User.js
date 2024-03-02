@@ -32,7 +32,19 @@ const userSchema = mongoose.Schema({
     wishlist: [{
         type: ObjectId,
         ref: 'product'
-    }]
+    }],
+    editUserTime: {
+        type: Date,
+        default: null,
+    },
+    editProductTime: {
+        type: Date,
+        default: null,
+    },
+    editOrderTime: {
+        type: Date,
+        default: null,
+    },
 }, { timestamps: true })
 
 module.exports = mongoose.model('users', userSchema)
