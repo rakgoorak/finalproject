@@ -359,9 +359,9 @@ function ResponsiveAppBar() {
                                     startIcon={cartPage.icon}
                                 >
                                     <Badge count={cart.length} offset={[9, 0]}>
-                                        <a style={{ color: 'white' }}>
+                                        <span style={{ color: 'white' }}>
                                             {cartPage.title}
-                                        </a>
+                                        </span>
                                     </Badge>
                                 </Button>
                             </Link>
@@ -377,10 +377,11 @@ function ResponsiveAppBar() {
                             <Box sx={{ flexGrow: 0 }}>
                                 <Tooltip title="Open settings">
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                        <Avatar
-                                            alt="Remy Sharp"
-                                            src="#"
-                                        />
+                                        {user.user.avatarUrl ? (
+                                            <Avatar alt={user.user.name} src={user.user.avatarUrl} />
+                                        ) : (
+                                            <Avatar alt="User" />
+                                        )}
                                     </IconButton>
                                 </Tooltip>
                                 <Menu

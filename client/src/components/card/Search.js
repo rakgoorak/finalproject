@@ -2,6 +2,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchQuery } from '../store/SearchSlice';
 import { useNavigate } from 'react-router-dom';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search'; // เพิ่ม import สำหรับ icon ที่จะใช้
 
 const Search = () => {
     const dispatch = useDispatch();
@@ -20,12 +22,16 @@ const Search = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton type="submit" aria-label="search">
+                <SearchIcon style={{ color: 'white' }} />
+            </IconButton>
             <input
                 type='search'
                 className='form-control'
                 value={text}
                 onChange={handleChange}
+                style={{ marginRight: '8px' }}
             />
         </form>
     );
