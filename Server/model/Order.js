@@ -7,13 +7,14 @@ const OrderSchema = new mongoose.Schema(
             {
                 product: {
                     type: ObjectId,
-                    ref: 'product'
+                    ref: "product",
                 },
                 name: String,
                 count: Number,
-                price: Number
-            }
+                price: Number,
+            },
         ],
+        cartTotal: Number,
         fulladdress: {
             houseNumber: String,
             subdistrict: String,
@@ -23,14 +24,13 @@ const OrderSchema = new mongoose.Schema(
         },
         phoneNumber: String,
         name: String,
-        cartTotal: Number,
         orderstatus: {
             type: String,
-            default: 'Processing'
+            default: "Processing",
         },
         orderBy: {
             type: ObjectId,
-            ref: 'users'
+            ref: "users",
         },
         images: {
             type: Array,

@@ -41,6 +41,7 @@ const {
     createAddress,
     listAddress,
     editAddress,
+    removeAddress,
 } = require("../controllers/user");
 const { auth, adminCheck } = require("../Middleware/auth");
 
@@ -108,4 +109,6 @@ router.post("/user/wishlist", auth, addToWishList);
 router.get("/user/wishlist", auth, getWishList);
 router.put("/user/wishlist/:productId", auth, removeWishList);
 router.put("/user/address/:addressId", auth, editAddress);
+router.delete("/user/address/:addressId", auth, removeAddress);
+
 module.exports = router;
