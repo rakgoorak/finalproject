@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { editProductTime } from "../../../functions/user";
+import { Button } from "antd";
 const UpdateCategory = () => {
     const navigate = useNavigate();
     const param = useParams();
@@ -33,10 +34,9 @@ const UpdateCategory = () => {
     };
     return (
         <div className="col">
-            <h1>อัปเดตหมวดหมู่</h1>
+            <h1>แก้ไขหมวดหมู่</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>อัปเดตหมวดหมู่</label>
                     <input
                         className="form-control"
                         value={name}
@@ -44,7 +44,7 @@ const UpdateCategory = () => {
                         required
                         onChange={(e) => setName(e.target.value)}
                     />
-                    <button className="btn btn-outline-primary">ส่ง</button>
+                    <Button onClick={handleSubmit} type="primary" ghost className="btn btn-outline-primary">ตกลง</Button>
                 </div>
             </form>
         </div>

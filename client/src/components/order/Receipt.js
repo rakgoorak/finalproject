@@ -80,8 +80,15 @@ const styles = StyleSheet.create({
 
 });
 
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // เพิ่ม 1 เพราะ getMonth() เริ่มนับเดือนจาก 0
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+};
 
-const Receipt = ({ order }) => {
+const Receipt = ({ order, createdAt }) => {
     console.log("order receipt", order)
     return (
         <Document>
@@ -99,7 +106,7 @@ const Receipt = ({ order }) => {
                     </View>
 
                     <View style={styles.dataContainer}>
-                        <Text>วันที่ : {new Date().toLocaleDateString()}</Text>
+                        <Text>วันที่ : {formatDate(createdAt)}</Text>
                         <Text>ชื่อลูกค้า : {order.name}</Text>
                         <Text>
                             ที่อยู่ : {order && order.fulladdress && order.fulladdress.houseNumber}{' '}

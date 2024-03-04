@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 const { Meta } = Card;
 
 const NewProductCard = ({ product }) => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { _id, name, detail, images, price } = product;
 
@@ -31,25 +33,28 @@ const NewProductCard = ({ product }) => {
         toast.success('เพิ่มสินค้าลงในตะกร้าสำเร็จ');
     };
 
+    const handleonClick = () => {
+        navigate(`/product/${_id}`);
+    }
+
     return (
         <Card
             hoverable
             style={{ width: '240px', marginBottom: '50px' }}
             cover={<img
+                onClick={handleonClick}
                 className='P-1'
                 style={{ height: '240px', objectFit: 'cover' }}
                 alt="example" src={images && images.length
                     ? images[0].url
                     : ''
                 } />}
-            actions={[
-                <Link to={`/product/${_id}`}>
-                    <BarsOutlined className='text-warning' style={{ fontSize: '20px' }} />
-                </Link>,
-                <ShoppingCartOutlined style={{ fontSize: '20px' }}
-                    onClick={handleAddtoCart}
-                    className='text-danger' />,
-            ]}
+            actions={
+                [
+                    <ShoppingCartOutlined style={{ fontSize: '20px' }}
+                        onClick={handleAddtoCart}
+                        className='text-danger' />,
+                ]}
         >
             <Meta
                 title={
@@ -63,7 +68,7 @@ const NewProductCard = ({ product }) => {
                     </>
                 }
             />
-        </Card>
+        </Card >
     );
 };
 

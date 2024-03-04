@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Select, Tag, Modal } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Select, Tag, Modal, Button } from "antd"; // เพิ่ม Button จาก antd
+import { DeleteOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import moment from "moment/min/moment-with-locales";
 
@@ -22,6 +22,11 @@ const ManageAdmin = () => {
         id: "",
         password: "",
     });
+    const [filter, setFilter] = useState("user"); // เพิ่ม state filter เริ่มต้นเป็น "user"
+
+    const handleFilterChange = (value) => {
+        setFilter(value); // อัปเดต state filter เมื่อมีการเปลี่ยนแปลง
+    };
 
     const showModal = (id) => {
         setIsModalVisible(true);
@@ -60,21 +65,6 @@ const ManageAdmin = () => {
             });
     };
 
-    const handleOnchange = (e, id) => {
-        const value = {
-            id: id,
-            enabled: e,
-        };
-        changeStatus(user.user.token, value)
-            .then((res) => {
-                console.log(res);
-                loadData(user.user.token);
-            })
-            .catch((err) => {
-                console.log(err.response);
-            });
-    };
-
     const handleChangeRole = (e, id) => {
         let values = {
             id: id,
@@ -105,14 +95,30 @@ const ManageAdmin = () => {
     const roleData = ["admin", "user"];
     return (
         <div className="container-fluid">
+            <div className="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                <Button
+                    type="primary"
+                    className={`btn btn-outline-primary ${filter === 'user' ? 'active' : ''}`}
+                    onClick={() => handleFilterChange('user')}
+                >
+                    จัดการผู้ใช้งานระบบ
+                </Button>
+                <Button
+                    type="primary"
+                    className={`btn btn-outline-primary ${filter === 'admin' ? 'active' : ''}`}
+                    onClick={() => handleFilterChange('admin')}
+                >
+                    จัดการผู้ดูแลระบบ
+                </Button>
+            </div>
             <div className="row">
                 <div className="col">
-                    <h1>จัดการผู้ใช้งานระบบ</h1>
-                    <table class="table">
+                    <h1>{filter === "user" ? "จัดการผู้ใช้งานระบบ" : "จัดการผู้ดูแลระบบ"}</h1>
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th scope="col">ชื่อผู้ใช้</th>
-                                <th scope="col">ยศ</th>
+                                <th scope="col">ตำแหน่ง</th>
                                 <th scope="col">ปรับปรุงผู้ใช้งาน</th>
                                 <th scope="col">ปรับปรุงคำสั่งซื้อ</th>
                                 <th scope="col">ปรับปรุงสินค้า</th>
@@ -120,59 +126,86 @@ const ManageAdmin = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((item, index) => (
-                                <tr key={index}>
-                                    <th scope="row">{item.username}</th>
-                                    <td>
-                                        <Select
-                                            style={{ width: "100%" }}
-                                            value={item.role}
-                                            onChange={(e) => handleChangeRole(e, item._id)}
-                                        >
-                                            {roleData.map((role, roleIndex) => (
-                                                <Select.Option value={role} key={roleIndex}>
-                                                    {role === "admin" ? (
-                                                        <Tag color="green">{role}</Tag>
-                                                    ) : (
-                                                        <Tag color="red">{role}</Tag>
-                                                    )}
-                                                </Select.Option>
-                                            ))}
-                                        </Select>
-                                    </td>
-                                    <td>
-                                        {moment(item.editUserTime).locale("th").format("LLL")}
-                                    </td>
-                                    <td>
-                                        {moment(item.editOrderTime).locale("th").format("LLL")}
-                                    </td>
-                                    <td>
-                                        {moment(item.editProductTime).locale("th").format("LLL")}
-                                    </td>
-                                    <td>
-                                        <DeleteOutlined
-                                            onClick={() => handleRemove(item._id)}
-                                            style={{ marginLeft: "15px" }}
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
+                            {data.map((item, index) => {
+                                if (filter === 'user' && item.role === 'user') {
+                                    return (
+                                        <tr key={index}>
+                                            <th scope="row">{item.username}</th>
+                                            <td>
+                                                <Select
+                                                    style={{ width: "100%" }}
+                                                    value={item.role}
+                                                    onChange={(e) => handleChangeRole(e, item._id)}
+                                                >
+                                                    {roleData.map((role, roleIndex) => (
+                                                        <Select.Option value={role} key={roleIndex}>
+                                                            {role === "admin" ? (
+                                                                <Tag color="green">{role}</Tag>
+                                                            ) : (
+                                                                <Tag color="red">{role}</Tag>
+                                                            )}
+                                                        </Select.Option>
+                                                    ))}
+                                                </Select>
+                                            </td>
+                                            <td>
+                                                {moment(item.editUserTime).locale("th").format("LLL")}
+                                            </td>
+                                            <td>
+                                                {moment(item.editOrderTime).locale("th").format("LLL")}
+                                            </td>
+                                            <td>
+                                                {moment(item.editProductTime).locale("th").format("LLL")}
+                                            </td>
+                                            <td>
+                                                <DeleteOutlined
+                                                    onClick={() => handleRemove(item._id)}
+                                                />
+                                            </td>
+                                        </tr>
+                                    );
+                                } else if (filter === 'admin' && item.role === 'admin') {
+                                    return (
+                                        <tr key={index}>
+                                            <th scope="row">{item.username}</th>
+                                            <td>
+                                                <Select
+                                                    style={{ width: "100%" }}
+                                                    value={item.role}
+                                                    onChange={(e) => handleChangeRole(e, item._id)}
+                                                >
+                                                    {roleData.map((role, roleIndex) => (
+                                                        <Select.Option value={role} key={roleIndex}>
+                                                            {role === "admin" ? (
+                                                                <Tag color="green">{role}</Tag>
+                                                            ) : (
+                                                                <Tag color="red">{role}</Tag>
+                                                            )}
+                                                        </Select.Option>
+                                                    ))}
+                                                </Select>
+                                            </td>
+                                            <td>
+                                                {moment(item.editUserTime).locale("th").format("LLL")}
+                                            </td>
+                                            <td>
+                                                {moment(item.editOrderTime).locale("th").format("LLL")}
+                                            </td>
+                                            <td>
+                                                {moment(item.editProductTime).locale("th").format("LLL")}
+                                            </td>
+                                            <td>
+                                                <DeleteOutlined
+                                                    onClick={() => handleRemove(item._id)}
+                                                />
+                                            </td>
+                                        </tr>
+                                    );
+                                }
+                                return null;
+                            })}
                         </tbody>
                     </table>
-                    <Modal
-                        title="เปลี่ยนรหัสผ่าน"
-                        visible={isModalVisible}
-                        onOk={handleOk}
-                        onCancel={handleCancel}
-                    >
-                        <p>รหัสผ่านใหม่ :</p>
-                        <input
-                            onChange={handleChangePassword}
-                            placeholder="รหัสผ่านใหม่"
-                            type="text"
-                            name="password"
-                        />
-                    </Modal>
                 </div>
             </div>
         </div>

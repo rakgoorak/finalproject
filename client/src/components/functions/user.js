@@ -61,6 +61,7 @@ export const changeRole = async (authtoken, value) => {
 };
 
 export const editUserTime = async (authtoken, id) => {
+    console.log("id", id)
     try {
         return await axios.post(
             process.env.REACT_APP_API + "/users/edit-user-time/" + id,
@@ -307,6 +308,7 @@ export const getProvince = async (authtoken, province) => {
 };
 
 export const saveOrder = async (authtoken, values) => {
+    console.log("values", values);
     return await axios.post(process.env.REACT_APP_API + "/user/order", values, {
         headers: {
             authtoken,
@@ -387,6 +389,7 @@ export const listAddress = async (authtoken, id) => {
     }
 };
 export const editAddress = async (authtoken, addressId, values) => {
+    console.log("api", values);
     try {
         return await axios.put(
             process.env.REACT_APP_API + "/user/address/" + addressId,
@@ -401,4 +404,14 @@ export const editAddress = async (authtoken, addressId, values) => {
         console.error("Error editing address:", error);
         throw error;
     }
+};
+export const removeAddress = async (authtoken, addressId) => {
+    return await axios.delete(
+        process.env.REACT_APP_API + "/user/address/" + addressId,
+        {
+            headers: {
+                authtoken,
+            },
+        }
+    );
 };

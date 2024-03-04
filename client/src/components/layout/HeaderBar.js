@@ -50,12 +50,7 @@ const HeaderBar = () => {
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
-                        <Link to="/user/profileadmin" className="Adminmenu-bars" >
-                            <MenuItem onClick={handleClose}>โปรไฟล์</MenuItem>
-                        </Link>
-
                         <MenuItem onClick={handleLogout}>ออกจากระบบ</MenuItem>
-
                     </Menu>
                 </IconButton>
             </Box>

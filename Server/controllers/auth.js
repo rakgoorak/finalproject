@@ -8,7 +8,7 @@ exports.register = async (req, res) => {
         var user = await User.findOne({ username });
         if (user) {
             // User with the same username already exists
-            return res.status(400).send("Username already exists");
+            return res.status(400).send("มีชื่อผู้ใช้นี้อยู่แล้ว");
         }
         const salt = await bcrypt.genSalt(10);
         // Hash the password before saving it in the database
@@ -36,7 +36,7 @@ exports.login = async (req, res) => {
         if (user) {
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
-                return res.status(400).send("PassWord Invalid!!!");
+                return res.status(400).send("รหัสผ่านไม่ถูกต้อง");
             }
             var payload = {
                 user: {
@@ -50,7 +50,7 @@ exports.login = async (req, res) => {
                 res.json({ token, payload });
             });
         } else {
-            return res.status(400).send("User not found!!!");
+            return res.status(400).send("ไม่มีบัญชีผู้ใช้นี้!");
         }
     } catch (err) {
         console.log(err);

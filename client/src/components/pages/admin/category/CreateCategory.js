@@ -4,11 +4,12 @@ import {
     listCategory,
     deleteCategory,
 } from "../../../functions/Category";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { editProductTime } from "../../../functions/user";
+import { Button } from "antd";
 
 const CreateCategory = () => {
     const { user } = useSelector((state) => ({ ...state }));
@@ -16,6 +17,7 @@ const CreateCategory = () => {
         name: "",
     });
     const [category, setCategory] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         loadData(user.user.token);
@@ -66,6 +68,10 @@ const CreateCategory = () => {
             });
     };
 
+    const handleonClick = (id) => {
+        navigate(`/admin/update-category/${id}`);
+    }
+
     return (
         <div className="col">
             <h1>สร้างหมวดหมู่</h1>
@@ -79,7 +85,7 @@ const CreateCategory = () => {
                         onChange={handleChangeCategory}
                         className="form-control"
                     />
-                    <button className="btn btn-outline-primary"> เพิ่ม</button>
+                    <Button type="primary" ghost className="btn btn-outline-primary"> เพิ่ม</Button>
                 </div>
             </form>
             <hr />
@@ -87,19 +93,22 @@ const CreateCategory = () => {
                 {category.map((item) => (
                     <li key={item.id} className="list-group-item ">
                         {item.name}
-                        <span
+                        <Button
+                            type="primary" ghost danger
                             style={{ float: "right" }}
                             className="btn btn-outline-primary"
                             onClick={() => handleRemove(item._id)}
                         >
-                            X
-                        </span>
-                        <span
-                            style={{ float: "right" }}
+                            ลบ
+                        </Button>
+                        <Button
+                            type="primary" ghost
+                            style={{ float: "right", marginRight: '10px', textDecoration: 'none' }}
                             className="btn btn-outline-primary"
+                            onClick={() => handleonClick(item._id)}
                         >
-                            <Link to={`/admin/update-category/${item._id}`}>แก้ไข</Link>
-                        </span>
+                            แก้ไข
+                        </Button>
                     </li>
                 ))}
             </ul>

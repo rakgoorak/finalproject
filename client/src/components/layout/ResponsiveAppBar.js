@@ -155,8 +155,8 @@ function ResponsiveAppBar() {
                         <IconButton component={Link} to="/">
                             <Avatar style={{ width: '50px', height: '50px', marginRight: '10px' }} alt="Remy Sharp" src={`/assets/logo.png`} />
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', fontFamily: 'Roboto, sans-serif', fontSize: '25px', color: 'inherit', textDecoration: 'none' }}>
-                                <Typography variant="h6" style={{ margin: '0', lineHeight: '1' }}>J.S POWERELECTRIC</Typography>
-                                <Typography variant="subtitle1" style={{ margin: '0', lineHeight: '1' }}>LIMITED PARTNERSHIP</Typography>
+                                <Typography variant="h6" style={{ margin: '0', lineHeight: '1', fontSize: '15px' }}>J.S POWERELECTRIC</Typography>
+                                <Typography variant="subtitle1" style={{ margin: '0', lineHeight: '1', fontSize: '15px' }}>LIMITED PARTNERSHIP</Typography>
                             </div>
                         </IconButton>
                     </Typography>
