@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Select, Tag, Modal, Button } from "antd"; // เพิ่ม Button จาก antd
+import { Select, Tag, Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import moment from "moment/min/moment-with-locales";
@@ -7,50 +7,20 @@ import moment from "moment/min/moment-with-locales";
 // functions
 import {
     listUser,
-    changeStatus,
     changeRole,
     removeUser,
-    resetPassword,
     editUserTime,
 } from "../../functions/user";
 
 const ManageAdmin = () => {
     const { user } = useSelector((state) => ({ ...state }));
     const [data, setData] = useState([]);
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [values, setValues] = useState({
-        id: "",
-        password: "",
-    });
     const [filter, setFilter] = useState("user"); // เพิ่ม state filter เริ่มต้นเป็น "user"
 
     const handleFilterChange = (value) => {
         setFilter(value); // อัปเดต state filter เมื่อมีการเปลี่ยนแปลง
     };
 
-    const showModal = (id) => {
-        setIsModalVisible(true);
-        setValues({ ...values, id: id });
-    };
-    const handleChangePassword = (e) => {
-        setValues({ ...values, [e.target.name]: e.target.value });
-    };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-        resetPassword(user.user.token, values.id, { values })
-            .then((res) => {
-                console.log(res);
-                loadData(user.user.token);
-            })
-            .catch((err) => {
-                console.log(err.response);
-            });
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
     useEffect(() => {
         loadData(user.user.token);
     }, []);

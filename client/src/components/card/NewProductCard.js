@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card } from 'antd';
-import { BarsOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { ShoppingCartOutlined } from '@ant-design/icons';
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';

@@ -100,14 +100,14 @@ const Checkout = () => {
                     setAddresses(responseData);
                 } else {
                     console.error("Invalid response format. Expected an array.");
-                    setError("Error fetching addresses. Please try again.");
+                    setError("เกิดข้อผิดพลาด โปรดเพิ่มที่อยู่ใหม่อีกครั้ง");
                 }
 
                 setLoading(false);
             })
             .catch((err) => {
                 console.error("Error fetching addresses:", err);
-                setError("Error fetching addresses. Please try again.");
+                setError("เกิดข้อผิดพลาด โปรดเพิ่มที่อยู่ใหม่อีกครั้ง");
                 setLoading(false);
             });
     };

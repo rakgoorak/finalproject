@@ -66,17 +66,17 @@ const SingleProductCard = ({ product }) => {
                 <h1 className='bg-info p-3'>{name}</h1>
                 <Card
                     actions={[
-                        <a onClick={handleAddtoWishList} style={{ fontSize: '20px' }}>
+                        <p onClick={handleAddtoWishList} style={{ fontSize: '20px' }}>
                             <HeartOutlined className='text-info' /><br />
                             เพิ่มเข้าในรายการที่ต้องการ
-                        </a>,
-                        <a onClick={handleAddtoCart} style={{ fontSize: '20px' }}>
+                        </p>,
+                        <p onClick={handleAddtoCart} style={{ fontSize: '20px' }}>
                             <ShoppingCartOutlined
                                 className='text-danger'
                             />
                             <br />
                             เพิ่มลงในตะกร้า
-                        </a>
+                        </p>
                     ]}
                 >
                     <ul class="list-group">
