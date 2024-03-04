@@ -151,7 +151,7 @@ const Checkout = () => {
                     products,
                 });
 
-                // emptyCart(user.user.token);
+                emptyCart(user.user.token);
                 dispatch({
                     type: "ADD_TO_CART",
                     payload: [],

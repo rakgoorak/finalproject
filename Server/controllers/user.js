@@ -462,6 +462,16 @@ exports.saveOrder = async (req, res) => {
       cartTotal: userCart.cartTotal,
       images: req.body.values.images, // Assuming images are in the request body
     }).save();
+    let bulkOption = userCart.products.map((item) => {
+      return {
+        updateOne: {
+          filter: { name: item.name },
+          update: { $inc: { sold: +item.count } },
+        },
+      };
+    });
+    let updated = await Product.bulkWrite(bulkOption, {});
+    res.send(updated);
 
     res.status(201).send(order); // Sending 201 Created status with the saved order
   } catch (error) {
