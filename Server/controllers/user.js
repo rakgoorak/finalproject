@@ -435,10 +435,11 @@ exports.getPassWord = async (req, res) => {
   }
 };
 exports.saveOrder = async (req, res) => {
+  console.log(req.body)
   try {
     // Log the images from the request body
     const AddressOrder = await Address.find({
-      addressBy: req.body.selectedAddress.addressBy,
+      addressBy: req.body.values.addressBy,
     })
       .populate("fulladdress")
       .exec();
@@ -447,20 +448,19 @@ exports.saveOrder = async (req, res) => {
     if (!user) {
       return res.status(404).send("User not found");
     }
-    console.log("addressId", req.body.selectedAddress.name);
     const userCart = await Cart.findOne({ orderBy: user._id }).exec();
 
     if (!userCart) {
       return res.status(405).send("User cart not found");
     }
     const order = await new Order({
-      fulladdress: req.body.selectedAddress.fulladdress,
-      name: req.body.selectedAddress.name,
-      phoneNumber: req.body.selectedAddress.phoneNumber,
+      fulladdress: req.body.values.fulladdress,
+      name: req.body.values.name,
+      phoneNumber: req.body.values.phoneNumber,
       products: userCart.products,
       orderBy: user._id,
       cartTotal: userCart.cartTotal,
-      images: req.body.images, // Assuming images are in the request body
+      images: req.body.values.images, // Assuming images are in the request body
     }).save();
 
     res.status(201).send(order); // Sending 201 Created status with the saved order

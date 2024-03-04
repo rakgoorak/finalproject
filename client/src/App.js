@@ -218,7 +218,6 @@ function App() {
                         </UserRoute>
                     }
                 />
-
                 {/* Admin Routes */}
                 <Route
                     path="/admin/viewtable"

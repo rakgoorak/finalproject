@@ -147,11 +147,11 @@ const Checkout = () => {
         } else {
             try {
                 await saveOrder(user.user.token, {
-                    selectedAddress,
+                    values,
                     products,
                 });
 
-                emptyCart(user.user.token);
+                // emptyCart(user.user.token);
                 dispatch({
                     type: "ADD_TO_CART",
                     payload: [],
