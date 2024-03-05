@@ -61,11 +61,12 @@ const EditUserAddress = () => {
                     setError("มีข้อผิดพลาดเกิดขึ้นเกี่ยวกับที่อยู่");
                 }
 
-                setLoading(false);
+                setLoading(true);
             } catch (err) {
                 console.error("Error fetching addresses:", err);
                 setError("มีข้อผิดพลาดเกิดขึ้นเกี่ยวกับที่อยู่");
-                setLoading(false);
+                setLoading(true);
+                window.location.reload();
             }
         };
 
@@ -91,6 +92,7 @@ const EditUserAddress = () => {
                 console.error("Error fetching addresses:", err);
                 setError("มีข้อผิดพลาดเกิดขึ้นเกี่ยวกับที่อยู่");
                 setLoading(false);
+                window.location.reload();
             });
     };
 

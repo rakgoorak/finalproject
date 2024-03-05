@@ -45,6 +45,7 @@ const Profileuser = () => {
                 console.error("Error fetching addresses:", err);
                 setError("มีข้อผิดพลาดเกิดขึ้นเกี่ยวกับที่อยู่");
                 setLoading(false);
+                window.location.reload();
             });
     };
 

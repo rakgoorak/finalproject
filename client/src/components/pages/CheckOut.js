@@ -83,6 +83,7 @@ const Checkout = () => {
             } catch (err) {
                 console.error("Error fetching addresses:", err);
                 setError("ยังไม่มีที่อยู่ของท่าน โปรดสร้างที่อยู่ใหม่");
+                window.location.reload();
                 setLoading(false);
             }
         };
@@ -109,6 +110,7 @@ const Checkout = () => {
                 console.error("Error fetching addresses:", err);
                 setError("เกิดข้อผิดพลาด โปรดเพิ่มที่อยู่ใหม่อีกครั้ง");
                 setLoading(false);
+                window.location.reload();
             });
     };
 
@@ -187,7 +189,8 @@ const Checkout = () => {
   `;
 
     const QRWrapper = styled.div`
-    margin: auto;
+    width: 100%;
+    margin: 0;
     text-align: center;
     padding: 20px;
     background-color: white;
@@ -229,7 +232,7 @@ const Checkout = () => {
                     <div className="checkout-container" style={{ maxWidth: '100%' }}>
                         <div className="checkout-section">
                             <div className="checkout-content" style={{ width: '450px' }}>
-                                <div className="checkout-header" style={{ margin: '0', width: '450px' }}>
+                                <div className="checkout-header">
                                     <div className={`header-tab ${page === 0 ? "active" : ""}`}>
                                         กรอกที่อยู่
                                     </div>
@@ -293,7 +296,7 @@ const Checkout = () => {
                                             <Title>ชำระเงินที่นี้</Title>
                                             <FlexContainer>
                                                 <QRWrapper>
-                                                    <QRCode value={qrCode} />
+                                                        <QRCode value={qrCode} />
                                                     <InputWrapper>
                                                         <p>ชื่อบัญชี อาทิตยา ฆารเลิศ</p>
                                                         <p>โปรดตรวจสอบจำนวนเงินให้ถูกต้องก่อนทำรายการ <p style={{ color: 'blue' }}>จำนวนเงิน {(total * 1.07).toFixed(2)} บาท</p></p>

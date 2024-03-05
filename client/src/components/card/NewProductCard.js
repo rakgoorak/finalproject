@@ -44,7 +44,6 @@ const NewProductCard = ({ product }) => {
         e.currentTarget.classList.remove('card-hovered');
     };
 
-
     return (
         <Card
             onMouseEnter={handleHover}

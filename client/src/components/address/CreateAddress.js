@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { createAddress } from "../functions/user";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { Button } from "antd";
 import { toast } from "react-toastify";
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
+import { listAddress } from "../functions/user";
 
 const style = {
     display: 'flex',
@@ -16,6 +17,9 @@ const style = {
 const CreateAddress = ({ handleClose }) => {
     const { user } = useSelector((state) => ({ ...state }));
     const navigate = useNavigate();
+    const [addresses, setAddresses] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [values, setValues] = useState({
         fulladdress: {
             houseNumber: "",
@@ -27,6 +31,33 @@ const CreateAddress = ({ handleClose }) => {
         name: "",
         phoneNumber: "",
     });
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    const loadData = () => {
+        listAddress(user.user.token, user.user.user_id)
+            .then((res) => {
+                console.log("res", res);
+                const responseData = res.data;
+
+                if (Array.isArray(responseData)) {
+                    setAddresses(responseData);
+                } else {
+                    console.error("Invalid response format. Expected an array.");
+                    setError("มีข้อผิดพลาดเกิดขึ้นเกี่ยวกับที่อยู่");
+                }
+
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.error("Error fetching addresses:", err);
+                setError("มีข้อผิดพลาดเกิดขึ้นเกี่ยวกับที่อยู่");
+                setLoading(false);
+                window.location.reload();
+            });
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;

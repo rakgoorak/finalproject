@@ -19,7 +19,6 @@ const Cart = () => {
     };
     const handleSaveOrder = () => {
         // code
-        alert("ต้องการที่จะชำระเงิน?");
         userCart(user.user.token, cart)
             .then((res) => {
                 console.log(res);

@@ -50,6 +50,10 @@ const Shop = () => {
             .catch((err) => {
                 console.log(err);
                 setLoading(false);
+                // Reload the page after 5 seconds if products are not found
+                setTimeout(() => {
+                    window.location.reload();
+                }, 5000);
             });
     };
 
@@ -125,7 +129,7 @@ const Shop = () => {
                     ) : (
                         <>
                             <h4>สินค้า</h4>
-                            {products.length < 1 && <p>No Product found</p>}
+                            {products.length < 1 && <p>ไม่พบสินค้า</p>}
                             <div className='shop row pb-5'>
                                 {products.map((item, index) => (
                                     <div key={index} className='col-md-4 mt-3'>
