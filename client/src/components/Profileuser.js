@@ -18,8 +18,13 @@ const Profileuser = () => {
 
     useEffect(() => {
         loadUserName(user.user.token);
-        loadData();
     }, []);
+
+    useEffect(() => {
+        if (user.user.token) {
+            loadData();
+        }
+    }, [user.user.token]);
 
     const loadData = () => {
         listAddress(user.user.token, user.user.user_id)
@@ -31,14 +36,14 @@ const Profileuser = () => {
                     setAddresses(responseData);
                 } else {
                     console.error("Invalid response format. Expected an array.");
-                    setError("Error fetching addresses. Please try again.");
+                    setError("มีข้อผิดพลาดเกิดขึ้นเกี่ยวกับที่อยู่");
                 }
 
                 setLoading(false);
             })
             .catch((err) => {
                 console.error("Error fetching addresses:", err);
-                setError("Error fetching addresses. Please try again.");
+                setError("มีข้อผิดพลาดเกิดขึ้นเกี่ยวกับที่อยู่");
                 setLoading(false);
             });
     };
@@ -99,7 +104,7 @@ const Profileuser = () => {
                         </div>
                         <div className="card" style={{ marginBottom: '50px' }}>
                             <div className="card-body">
-                                <EditUserAddress />
+                                <EditUserAddress loadData={loadData} />
                             </div>
                         </div>
                     </div>

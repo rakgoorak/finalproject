@@ -479,3 +479,9 @@ section .cards .card {
   height: 100vh;
   color: aqua;
 }
+
+/* NewProductCard */
+.card-hovered {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
+}

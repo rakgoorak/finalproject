@@ -13,7 +13,7 @@ const Order = () => {
 
     useEffect(() => {
         loadData();
-    }, []);
+    }, [filter]);
 
     const loadData = () => {
         Promise.all([getOrders(user.user.token)])

@@ -58,13 +58,13 @@ const EditUserAddress = () => {
                     setAddresses(responseData);
                 } else {
                     console.error("Invalid response format. Expected an array.");
-                    setError("Error fetching addresses. Please try again.");
+                    setError("มีข้อผิดพลาดเกิดขึ้นเกี่ยวกับที่อยู่");
                 }
 
                 setLoading(false);
             } catch (err) {
                 console.error("Error fetching addresses:", err);
-                setError("Error fetching addresses. Please try again.");
+                setError("มีข้อผิดพลาดเกิดขึ้นเกี่ยวกับที่อยู่");
                 setLoading(false);
             }
         };
@@ -82,14 +82,14 @@ const EditUserAddress = () => {
                     setAddresses(responseData);
                 } else {
                     console.error("Invalid response format. Expected an array.");
-                    setError("Error fetching addresses. Please try again.");
+                    setError("มีข้อผิดพลาดเกิดขึ้นเกี่ยวกับที่อยู่");
                 }
 
                 setLoading(false);
             })
             .catch((err) => {
                 console.error("Error fetching addresses:", err);
-                setError("Error fetching addresses. Please try again.");
+                setError("มีข้อผิดพลาดเกิดขึ้นเกี่ยวกับที่อยู่");
                 setLoading(false);
             });
     };

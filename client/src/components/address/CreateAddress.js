@@ -52,19 +52,21 @@ const CreateAddress = ({ handleClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!user.user.token || !user.user.user_id) {
+            console.error("User token or user ID is undefined");
+            return;
+        }
+
         try {
             await createAddress(user.user.token, user.user.user_id, values);
             console.log("Address created successfully");
             toast.success("เพิ่มที่อยู่สำเร็จ");
-
-            navigate("/user/profileuser");
-
             handleClose();
         } catch (error) {
             console.error("Error creating address:", error);
-            // Handle error, e.g., show an error message to the user
         }
     };
+
 
     return (
         <div>

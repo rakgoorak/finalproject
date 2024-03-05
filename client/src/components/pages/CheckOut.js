@@ -241,7 +241,7 @@ const Checkout = () => {
                                 )}
                                 {page === 0 ? (
                                     <>
-                                        <Button style={{ marginTop: '10px', marginBottom: '10px' }} onClick={handleOpen}>+ เพิ่มที่อยู่</Button>
+                                        <Button style={{ marginTop: '10px', marginBottom: '10px' }} onClick={handleOpen} loadData={loadData}>+ เพิ่มที่อยู่</Button>
                                         <Modal
                                             open={open}
                                             onClose={handleClose}

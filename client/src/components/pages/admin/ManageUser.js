@@ -15,15 +15,15 @@ import {
 const ManageAdmin = () => {
     const { user } = useSelector((state) => ({ ...state }));
     const [data, setData] = useState([]);
-    const [filter, setFilter] = useState("user"); // เพิ่ม state filter เริ่มต้นเป็น "user"
+    const [filter, setFilter] = useState("user");
 
     const handleFilterChange = (value) => {
-        setFilter(value); // อัปเดต state filter เมื่อมีการเปลี่ยนแปลง
+        setFilter(value);
     };
 
     useEffect(() => {
         loadData(user.user.token);
-    }, []);
+    }, [filter, user.user.token]);
 
     const loadData = (authtoken) => {
         listUser(authtoken)
@@ -50,6 +50,8 @@ const ManageAdmin = () => {
                 console.log(err.response);
             });
     };
+
+
     const handleRemove = (id) => {
         if (window.confirm("คุณแน่ใจหรือว่าลบบัญชีนี้!!")) {
             removeUser(user.user.token, id)

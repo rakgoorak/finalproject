@@ -36,10 +36,21 @@ const NewProductCard = ({ product }) => {
         navigate(`/product/${_id}`);
     }
 
+    const handleHover = (e) => {
+        e.currentTarget.classList.add('card-hovered');
+    };
+
+    const handleHoverExit = (e) => {
+        e.currentTarget.classList.remove('card-hovered');
+    };
+
+
     return (
         <Card
+            onMouseEnter={handleHover}
+            onMouseLeave={handleHoverExit}
             hoverable
-            style={{ width: '240px', marginBottom: '50px' }}
+            style={{ width: '240px' }}
             cover={<img
                 onClick={handleonClick}
                 className='P-1'
@@ -57,11 +68,11 @@ const NewProductCard = ({ product }) => {
         >
             <Meta
                 title={
-                    <span style={{ color: '#1890FF' }}>{name}</span>
+                    <span>{name}</span>
                 }
                 description={
                     <>
-                        <span style={{ color: '#00171F' }}>{detail}</span>
+                        <span>{detail}</span>
                         <br />
                         <span style={{ color: '#2E67B1' }}>฿{price}</span>
                     </>
