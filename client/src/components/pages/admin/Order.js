@@ -51,7 +51,7 @@ const Order = () => {
     const handleChangeStatus = (orderId, orderstatus) => {
         updateStatusOrder(user.user.token, orderId, orderstatus)
             .then((res) => {
-                editOrderTime(user.user.token, user.user.user_id);
+                editOrderTime(user.user.token, user.user.id, orderId, orderstatus);
                 toast.info("อัพเดท " + res.data.orderstatus + " สำเร็จ");
                 loadData();
             })

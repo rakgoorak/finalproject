@@ -5,7 +5,9 @@ const Product = require("../model/Product");
 const Cart = require("../model/Cart");
 const Order = require("../model/Order");
 const Address = require("../model/Address");
-
+const EditUser = require("../model/EditUser");
+const EditOrder = require("../model/EditOrder");
+const EditProduct = require("../model/EditProduct");
 exports.listUsers = async (req, res) => {
   try {
     // Code
@@ -99,15 +101,22 @@ exports.changeStatus = async (req, res) => {
 
 exports.editUserTime = async (req, res) => {
   try {
-    console.log(req.params);
-    const { id } = req.params;
-    console.log("id", id);
-    const user = await User.findOne({ _id: id });
+    const { id } = req.params; // Extract user ID from route parameters
 
-    user.editUserTime = new Date();
-    await user.save();
+    // Create an array containing the ObjectId from the extracted user ID
 
-    res.status(200).json({ message: "EditUserTime updated successfully" });
+    // Create a new instance of EditUserDetail
+    const newEditUser = new EditUser({
+      editUserById: id, // Pass the array of ObjectId
+      editUserId: req.body.id,
+      editUserDetail: req.body.role,
+      editedTime: new Date(), // Setting the current date and time
+    });
+
+    // Save the new entry to the database
+    await newEditUser.save();
+
+    res.status(200).json({ newEditUser: "EditUserTime updated successfully" });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server editUserTime Error!");
@@ -115,40 +124,53 @@ exports.editUserTime = async (req, res) => {
 };
 exports.editOrderTime = async (req, res) => {
   try {
-    console.log(req.params);
-    const { id } = req.params;
-    console.log("id", id);
-    const user = await User.findOne({ _id: id });
+    const { id } = req.params; // Extract user ID from route parameters
+    // Create an array containing the ObjectId from the extracted user ID
 
-    user.editOrderTime = new Date();
-    await user.save();
+    // Create a new instance of EditUserDetail
+    const newEditOrder = new EditOrder({
+      editOrderById: id, // Pass the array of ObjectId
+      editOrderId: req.body.orderId,
+      editOrderDetail: req.body.orderstatus,
+      editedTime: new Date(), // Setting the current date and time
+    });
 
-    res.status(200).json({ message: "EditOrderTime updated successfully" });
+    // Save the new entry to the database
+    await newEditOrder.save();
+
+    res.status(200).json({ newEditOrder: "EditOrderTime updated successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Server EditOrderTime Error!");
+    res.status(500).send("Server editUserTime Error!");
   }
 };
 exports.editProductTime = async (req, res) => {
   try {
-    console.log(req.params);
-    const { id } = req.params;
-    console.log("id", id);
-    const user = await User.findOne({ _id: id });
+    console.log("values", req.body);
+    const { id } = req.params; // Extract user ID from route parameters
+    // Create an array containing the ObjectId from the extracted user ID
 
-    user.editProductTime = new Date();
-    await user.save();
+    // Create a new instance of EditUserDetail
+    const newEditProduct = new EditProduct({
+      editproductById: id, // Pass the array of ObjectId
+      editProductId: req.body.id,
+      editproductDetail: req.body.state,
+      editedTime: new Date(), // Setting the current date and time
+    });
 
-    res.status(200).json({ message: "editProductTime updated successfully" });
+    // Save the new entry to the database
+    await newEditProduct.save();
+
+    res.status(200).json({ newEditProduct: "EditProduct updated successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Server editProductTime Error!");
+    res.status(500).send("Server EditProduct Error!");
   }
 };
+
 exports.changeRole = async (req, res) => {
   try {
     // Code
-    console.log(req.body);
     const user = await User.findOneAndUpdate(
       { _id: req.body.id },
       { role: req.body.role }
@@ -163,7 +185,6 @@ exports.userCart = async (req, res) => {
   try {
     // Destructure the cart array from the request body
     const { cart } = req.body;
-
     // Find the user based on the username in the request
     const user = await User.findOne({ username: req.user.username }).exec();
 
@@ -179,7 +200,6 @@ exports.userCart = async (req, res) => {
     // Loop through the cart items and format them for the new cart
     for (let i = 0; i < cart.length; i++) {
       let object = {
-        Product: cart[i]._id,
         name: cart[i].name,
         count: cart[i].count,
         price: cart[i].price,
@@ -194,7 +214,7 @@ exports.userCart = async (req, res) => {
     }
 
     // Create a new Cart document and save it to the database
-    let newCart = await new Cart({
+    let newCart = await Cart({
       products,
       cartTotal,
       orderBy: user._id,
@@ -435,24 +455,26 @@ exports.getPassWord = async (req, res) => {
   }
 };
 exports.saveOrder = async (req, res) => {
-  console.log(req.body)
   try {
-    // Log the images from the request body
-    const AddressOrder = await Address.find({
+    const addressOrder = await Address.findOne({
       addressBy: req.body.values.addressBy,
     })
       .populate("fulladdress")
       .exec();
+
     const user = await User.findOne({ username: req.user.username }).exec();
 
     if (!user) {
       return res.status(404).send("User not found");
     }
-    const userCart = await Cart.findOne({ orderBy: user._id }).exec();
 
+    const userCart = await Cart.findOne({ orderBy: user._id }).exec();
     if (!userCart) {
       return res.status(405).send("User cart not found");
     }
+
+    // Increment the 'sold' count for each product in the order
+    // Save the order
     const order = await new Order({
       fulladdress: req.body.values.fulladdress,
       name: req.body.values.name,
@@ -460,15 +482,25 @@ exports.saveOrder = async (req, res) => {
       products: userCart.products,
       orderBy: user._id,
       cartTotal: userCart.cartTotal,
-      images: req.body.values.images, // Assuming images are in the request body
+      images: req.body.values.images,
     }).save();
-
-    res.status(201).send(order); // Sending 201 Created status with the saved order
+    let bulkOption = userCart.products.map((item) => {
+      return {
+        updateOne: {
+          filter: { name: item.name },
+          update: { $inc: { sold: +item.count } },
+        },
+      };
+    });
+    let updated = await Product.bulkWrite(bulkOption, {});
+    res.send(updated);
+    // Send the updated products as a response
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error while saving order");
   }
 };
+
 exports.getOrder = async (req, res) => {
   try {
     const user = await User.findOne({ username: req.user.username }).exec();

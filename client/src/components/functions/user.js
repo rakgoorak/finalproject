@@ -60,12 +60,12 @@ export const changeRole = async (authtoken, value) => {
     });
 };
 
-export const editUserTime = async (authtoken, id) => {
-    console.log("id", id)
+export const editUserTime = async (authtoken, id, values) => {
+    console.log(authtoken);
     try {
         return await axios.post(
             process.env.REACT_APP_API + "/users/edit-user-time/" + id,
-            {},
+            values,
             {
                 headers: {
                     authtoken,
@@ -77,11 +77,12 @@ export const editUserTime = async (authtoken, id) => {
         throw error;
     }
 };
-export const editOrderTime = async (authtoken, id) => {
+export const editOrderTime = async (authtoken, id, orderId, orderstatus) => {
+    console.log("values", orderId, orderstatus);
     try {
         return await axios.post(
             process.env.REACT_APP_API + "/users/edit-order-time/" + id,
-            {},
+            { orderId, orderstatus },
             {
                 headers: {
                     authtoken,
@@ -93,11 +94,11 @@ export const editOrderTime = async (authtoken, id) => {
         throw error;
     }
 };
-export const editProductTime = async (authtoken, id) => {
+export const editProductTime = async (authtoken, id, values) => {
     try {
         return await axios.post(
             process.env.REACT_APP_API + "/users/edit-product-time/" + id,
-            {},
+            values,
             {
                 headers: {
                     authtoken,
@@ -125,6 +126,7 @@ export const resetPassword = async (authtoken, id, values) => {
     });
 };
 export const userCart = async (authtoken, cart) => {
+    console.log("cart", cart);
     return await axios.post(
         process.env.REACT_APP_API + "/user/cart",
         { cart },
@@ -308,7 +310,7 @@ export const getProvince = async (authtoken, province) => {
 };
 
 export const saveOrder = async (authtoken, values) => {
-    console.log("values", values);
+    console.log("เช็คvalues", values);
     return await axios.post(process.env.REACT_APP_API + "/user/order", values, {
         headers: {
             authtoken,

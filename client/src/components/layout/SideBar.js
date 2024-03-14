@@ -115,9 +115,14 @@ const SideBar = () => {
                                 </Link>
                             </SubMenu>
 
-                            <Link to={"/admin/manage"} className="Adminmenu-bars">
-                                <MenuItem icon={<AccountCircleIcon />}>Manage</MenuItem>
-                            </Link>
+                            <SubMenu icon={<MapOutlinedIcon />} label="Manage">
+                                <Link to={"/admin/manage"} className="Adminmenu-bars">
+                                    <MenuItem icon={<AccountCircleIcon />}>Manage</MenuItem>
+                                </Link>
+                                <Link to={"/admin/logmanage"} className="Adminmenu-bars">
+                                    <MenuItem icon={<AccountCircleIcon />}>LogManage</MenuItem>
+                                </Link>
+                            </SubMenu>
                         </Menu>
                         <Menu>
                             <Link to={"/admin/orders"} className="Adminmenu-bars">

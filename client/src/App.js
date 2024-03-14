@@ -23,6 +23,7 @@ import CheckOut from "./components/pages/CheckOut";
 // Admin
 import Dashboard from "./components/pages/admin/Dashborad";
 import ManageUser from "./components/pages/admin/ManageUser";
+import LogManage from "./components/pages/admin/LogManage";
 import CreateCategory from "./components/pages/admin/category/CreateCategory";
 import UpdateCategory from "./components/pages/admin/category/UpdateCategory";
 import CreateProduct from "./components/pages/admin/product/CreateProduct";
@@ -272,6 +273,14 @@ function App() {
                     element={
                         <AdminRoute>
                             <ManageUser />
+                        </AdminRoute>
+                    }
+                />
+                <Route
+                    path="/admin/logmanage"
+                    element={
+                        <AdminRoute>
+                            <LogManage />
                         </AdminRoute>
                     }
                 />

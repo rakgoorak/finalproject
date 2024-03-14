@@ -38,7 +38,7 @@ const CreateCategory = () => {
         if (confirmDelete) {
             deleteCategory(user.user.token, id)
                 .then((res) => {
-                    editProductTime(user.user.token, user.user.token);
+                    editProductTime(user.user.token, user.user.id, values);
                     console.log(res);
                     loadData(user.user.token);
                     toast.success("ลบหมวดหมู่เรียบร้อยแล้ว");
@@ -58,7 +58,7 @@ const CreateCategory = () => {
         e.preventDefault();
         createCategory(user.user.token, values)
             .then((res) => {
-                editProductTime(user.user.token, user.user.token);
+                editProductTime(user.user.token, user.user.id, values);
                 loadData(user.user.token);
                 toast.success("สร้างหมวดหมู่เรียบร้อยแล้ว");
             })
@@ -75,19 +75,17 @@ const CreateCategory = () => {
     return (
         <div className="col">
             <h1>สร้างหมวดหมู่</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>เพิ่มหมวดหมู่สินค้า</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={values.name}
-                        onChange={handleChangeCategory}
-                        className="form-control"
-                    />
-                    <Button type="primary" ghost className="btn btn-outline-primary"> เพิ่ม</Button>
-                </div>
-            </form>
+            <div className="form-group">
+                <label>เพิ่มหมวดหมู่สินค้า</label>
+                <input
+                    type="text"
+                    name="name"
+                    value={values.name}
+                    onChange={handleChangeCategory}
+                    className="form-control"
+                />
+                <Button type="primary" onClick={handleSubmit} ghost className="btn btn-outline-primary">เพิ่ม</Button>
+            </div>
             <hr />
             <ul className="list-group">
                 {category.map((item) => (

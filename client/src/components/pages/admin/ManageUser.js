@@ -42,7 +42,7 @@ const ManageAdmin = () => {
         };
         changeRole(user.user.token, values)
             .then((res) => {
-                editUserTime(user.user.token, user.user.user_id);
+                editUserTime(user.user.token, id, values);
                 console.log(res);
                 loadData(user.user.token);
             })
@@ -50,7 +50,6 @@ const ManageAdmin = () => {
                 console.log(err.response);
             });
     };
-
 
     const handleRemove = (id) => {
         if (window.confirm("คุณแน่ใจหรือว่าลบบัญชีนี้!!")) {
@@ -85,99 +84,64 @@ const ManageAdmin = () => {
             </div>
             <div className="row">
                 <div className="col">
-                    <h1>{filter === "user" ? "จัดการผู้ใช้งานระบบ" : "จัดการผู้ดูแลระบบ"}</h1>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">ชื่อผู้ใช้</th>
-                                <th scope="col">ตำแหน่ง</th>
-                                <th scope="col">ปรับปรุงผู้ใช้งาน</th>
-                                <th scope="col">ปรับปรุงคำสั่งซื้อ</th>
-                                <th scope="col">ปรับปรุงสินค้า</th>
-                                <th scope="col">ลบ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data.map((item, index) => {
-                                if (filter === 'user' && item.role === 'user') {
-                                    return (
-                                        <tr key={index}>
-                                            <th scope="row">{item.username}</th>
-                                            <td>
-                                                <Select
-                                                    style={{ width: "100%" }}
-                                                    value={item.role}
-                                                    onChange={(e) => handleChangeRole(e, item._id)}
-                                                >
-                                                    {roleData.map((role, roleIndex) => (
-                                                        <Select.Option value={role} key={roleIndex}>
-                                                            {role === "admin" ? (
-                                                                <Tag color="green">{role}</Tag>
-                                                            ) : (
-                                                                <Tag color="red">{role}</Tag>
-                                                            )}
-                                                        </Select.Option>
-                                                    ))}
-                                                </Select>
-                                            </td>
-                                            <td>
-                                                {moment(item.editUserTime).locale("th").format("LLL")}
-                                            </td>
-                                            <td>
-                                                {moment(item.editOrderTime).locale("th").format("LLL")}
-                                            </td>
-                                            <td>
-                                                {moment(item.editProductTime).locale("th").format("LLL")}
-                                            </td>
-                                            <td>
-                                                <DeleteOutlined
-                                                    onClick={() => handleRemove(item._id)}
-                                                />
-                                            </td>
-                                        </tr>
-                                    );
-                                } else if (filter === 'admin' && item.role === 'admin') {
-                                    return (
-                                        <tr key={index}>
-                                            <th scope="row">{item.username}</th>
-                                            <td>
-                                                <Select
-                                                    style={{ width: "100%" }}
-                                                    value={item.role}
-                                                    onChange={(e) => handleChangeRole(e, item._id)}
-                                                >
-                                                    {roleData.map((role, roleIndex) => (
-                                                        <Select.Option value={role} key={roleIndex}>
-                                                            {role === "admin" ? (
-                                                                <Tag color="green">{role}</Tag>
-                                                            ) : (
-                                                                <Tag color="red">{role}</Tag>
-                                                            )}
-                                                        </Select.Option>
-                                                    ))}
-                                                </Select>
-                                            </td>
-                                            <td>
-                                                {moment(item.editUserTime).locale("th").format("LLL")}
-                                            </td>
-                                            <td>
-                                                {moment(item.editOrderTime).locale("th").format("LLL")}
-                                            </td>
-                                            <td>
-                                                {moment(item.editProductTime).locale("th").format("LLL")}
-                                            </td>
-                                            <td>
-                                                <DeleteOutlined
-                                                    onClick={() => handleRemove(item._id)}
-                                                />
-                                            </td>
-                                        </tr>
-                                    );
-                                }
-                                return null;
-                            })}
-                        </tbody>
-                    </table>
+                    <div>
+                        <h1>{filter === "user" ? "จัดการผู้ใช้งานระบบ" : (filter === "admin" ? "จัดการผู้ดูแลระบบ" : (filter === "log" ? "ตรวจสอบการทำงาน" : ""))}</h1>
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ชื่อผู้ใช้</th>
+                                    <th scope="col">ตำแหน่ง</th>
+                                    <th scope="col">ปรับปรุงผู้ใช้งาน</th>
+                                    <th scope="col">ปรับปรุงคำสั่งซื้อ</th>
+                                    <th scope="col">ปรับปรุงสินค้า</th>
+                                    <th scope="col">ลบ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data.map((item, index) => {
+                                    if ((filter === 'user' && item.role === 'user') || (filter === 'admin' && item.role === 'admin')) {
+                                        return (
+                                            <tr key={index}>
+                                                <th scope="row">{item.username}</th>
+                                                <td>
+                                                    <Select
+                                                        style={{ width: "100%" }}
+                                                        value={item.role}
+                                                        onChange={(e) => handleChangeRole(e, item._id)}
+                                                    >
+                                                        {roleData.map((role, roleIndex) => (
+                                                            <Select.Option value={role} key={roleIndex}>
+                                                                {role === "admin" ? (
+                                                                    <Tag color="green">{role}</Tag>
+                                                                ) : (
+                                                                    <Tag color="red">{role}</Tag>
+                                                                )}
+                                                            </Select.Option>
+                                                        ))}
+                                                    </Select>
+                                                </td>
+                                                <td>
+                                                    {moment(item.editUserTime).locale("th").format("LLL")}
+                                                </td>
+                                                <td>
+                                                    {moment(item.editOrderTime).locale("th").format("LLL")}
+                                                </td>
+                                                <td>
+                                                    {moment(item.editProductTime).locale("th").format("LLL")}
+                                                </td>
+                                                <td>
+                                                    <DeleteOutlined
+                                                        onClick={() => handleRemove(item._id)}
+                                                    />
+                                                </td>
+                                            </tr>
+                                        );
+                                    }
+                                    return null;
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

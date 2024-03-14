@@ -70,7 +70,7 @@ router.put("/users/reset-password/:id", auth, resetPasswordUser);
 router.delete("/users/:id", auth, removeUsers);
 router.get("/user", auth, getUserName);
 router.post("/users/edit-user-time/:id", auth, adminCheck, editUserTime);
-router.post("/users/edit-order-time/:id", auth, adminCheck, editOrderTime);
+router.post("/users/edit-order-time/:id", editOrderTime);
 router.post("/users/edit-product-time/:id", auth, adminCheck, editProductTime);
 router.get("/user", auth, getPassWord);
 
