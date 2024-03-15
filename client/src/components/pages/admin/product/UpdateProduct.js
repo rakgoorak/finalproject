@@ -16,6 +16,7 @@ const initialstate = {
   category: "",
   price: "",
   images: [],
+  state: "Update Product",
 };
 const UpdateProduct = () => {
   const params = useParams();
@@ -56,7 +57,7 @@ const UpdateProduct = () => {
     setLoading(true);
     updateProduct(user.user.token, values._id, values)
       .then((res) => {
-        editProductTime(user.user.token, user.user.user_id);
+        editProductTime(user.user.token, user.user.user_id, values);
         console.log(res);
         toast.success("อัปเดตสินค้าเรียบร้อยแล้ว");
         setLoading(false);

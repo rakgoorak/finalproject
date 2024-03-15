@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Select, Tag, Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
-import moment from "moment/min/moment-with-locales";
 
 // functions
 import {
@@ -42,7 +41,7 @@ const ManageAdmin = () => {
         };
         changeRole(user.user.token, values)
             .then((res) => {
-                editUserTime(user.user.token, id, values);
+                editUserTime(user.user.token, user.user.user_id, values);
                 console.log(res);
                 loadData(user.user.token);
             })
@@ -91,9 +90,6 @@ const ManageAdmin = () => {
                                 <tr>
                                     <th scope="col">ชื่อผู้ใช้</th>
                                     <th scope="col">ตำแหน่ง</th>
-                                    <th scope="col">ปรับปรุงผู้ใช้งาน</th>
-                                    <th scope="col">ปรับปรุงคำสั่งซื้อ</th>
-                                    <th scope="col">ปรับปรุงสินค้า</th>
                                     <th scope="col">ลบ</th>
                                 </tr>
                             </thead>
@@ -119,15 +115,6 @@ const ManageAdmin = () => {
                                                             </Select.Option>
                                                         ))}
                                                     </Select>
-                                                </td>
-                                                <td>
-                                                    {moment(item.editUserTime).locale("th").format("LLL")}
-                                                </td>
-                                                <td>
-                                                    {moment(item.editOrderTime).locale("th").format("LLL")}
-                                                </td>
-                                                <td>
-                                                    {moment(item.editProductTime).locale("th").format("LLL")}
                                                 </td>
                                                 <td>
                                                     <DeleteOutlined

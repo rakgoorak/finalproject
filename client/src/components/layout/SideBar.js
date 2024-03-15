@@ -90,7 +90,7 @@ const SideBar = () => {
                                 <MenuItem icon={<HomeOutlinedIcon />}>Dashboard</MenuItem>
                             </Link>
 
-                            <SubMenu icon={<MapOutlinedIcon />} label="Data">
+                            <SubMenu icon={<MapOutlinedIcon />} label="ข้อมูลสินค้า">
 
                                 <Link to={"/admin/viewtable"} className="Adminmenu-bars"></Link>
 
@@ -98,36 +98,36 @@ const SideBar = () => {
 
                                     <MenuItem icon={<StoreIcon />}>
                                         {" "}
-                                        Store
+                                        เพิ่มสินค้า
                                     </MenuItem>
                                 </Link>
                                 <Link to={"/admin/product"} className="Adminmenu-bars">
                                     <MenuItem icon={<InventoryIcon />}>
                                         {" "}
-                                        product
+                                        สินค้า
                                     </MenuItem>
                                 </Link>
                                 <Link to={"/admin/create-category"} className="Adminmenu-bars">
                                     <MenuItem icon={<CategoryIcon />}>
                                         {" "}
-                                        Category
+                                        หมวดหมู่
                                     </MenuItem>
                                 </Link>
                             </SubMenu>
 
-                            <SubMenu icon={<MapOutlinedIcon />} label="Manage">
+                            <SubMenu icon={<MapOutlinedIcon />} label="การจัดการ">
                                 <Link to={"/admin/manage"} className="Adminmenu-bars">
-                                    <MenuItem icon={<AccountCircleIcon />}>Manage</MenuItem>
+                                    <MenuItem icon={<AccountCircleIcon />}>ผู้ใช้|ผู้ดูแล</MenuItem>
                                 </Link>
                                 <Link to={"/admin/logmanage"} className="Adminmenu-bars">
-                                    <MenuItem icon={<AccountCircleIcon />}>LogManage</MenuItem>
+                                    <MenuItem icon={<AccountCircleIcon />}>ตรวจสอบการทำงาน</MenuItem>
                                 </Link>
                             </SubMenu>
                         </Menu>
                         <Menu>
                             <Link to={"/admin/orders"} className="Adminmenu-bars">
                                 <MenuItem icon={<ShoppingCartIcon />}>
-                                    Orders
+                                    แก้ไขประวัติการสั่งซื้อ
                                 </MenuItem>
                             </Link>
                         </Menu>

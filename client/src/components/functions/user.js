@@ -61,7 +61,7 @@ export const changeRole = async (authtoken, value) => {
 };
 
 export const editUserTime = async (authtoken, id, values) => {
-    console.log(authtoken);
+    console.log(id);
     try {
         return await axios.post(
             process.env.REACT_APP_API + "/users/edit-user-time/" + id,

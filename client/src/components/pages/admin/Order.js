@@ -51,7 +51,7 @@ const Order = () => {
     const handleChangeStatus = (orderId, orderstatus) => {
         updateStatusOrder(user.user.token, orderId, orderstatus)
             .then((res) => {
-                editOrderTime(user.user.token, user.user.id, orderId, orderstatus);
+                editOrderTime(user.user.token, user.user.user_id, orderId, orderstatus);
                 toast.info("อัพเดท " + res.data.orderstatus + " สำเร็จ");
                 loadData();
             })
@@ -110,8 +110,8 @@ const Order = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {order.products.map((product, idx) => (
-                                                        <tr key={idx}>
+                                                    {order.products.map((product, index) => (
+                                                        <tr key={index}>
                                                             <td>{product.name}</td>
                                                             <td>{product.price}</td>
                                                             <td>{product.count}</td>

@@ -11,10 +11,9 @@ const ProductCard = ({ product, handleRemove }) => {
     return (
         <Card
             hoverable
-            style={{ width: 240 }}
+            style={{ width: "300px", textAlign: 'center' }}
             cover={<img
-                className='m-2'
-                style={{ height: "150px", objectFit: "cover" }}
+                style={{ height: "240px", objectFit: "cover", textAlign: 'center', alignItems: 'center', padding: '10px' }}
                 alt="example" src={images && images.length ? images[0].url : ""} />}
             actions={[
                 <Link to={'/admin/update-product/' + _id}>
