@@ -176,6 +176,7 @@ const Dashboard = () => {
             <div className="row">
                 <div className="col-md-12">
                     <h1 className="text-center mt-4 mb-4">Dashboard</h1>
+                    <h2>ยอดขายรวมในปี {selectedYear}: {yearlyTotalSales}</h2>
                 </div>
             </div>
             <div className="row">
@@ -185,7 +186,6 @@ const Dashboard = () => {
                     <div className="row mt-4">
                         <DashboardCard title="ราคาคำสั่งซื้อสินค้าทั้งหมด" backgroundColor="#FEE7AA" data={totalOrderAmount} loading={loading} />
                         <DashboardCard title="ราคาคำสั่งซื้อสำเร็จ" backgroundColor="#CEC2EB" data={completedOrderAmount} loading={loading} />
-                        <h2>ยอดขายรวมในปี {selectedYear}: {yearlyTotalSales}</h2>
                     </div>
                 </div>
                 <div className="col-md-6">
